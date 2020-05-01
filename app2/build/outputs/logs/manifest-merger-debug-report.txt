@@ -1,0 +1,236 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:2:1-54:12
+INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:2:1-54:12
+INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:2:1-54:12
+INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:2:1-54:12
+MERGED from [:googleDirectionLibrary] C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\googleDirectionLibrary\build\intermediates\manifests\full\debug\AndroidManifest.xml:2:1-13:12
+MERGED from [com.android.support:design:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\design-27.0.0.aar\7dcaa90b9f88f94d14e988f490ca0432\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:appcompat-v7:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.0.0.aar\a6ce59f8d96975f555e83c8566830d89\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-maps:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.6.0.aar\0f7176e32b5ba1bf6ffa5a0ab1fdd750\AndroidManifest.xml:16:1-25:12
+MERGED from [com.google.maps.android:android-maps-utils:0.5] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\android-maps-utils-0.5.aar\f62d530ea4a16b1a7bedc7b614d57d14\AndroidManifest.xml:2:1-13:12
+MERGED from [com.google.android.gms:play-services-base:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.6.0.aar\26c40303fe43cd1fa6cf539688efd831\AndroidManifest.xml:16:1-21:12
+MERGED from [com.google.android.gms:play-services-tasks:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-tasks-11.6.0.aar\4e8473cdc693b397fc65021a58402379\AndroidManifest.xml:2:1-5:12
+MERGED from [com.google.android.gms:play-services-basement:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.6.0.aar\215bdb823a3b5cd3cd4ac779c9cc896f\AndroidManifest.xml:16:1-23:12
+MERGED from [com.android.support:support-v4:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-v4-27.0.0.aar\4b7961e6b2b11892f3b6e3be79e29929\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-fragment-27.0.0.aar\a65da8c878246a4c9982747c35bc4515\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.0.0.aar\5da49eef09124d9263db5ede33b09bd5\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.0.0.aar\f9a047aa75016bb5519a13570be104fc\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.0.0.aar\01cd37efba9c3de00c04c73e3078e113\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-27.0.0.aar\c4a620e7e007941a86a29f38477d22b4\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:transition:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\transition-27.0.0.aar\6b1563643d1c51eed43e686fd2ed55ca\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.0.0.aar\a8b23974ea4017470211597505ade5d3\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.0.0.aar\8b7d35af6b4ff30855a6e690b12bab07\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-compat-27.0.0.aar\6c5c240586aec861e124b6aa59c90f28\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-maps-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-license-11.6.0.aar\534db7eaa5a3d52395319bca08d9ce73\AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.android.gms:play-services-base-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-license-11.6.0.aar\7b9296ea23ee31a8e215096cb0fa3479\AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.android.gms:play-services-basement-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-license-11.6.0.aar\da0ffb7d5c283d2e773d9beaa272bd30\AndroidManifest.xml:2:1-6:12
+MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\248101bce940f7706b93e9bbd7f6d08d\AndroidManifest.xml:17:1-30:12
+MERGED from [com.google.android.gms:play-services-tasks-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-tasks-license-11.6.0.aar\f3fec3a015d0f75eb3f1d1d322ef56af\AndroidManifest.xml:2:1-6:12
+INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:2:1-54:12
+INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:2:1-54:12
+INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:2:1-54:12
+	package
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:3:5-52
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:2:1-54:12
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:2:1-54:12
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:5:5-67
+MERGED from [:googleDirectionLibrary] C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\googleDirectionLibrary\build\intermediates\manifests\full\debug\AndroidManifest.xml:11:5-67
+MERGED from [:googleDirectionLibrary] C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\googleDirectionLibrary\build\intermediates\manifests\full\debug\AndroidManifest.xml:11:5-67
+MERGED from [com.google.android.gms:play-services-maps:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.6.0.aar\0f7176e32b5ba1bf6ffa5a0ab1fdd750\AndroidManifest.xml:20:5-66
+MERGED from [com.google.android.gms:play-services-maps:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.6.0.aar\0f7176e32b5ba1bf6ffa5a0ab1fdd750\AndroidManifest.xml:20:5-66
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:5:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:6:5-79
+MERGED from [com.google.android.gms:play-services-maps:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.6.0.aar\0f7176e32b5ba1bf6ffa5a0ab1fdd750\AndroidManifest.xml:19:5-78
+MERGED from [com.google.android.gms:play-services-maps:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.6.0.aar\0f7176e32b5ba1bf6ffa5a0ab1fdd750\AndroidManifest.xml:19:5-78
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:6:22-76
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:7:5-76
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:7:22-73
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:8:5-81
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:8:22-78
+uses-feature#0x00020000
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:10:5-12:35
+MERGED from [com.google.android.gms:play-services-maps:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.6.0.aar\0f7176e32b5ba1bf6ffa5a0ab1fdd750\AndroidManifest.xml:21:5-77
+MERGED from [com.google.android.gms:play-services-maps:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.6.0.aar\0f7176e32b5ba1bf6ffa5a0ab1fdd750\AndroidManifest.xml:21:5-77
+	android:glEsVersion
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:11:9-41
+	android:required
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:12:9-32
+application
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:14:5-52:19
+MERGED from [com.google.android.gms:play-services-maps:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.6.0.aar\0f7176e32b5ba1bf6ffa5a0ab1fdd750\AndroidManifest.xml:24:5-19
+MERGED from [com.google.android.gms:play-services-maps:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.6.0.aar\0f7176e32b5ba1bf6ffa5a0ab1fdd750\AndroidManifest.xml:24:5-19
+MERGED from [com.google.maps.android:android-maps-utils:0.5] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\android-maps-utils-0.5.aar\f62d530ea4a16b1a7bedc7b614d57d14\AndroidManifest.xml:7:5-11:19
+MERGED from [com.google.maps.android:android-maps-utils:0.5] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\android-maps-utils-0.5.aar\f62d530ea4a16b1a7bedc7b614d57d14\AndroidManifest.xml:7:5-11:19
+MERGED from [com.google.android.gms:play-services-base:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.6.0.aar\26c40303fe43cd1fa6cf539688efd831\AndroidManifest.xml:18:5-20:19
+MERGED from [com.google.android.gms:play-services-base:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.6.0.aar\26c40303fe43cd1fa6cf539688efd831\AndroidManifest.xml:18:5-20:19
+MERGED from [com.google.android.gms:play-services-tasks:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-tasks-11.6.0.aar\4e8473cdc693b397fc65021a58402379\AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-tasks:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-tasks-11.6.0.aar\4e8473cdc693b397fc65021a58402379\AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-basement:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.6.0.aar\215bdb823a3b5cd3cd4ac779c9cc896f\AndroidManifest.xml:19:5-21:19
+MERGED from [com.google.android.gms:play-services-basement:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.6.0.aar\215bdb823a3b5cd3cd4ac779c9cc896f\AndroidManifest.xml:19:5-21:19
+MERGED from [com.google.android.gms:play-services-maps-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-license-11.6.0.aar\534db7eaa5a3d52395319bca08d9ce73\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-maps-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-license-11.6.0.aar\534db7eaa5a3d52395319bca08d9ce73\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-base-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-license-11.6.0.aar\7b9296ea23ee31a8e215096cb0fa3479\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-base-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-license-11.6.0.aar\7b9296ea23ee31a8e215096cb0fa3479\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-basement-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-license-11.6.0.aar\da0ffb7d5c283d2e773d9beaa272bd30\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-basement-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-license-11.6.0.aar\da0ffb7d5c283d2e773d9beaa272bd30\AndroidManifest.xml:5:5-20
+MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\248101bce940f7706b93e9bbd7f6d08d\AndroidManifest.xml:24:5-28:19
+MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\248101bce940f7706b93e9bbd7f6d08d\AndroidManifest.xml:24:5-28:19
+MERGED from [com.google.android.gms:play-services-tasks-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-tasks-license-11.6.0.aar\f3fec3a015d0f75eb3f1d1d322ef56af\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-tasks-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-tasks-license-11.6.0.aar\f3fec3a015d0f75eb3f1d1d322ef56af\AndroidManifest.xml:5:5-20
+	android:supportsRtl
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:18:9-35
+	android:label
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:17:9-41
+	android:icon
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:16:9-43
+	android:allowBackup
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:15:9-35
+	android:theme
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:19:9-40
+activity#com.akexorcist.googledirection.sample.MainActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:20:9-26:20
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:20:19-47
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:21:13-25:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:22:17-69
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:22:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:24:17-77
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:24:27-74
+activity#com.akexorcist.googledirection.sample.SimpleDirectionActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:28:9-30:56
+	android:label
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:30:13-53
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:29:13-52
+activity#com.akexorcist.googledirection.sample.TransitDirectionActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:32:9-34:57
+	android:label
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:34:13-54
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:33:13-53
+activity#com.akexorcist.googledirection.sample.AlternativeDirectionActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:36:9-38:61
+	android:label
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:38:13-58
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:37:13-57
+activity#com.akexorcist.googledirection.sample.WaypointsDirectionActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:40:9-42:59
+	android:label
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:42:13-56
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:41:13-55
+meta-data#com.google.android.gms.version
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:44:9-46:69
+MERGED from [com.google.maps.android:android-maps-utils:0.5] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\android-maps-utils-0.5.aar\f62d530ea4a16b1a7bedc7b614d57d14\AndroidManifest.xml:8:9-10:69
+MERGED from [com.google.maps.android:android-maps-utils:0.5] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\android-maps-utils-0.5.aar\f62d530ea4a16b1a7bedc7b614d57d14\AndroidManifest.xml:8:9-10:69
+MERGED from [com.google.android.gms:play-services-basement:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.6.0.aar\215bdb823a3b5cd3cd4ac779c9cc896f\AndroidManifest.xml:20:9-121
+MERGED from [com.google.android.gms:play-services-basement:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.6.0.aar\215bdb823a3b5cd3cd4ac779c9cc896f\AndroidManifest.xml:20:9-121
+	android:value
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:46:13-66
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:45:13-58
+meta-data#om.google.android.geo.API_KEY
+ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:48:9-50:71
+	android:value
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:50:13-68
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml:49:13-57
+uses-sdk
+INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+MERGED from [:googleDirectionLibrary] C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\googleDirectionLibrary\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:googleDirectionLibrary] C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\googleDirectionLibrary\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:design:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\design-27.0.0.aar\7dcaa90b9f88f94d14e988f490ca0432\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\design-27.0.0.aar\7dcaa90b9f88f94d14e988f490ca0432\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.0.0.aar\a6ce59f8d96975f555e83c8566830d89\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.0.0.aar\a6ce59f8d96975f555e83c8566830d89\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.6.0.aar\0f7176e32b5ba1bf6ffa5a0ab1fdd750\AndroidManifest.xml:23:5-43
+MERGED from [com.google.android.gms:play-services-maps:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.6.0.aar\0f7176e32b5ba1bf6ffa5a0ab1fdd750\AndroidManifest.xml:23:5-43
+MERGED from [com.google.maps.android:android-maps-utils:0.5] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\android-maps-utils-0.5.aar\f62d530ea4a16b1a7bedc7b614d57d14\AndroidManifest.xml:5:5-43
+MERGED from [com.google.maps.android:android-maps-utils:0.5] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\android-maps-utils-0.5.aar\f62d530ea4a16b1a7bedc7b614d57d14\AndroidManifest.xml:5:5-43
+MERGED from [com.google.android.gms:play-services-base:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.6.0.aar\26c40303fe43cd1fa6cf539688efd831\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-base:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.6.0.aar\26c40303fe43cd1fa6cf539688efd831\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-tasks:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-tasks-11.6.0.aar\4e8473cdc693b397fc65021a58402379\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-tasks:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-tasks-11.6.0.aar\4e8473cdc693b397fc65021a58402379\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-basement:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.6.0.aar\215bdb823a3b5cd3cd4ac779c9cc896f\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-basement:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.6.0.aar\215bdb823a3b5cd3cd4ac779c9cc896f\AndroidManifest.xml:17:5-43
+MERGED from [com.android.support:support-v4:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-v4-27.0.0.aar\4b7961e6b2b11892f3b6e3be79e29929\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-v4-27.0.0.aar\4b7961e6b2b11892f3b6e3be79e29929\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-fragment-27.0.0.aar\a65da8c878246a4c9982747c35bc4515\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-fragment-27.0.0.aar\a65da8c878246a4c9982747c35bc4515\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.0.0.aar\5da49eef09124d9263db5ede33b09bd5\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.0.0.aar\5da49eef09124d9263db5ede33b09bd5\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.0.0.aar\f9a047aa75016bb5519a13570be104fc\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.0.0.aar\f9a047aa75016bb5519a13570be104fc\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.0.0.aar\01cd37efba9c3de00c04c73e3078e113\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.0.0.aar\01cd37efba9c3de00c04c73e3078e113\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-27.0.0.aar\c4a620e7e007941a86a29f38477d22b4\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-27.0.0.aar\c4a620e7e007941a86a29f38477d22b4\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\transition-27.0.0.aar\6b1563643d1c51eed43e686fd2ed55ca\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\transition-27.0.0.aar\6b1563643d1c51eed43e686fd2ed55ca\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.0.0.aar\a8b23974ea4017470211597505ade5d3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.0.0.aar\a8b23974ea4017470211597505ade5d3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.0.0.aar\8b7d35af6b4ff30855a6e690b12bab07\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.0.0.aar\8b7d35af6b4ff30855a6e690b12bab07\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-compat-27.0.0.aar\6c5c240586aec861e124b6aa59c90f28\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-compat-27.0.0.aar\6c5c240586aec861e124b6aa59c90f28\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-license-11.6.0.aar\534db7eaa5a3d52395319bca08d9ce73\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-maps-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-license-11.6.0.aar\534db7eaa5a3d52395319bca08d9ce73\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-base-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-license-11.6.0.aar\7b9296ea23ee31a8e215096cb0fa3479\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-base-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-license-11.6.0.aar\7b9296ea23ee31a8e215096cb0fa3479\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-basement-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-license-11.6.0.aar\da0ffb7d5c283d2e773d9beaa272bd30\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-basement-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-license-11.6.0.aar\da0ffb7d5c283d2e773d9beaa272bd30\AndroidManifest.xml:4:5-43
+MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\248101bce940f7706b93e9bbd7f6d08d\AndroidManifest.xml:20:5-22:41
+MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\248101bce940f7706b93e9bbd7f6d08d\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.gms:play-services-tasks-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-tasks-license-11.6.0.aar\f3fec3a015d0f75eb3f1d1d322ef56af\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-tasks-license:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-tasks-license-11.6.0.aar\f3fec3a015d0f75eb3f1d1d322ef56af\AndroidManifest.xml:4:5-43
+INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\Android-GoogleDirectionLibrary-master\app\src\main\AndroidManifest.xml
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.6.0.aar\26c40303fe43cd1fa6cf539688efd831\AndroidManifest.xml:19:9-172
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.6.0.aar\26c40303fe43cd1fa6cf539688efd831\AndroidManifest.xml:19:146-170
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.6.0.aar\26c40303fe43cd1fa6cf539688efd831\AndroidManifest.xml:19:86-145
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:11.6.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.6.0.aar\26c40303fe43cd1fa6cf539688efd831\AndroidManifest.xml:19:19-85
+meta-data#android.arch.lifecycle.VERSION
+ADDED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\248101bce940f7706b93e9bbd7f6d08d\AndroidManifest.xml:25:9-27:47
+	android:value
+		ADDED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\248101bce940f7706b93e9bbd7f6d08d\AndroidManifest.xml:27:13-44
+	android:name
+		ADDED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\248101bce940f7706b93e9bbd7f6d08d\AndroidManifest.xml:26:13-58

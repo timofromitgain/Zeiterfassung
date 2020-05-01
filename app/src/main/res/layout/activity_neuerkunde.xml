@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+>
+
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/tvAllgemein_NeuerKundeActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/abstand_normal"
+            android:text="Neuer Auftrag"
+            android:textSize="@dimen/text_gross"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/editFirma"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Firma"
+            android:text=""
+            android:inputType="textPersonName"
+            android:paddingLeft="@dimen/abstand_normal"
+            android:textSize="@dimen/text_normal" />
+
+        <EditText
+            android:id="@+id/editAnsprechpartner"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Ansprechpartner"
+            android:inputType="textPersonName"
+            android:text=""
+            android:paddingLeft="@dimen/abstand_normal"
+            android:textSize="@dimen/text_normal" />
+
+
+
+
+        <EditText
+            android:id="@+id/editStrasse_NeuerAuftrag"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/strasse"
+            android:inputType="textPersonName"
+            android:text=""
+            android:paddingLeft="@dimen/abstand_normal"
+            android:textSize="@dimen/text_normal" />
+
+
+        <EditText
+            android:id="@+id/editStadt_NeuerAuftrag"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/stadt"
+            android:inputType="textPersonName"
+            android:text=""
+            android:paddingLeft="@dimen/abstand_normal"
+            android:textSize="@dimen/text_normal" />
+        <EditText
+            android:id="@+id/editTaetigkeit1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Tätigkeit_1"
+            android:inputType="textPersonName"
+            android:text=""
+            android:paddingLeft="@dimen/abstand_normal"
+            android:textSize="@dimen/text_normal" />
+        <EditText
+            android:id="@+id/editTaetigkeit2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Tätigkeit_2"
+            android:inputType="textPersonName"
+            android:text=""
+            android:paddingLeft="@dimen/abstand_normal"
+            android:textSize="@dimen/text_normal" />
+        <EditText
+            android:id="@+id/editTaetigkeit3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Tätigkeit_3"
+            android:inputType="textPersonName"
+            android:text=""
+            android:paddingLeft="@dimen/abstand_normal"
+            android:textSize="@dimen/text_normal" />
+
+
+
+
+
+
+        <EditText
+            android:id="@+id/editKundeAnmerkung_NeuerAuftrag"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/anmerkung"
+            android:inputType="textMultiLine"
+            android:paddingLeft="@dimen/abstand_normal"
+            android:text="ja moin"
+            android:textSize="@dimen/text_normal" />
+
+
+
+    <Button
+        android:id="@+id/btnSpeichern_NeuerAuftrag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="@dimen/abstand_gross"
+        android:layout_marginBottom="@dimen/abstand_gross"
+        android:layout_marginTop="15dp"
+
+        android:background="@drawable/button_border"
+        android:text="@string/btnSpeichern"
+        android:textSize="@dimen/text_normal" />
+
+
+
+
+</LinearLayout>

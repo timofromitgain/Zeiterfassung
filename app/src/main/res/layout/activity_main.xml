@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context="com.example.timo.Zeiterfassung.Kundenliste">
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"
+        android:divider="?android:listDivider"
+        android:showDividers="middle"
+        android:gravity="center"
+        android:stretchColumns="0,1">
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btnNeuerKunde_MainActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_span="2"
+                android:background="@android:color/darker_gray"
+                android:drawableTop="@drawable/ic_neuer_kunde"
+                android:text="NEUER AUFTRAG"
+                android:textSize="@dimen/text_normal" />
+
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btnTaetigkeitsbericht"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"
+                android:drawableTop="@drawable/ic_bericht"
+                android:text="Tätigkeitsbericht"
+                android:textSize="@dimen/text_normal" />
+
+            <Button
+                android:id="@+id/btnKundenliste_MainActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"
+                android:drawableTop="@drawable/ic_kundenliste"
+                android:text="Auftragsliste"
+                android:textSize="@dimen/text_normal" />
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btnMaps_MainActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_span="2"
+                android:background="@android:color/darker_gray"
+                android:drawableTop="@drawable/map_marker"
+                android:text="@string/karte"
+                android:textSize="@dimen/text_normal" />
+
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btnTrackingOn_MainActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"
+                android:drawableTop="@drawable/ic_gps_on"
+                android:text="@string/btStartTracking"
+                android:textSize="@dimen/text_normal" />
+
+            <Button
+                android:id="@+id/btnTrackingOff_MainActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"
+                android:drawableTop="@drawable/ic_gps_off"
+                android:text="@string/btStopTracking"
+                android:textSize="@dimen/text_normal" />
+
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btnLieferstatusZuruecksetzen_MainActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_span="2"
+                android:background="@android:color/darker_gray"
+                android:text="@string/zuruecksetzen"
+                android:visibility="gone"
+                android:textSize="@dimen/text_normal"
+                android:drawableTop="@drawable/ic_zuruecksetzen"/>
+        </TableRow>
+
+        <TableRow>
+
+
+            <Button
+                android:id="@+id/btnDatenbankSpeichern_MainActivity"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"
+                android:text="@string/datenbankSichern"
+                android:textSize="@dimen/text_normal"
+                android:drawableTop="@drawable/ic_datenbank_speichern"/>
+
+            <Button
+                android:id="@+id/btnRegistrieren"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"
+                android:text="Registrieren"
+                android:textSize="@dimen/text_normal"
+                android:drawableTop="@drawable/ic_bericht"/>
+        </TableRow>
+<TableRow>
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"
+                android:text="Login"
+                android:textSize="@dimen/text_normal"
+                android:drawableTop="@drawable/ic_bearbeiten"/>
+
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"
+                android:text="Logout"
+                android:textSize="@dimen/text_normal"
+                android:drawableTop="@drawable/ic_bezahlung_neutral"/>
+</TableRow>
+            <Button
+                android:visibility="gone"
+                android:id="@+id/btnDatenbankImport_MainActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"
+                android:text="@string/datenbankImportieren"
+                android:textSize="@dimen/text_normal"
+                android:drawableTop="@drawable/ic_datenbank_import"/>
+
+
+
+    </TableLayout>
+</RelativeLayout>
+
+
+
+
+

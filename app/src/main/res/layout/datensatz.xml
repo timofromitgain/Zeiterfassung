@@ -1,0 +1,19 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+android:paddingBottom="@dimen/abstand_gross"
+    android:paddingTop="@dimen/abstand_gross"
+    android:paddingLeft="@dimen/abstand_normal"
+    android:paddingRight="@dimen/abstand_normal"
+    android:orientation="horizontal">
+    <TextView
+        android:layout_gravity="center"
+        android:text="5"
+        android:id="@+id/textViewName1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_gross"/>
+
+
+</LinearLayout>

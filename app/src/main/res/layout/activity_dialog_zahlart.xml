@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scrollbars="none"
+    android:layout_weight="1"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:stretchColumns="0,1,2"
+        android:showDividers="middle"
+        android:divider="?android:listDivider">
+
+        <TableRow>
+            <TextView
+                android:text="@string/zahlart"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_normal"
+                android:padding="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <RadioGroup
+                android:id="@+id/rgZahlart_Dialog"
+                android:layout_width="match_parent"
+                android:orientation="vertical"     >
+
+                <RadioButton
+                    android:id="@+id/rbRechnungszahler_Dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/rechnungszahler"
+                    />
+
+                <RadioButton
+                    android:id="@+id/rbBarzahler_Dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/barzahler" />
+            </RadioGroup>
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/trZahlungsintervall_Dialog"
+            android:visibility="gone">
+            <TextView
+                android:text="@string/zahlungsintervall"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_normal"
+                android:padding="@dimen/abstand_klein"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <RadioGroup
+                android:id="@+id/rgZahlungsintervall_Dialog"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                >
+
+                <RadioButton
+                    android:id="@+id/rbWoechentlich_Dialog"
+                    android:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_normal"
+                    android:text="@string/woechentlich" />
+
+                <RadioButton
+                    android:id="@+id/rbMonatlich_Dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_normal"
+                    android:text="@string/monatlich" />
+
+                <RadioButton
+                    android:id="@+id/rb2Monatlich_Dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_normal"
+                    android:text="@string/monatlich2" />
+
+                <RadioButton
+                    android:id="@+id/rb3Monatlich_Dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_normal"
+                    android:text="@string/monatlich3" />
+
+            </RadioGroup>
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/trZahlungszeitpunkt_Dialog"
+            android:visibility="gone">
+            <TextView
+                android:text="@string/zahlungszeitpunkt"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_normal"
+                android:padding="@dimen/abstand_klein"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <RadioGroup
+                android:id="@+id/rgZahlungszeitpunkt_Dialog"
+                android:layout_width="match_parent"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rbMonatsanfang_Dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_normal"
+                    android:text="@string/monatsanfang" />
+
+                <RadioButton
+                    android:id="@+id/rbMonatsende_Dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_normal"
+                    android:text="@string/monatsende" />
+
+            </RadioGroup>
+        </TableRow>
+
+    </TableLayout>
+</ScrollView>
+

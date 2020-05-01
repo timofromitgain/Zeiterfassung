@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "128589141822",
+    "firebase_url": "https://zeiterfassung-8c55c.firebaseio.com",
+    "project_id": "zeiterfassung-8c55c",
+    "storage_bucket": "zeiterfassung-8c55c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128589141822:android:b721d5dcd5afdbb6dabe6f",
+        "android_client_info": {
+          "package_name": "com.example.timo.Zeiterfassung"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "128589141822-7f9uaevfnp7faeuse01lh0a7b2ndes2j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkuUaIj9FclOHi7Yc8as1nqw6uv46gSyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "128589141822-7f9uaevfnp7faeuse01lh0a7b2ndes2j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

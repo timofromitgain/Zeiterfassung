@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.Registration">
+
+    <EditText
+        android:id="@+id/loginUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Username"></EditText>
+
+    <EditText
+        android:id="@+id/loginPasswort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Password"></EditText>
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign In">
+
+    </Button>
+    <View style="@style/dividerHorizontalDick"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Noch kein Account ? \n\n Regestrieren Sie sich hier"></TextView>
+
+    <EditText
+        android:layout_marginTop="15dp"
+        android:id="@+id/regNachname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="6dp"
+        android:hint="Nachname">
+    </EditText>
+
+    <EditText
+        android:id="@+id/regVorname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="6dp"
+        android:hint="Vorname">
+    </EditText>
+
+    <EditText
+        android:id="@+id/regEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="6dp"
+        android:hint="E-Mail">
+    </EditText>
+
+    <EditText
+        android:id="@+id/regPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="6dp"
+        android:hint="Passwort">
+    </EditText>
+
+    <RadioGroup
+        android:id="@+id/rgStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"     >
+
+        <RadioButton
+            android:id="@+id/rbMonteur"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="Monteur"
+            />
+
+        <RadioButton
+            android:id="@+id/rbProjektleiter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Projektleiter" />
+    </RadioGroup>
+    <EditText
+        android:id="@+id/regVerifycode"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="6dp"
+        android:hint="Code">
+    </EditText>
+    <Button
+        android:id="@+id/btnReg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="Registrieren"></Button>
+
+
+
+</LinearLayout>

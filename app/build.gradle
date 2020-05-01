@@ -1,0 +1,63 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+
+
+    compileSdkVersion 29
+    defaultConfig {
+        multiDexEnabled true
+        applicationId "com.example.timo.Zeiterfassung"
+        minSdkVersion 24
+        buildToolsVersion '29.0.2'
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+    }
+}
+
+
+dependencies {
+
+    implementation 'com.google.firebase:firebase-core:11.4.0'
+    implementation 'com.google.firebase:firebase-database:11.4.0'
+    implementation 'com.google.firebase:firebase-auth:11.4.0'
+
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'commons-io:commons-io:2.4'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.google.android.gms:play-services-maps:11.4.0'
+    implementation 'com.google.android.gms:play-services-location:11.4.0'
+    implementation 'com.android.support:support-vector-drawable:27.1.1'
+    implementation 'com.google.maps.android:android-maps-utils:0.5+'
+    implementation 'com.android.support:design:22.0.1'
+    /*implementation 'dev.dworks.libs:volleyplus:0.1.4'*/
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.android.support:support-annotations:28.0.0'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    /*    implementation 'org.apache.directory.studio:org.apache.commons.io:2.4' */
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.android.support:recyclerview-v7:27.1.0'
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+}
+4

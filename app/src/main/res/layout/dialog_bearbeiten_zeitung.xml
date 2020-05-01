@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TableLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+
+        android:showDividers="middle"
+        android:divider="?android:listDivider">
+        <TableRow>
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_gross"
+            android:text="@string/anzahlBamS" />
+
+        <Button
+            android:layout_marginLeft="5dp"
+            android:id="@+id/btZeitungBildDown"
+            android:background="@drawable/button_border"
+            android:layout_width="@dimen/btn_breite_klein"
+            android:layout_height="@dimen/btn_zeitung"
+            android:textSize="@dimen/text_gross"
+            android:text="-" />
+
+        <EditText
+
+            android:id="@+id/editBild"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/text_gross"
+            android:textAlignment="center"
+            android:layout_marginLeft="@dimen/abstand_normal"
+            android:layout_marginRight="@dimen/abstand_normal"
+            android:layout_height="wrap_content" />
+
+        <Button
+
+            android:id="@+id/btZeitungBildUp"
+            android:background="@drawable/button_border"
+            android:layout_width="@dimen/btn_breite_klein"
+            android:layout_height="@dimen/btn_hoehe_klein"
+            android:textSize="@dimen/text_gross"
+            android:text="+" />
+        </TableRow>
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_gross"
+            android:text="@string/anzahlWamS"/>
+        <Button
+            android:layout_marginLeft="5dp"
+            android:id="@+id/btZeitungWeltDown"
+            android:background="@drawable/button_border"
+            android:layout_width="@dimen/btn_breite_klein"
+            android:layout_height="@dimen/btn_hoehe_klein"
+            android:textSize="@dimen/text_gross"
+            android:text="-" />
+        <EditText
+            android:id="@+id/editWelt"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/text_gross"
+            android:textAlignment="center"
+            android:layout_marginLeft="@dimen/abstand_normal"
+            android:layout_marginRight="@dimen/abstand_normal"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btZeitungWeltUp"
+            android:background="@drawable/button_border"
+            android:layout_width="@dimen/btn_breite_klein"
+            android:layout_height="@dimen/btn_hoehe_klein"
+            android:textSize="@dimen/text_gross"
+            android:text="+" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_gross"
+            android:text="@string/anzahlWamSK"/>
+        <Button
+            android:layout_marginLeft="5dp"
+            android:id="@+id/btZeitungWeltKDown"
+            android:background="@drawable/button_border"
+            android:layout_width="@dimen/btn_breite_klein"
+            android:layout_height="@dimen/btn_hoehe_klein"
+            android:textSize="@dimen/text_gross"
+            android:text="-" />
+        <EditText
+            android:id="@+id/editWeltK"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/text_gross"
+            android:textAlignment="center"
+            android:layout_marginLeft="@dimen/abstand_normal"
+            android:layout_marginRight="@dimen/abstand_normal"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btZeitungWeltKUp"
+            android:background="@drawable/button_border"
+            android:layout_width="@dimen/btn_breite_klein"
+            android:layout_height="@dimen/btn_hoehe_klein"
+            android:textSize="@dimen/text_gross"
+            android:text="+" />
+    </TableRow>
+    </TableLayout>
+</LinearLayout>

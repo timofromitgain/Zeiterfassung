@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_data"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/abstand_normal"
+        android:text="@string/dialogStartAdresse"
+        android:textSize="@dimen/text_normal"
+        android:textStyle="bold" />
+
+
+    <LinearLayout
+
+        android:id="@+id/lv_DialogOptimierung"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editStrasse_DialogOptimierung"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/strasse"
+            android:textSize="@dimen/text_normal" />
+
+
+
+        <EditText
+            android:id="@+id/editStadt_DialogOptimierung"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/stadt"
+            android:textSize="@dimen/text_normal" />
+
+    </LinearLayout>
+</LinearLayout>
+
+

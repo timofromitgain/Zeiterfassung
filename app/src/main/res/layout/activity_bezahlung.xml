@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".MainActivity"
+
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnLinks_BezahlungActivity"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/weiss"
+            android:text="&lt;"
+            android:textSize="@dimen/text_gross" />
+
+        <TextView
+            android:id="@+id/tvMonat_BezahlungActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="November"
+            android:textSize="@dimen/text_gross" />
+
+        <Button
+            android:id="@+id/btnRechts_BezahlungActivity"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/weiss"
+            android:text=">"
+            android:textSize="@dimen/text_gross" />
+
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/abstand_normal">
+
+        <TableRow
+            android:id="@+id/rwZeile0"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvDatum0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="03.03.2019"
+                android:textSize="@dimen/text_gross" />
+
+            <Switch
+                android:id="@+id/switch0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/abstand_normal"
+                android:textSize="@dimen/text_gross" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/rwZeile1"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvDatum1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="03.03.2019"
+                android:textSize="@dimen/text_gross" />
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/abstand_normal"
+                android:textSize="@dimen/text_gross" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/rwZeile2"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvDatum2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="03.03.2019"
+                android:textSize="@dimen/text_gross" />
+
+            <Switch
+                android:id="@+id/switch2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/abstand_normal"
+                android:textSize="@dimen/text_gross" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/rwZeile3"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvDatum3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="03.03.2019"
+                android:textSize="@dimen/text_gross" />
+
+            <Switch
+                android:id="@+id/switch3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/abstand_normal"
+                android:textSize="@dimen/text_gross" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/rwZeile4"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvDatum4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="03.03.2019"
+                android:textSize="@dimen/text_gross" />
+
+            <Switch
+                android:id="@+id/switch4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/abstand_normal"
+                android:textSize="@dimen/text_gross" />
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        android:id="@+id/btnBezahlMarker_BezahlungActivity"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/abstand_gross"
+        android:background="@color/weiss"
+        android:drawableTop="@drawable/ic_bezahlung_neutral"
+        android:text="@string/bezahlMarkerSetzten"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btnBezahlMarkerGesetzt_BezahlungActivity"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/abstand_gross"
+        android:background="@color/weiss"
+        android:drawableTop="@drawable/ic_bezahlung_negativ"
+        android:text="@string/bezahlMarkerEntfernen"
+        android:visibility="gone" />
+</LinearLayout>

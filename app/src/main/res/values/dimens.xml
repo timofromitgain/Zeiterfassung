@@ -1,0 +1,31 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="text_klein">12sp</dimen>
+    <dimen name="text_normal">16sp</dimen>
+    <dimen name="text_gross">20sp</dimen>
+    <dimen name="checkbox">26dp</dimen>
+    <dimen name="radiobutton">26dp</dimen>
+    <dimen name="abstand_normal">8dp</dimen>
+    <dimen name="abstand_klein">3dp</dimen>
+    <dimen name="trennlinie_hoehe">5dp</dimen>
+    <dimen name="abstand_gross">15dp</dimen>
+    <dimen name="abstand_btbearbeiten">7dp</dimen>
+    <dimen name="icon_klein">20dp</dimen>
+    <dimen name="icon_normal">16dp</dimen>
+    <dimen name="icon_gross">20dp</dimen>
+    <dimen name="icon_gross_xx">32dp</dimen>
+    <dimen name="icon_gross_xxx">72dp</dimen>
+    <dimen name="btn_zeitung">40dp</dimen>
+    <dimen name="btn_breite_klein">40dp</dimen>
+    <dimen name="btn_hoehe_klein">40dp</dimen>
+    <dimen name="skb_hoehe">40dp</dimen>
+    <dimen name="rvMarginTop">20dp</dimen>
+    <dimen name="editRahmenNormal">1dp</dimen>
+    <dimen name="editRahmenGross">3dp</dimen>
+    <dimen name="editRadius">7dp</dimen>
+
+</resources>

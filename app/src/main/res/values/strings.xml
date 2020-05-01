@@ -1,0 +1,147 @@
+<resources>
+    <string name="app_name">Zeiterfassung</string>
+    <string name="btNeuenKunden">Neuen Kunden anlegen</string>
+    <string name="btZeigeKundenliste">Kundenliste</string>
+    <string name="btGoogleMaps">Google Maps</string>
+    <string name="btSave">Speichern</string>
+    <string name="Id">ID</string>
+    <string name="name">Name</string>
+    <string name="adresse">Adresse</string>
+    <string name="nname">Nachname</string>
+    <string name="vname">Vorname</string>
+    <string name="strasse">Straße</string>
+    <string name="stadt">Stadt</string>
+    <string name="zahlart">Zahlart</string>
+    <string name="festnetz">Festnetz</string>
+    <string name="mobil">Mobil</string>
+    <string name="anmerkung">Anmerkung</string>
+
+    <string name="btStartTracking">Tracking starten</string>
+    <string name="btStopTracking">Tracking stoppen</string>
+    <string name="btClearTracking">Lieferstatus zurücksetzen</string>
+    <string name="btRadius">Radius</string>
+    <string name="BtRadiusEnter">Ok</string>
+    <string name="lblRadius">Radius ändern:</string>
+    <string name="btnUebersicht">Übersicht</string>
+    <string name="BtnBericht">Bericht</string>
+    <string name="lblBericht">Folgende Leser wurden noch nicht beliefert:</string>
+    <string name="btNavigaate">Naigation</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_main3">Main3Activity</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_bericht">Bericht</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="Allgemein">Allgemein</string>
+    <string name="vorwahl_festnetz">0049</string>
+    <string name="vorwahl_mobil">0049</string>
+    <string name="zeitung">Zeitung</string>
+    <string name="zahlungsart">Zahlungsart</string>
+    <string name="zahlungsintervall">Zahlungsintervall</string>
+    <string name="zahlungszeitpunkt">Zahlungszeitpunkt</string>
+    <string name="bams">BamS</string>
+    <string name="wams">WamS</string>
+    <string name="wamsK">WamSK</string>
+    <string name="neuerKunde">NEUER KUNDE</string>
+    <string name="erledigt">ERLEDIGT</string>
+    <string name="kundenliste">KUNDENLISTE</string>
+
+
+    <string name="btntrackingOn">TRACKING ON</string>
+    <string name="btntrackingOff">TRACKING OFF</string>
+    <string name="zuruecksetzen">LIEFERSTATUS\nZURÜCKSETZEN</string>
+    <string name="datenbankSichern">Kundenstamm_Neu\nSICHERN</string>
+    <string name="datenbankImportieren">Kundenstamm_Neu\nIMPORTIEREN</string>
+    <string name="barzahler">Barzahler</string>
+    <string name="rechnungszahler">Rechnungszahler</string>
+    <string name="woechentlich">Woechentlich</string>
+    <string name="monatlich">Monatlich</string>
+    <string name="monatlich2">2-Monatlich</string>
+    <string name="monatlich3">3-Monatlich</string>
+    <string name="btnSpeichern">Speichern</string>
+    <string name="sortierung">Sortierung</string>
+    <string name="kundenliste_gesamt">Gesamt</string>
+    <string name="kundenliste_zugaenge">Zugänge</string>
+    <string name="kundenliste_abgaenge">Abgänge</string>
+
+    <string name="icAnrufen">Anrufen</string>
+    <string name="icBezahlunge">Bezahlung</string>
+    <string name="icLoeschen">Löschen</string>
+    <string name="btnRadius">RADIUS</string>
+    <string name="btnVerwerfen">VERWERFEN</string>
+    <string name="btnPolygon">Polygon</string>
+    <string name="btnErledigt">ERLEDIGT</string>
+    <string name="btnNichtErledigt">NICHT\nERLEDIGT</string>
+    <string name="btnOk">OK</string>
+    <string name="btnVerbinden">VERBINDEN</string>
+    <string name="btnZurueck">ZURÜCK</string>
+    <string name="btnRadiusSetzen">RADIUSKREIS\nSETZEN </string>
+    <string name="btnErkennungsbereichNeu">ERKENNUNGSBEREICH\nNEU ZEICHNEN</string>
+    <string name="routeOptimieren">Route optimieren</string>
+    <string name="navigation">Navigationn</string>
+    <string name="verlaufStrecke">Streckenverlauf</string>
+    <string name="kartenansicht">Kartenansicht</string>
+    <string name="karte">Karte</string>
+    <string name="satellite">Satellite</string>
+    <string name="optBestehendeRoute">Bestehende Route bearbeiten</string>
+    <string name="optNeueRoute">Neue Route</string>
+    <string name="monatsanfang">Monatsanfang</string>
+    <string name="monatsende">Monatsende</string>
+    <string name="anzahlBamS">Anzahl BamS</string>
+    <string name="anzahlWamS">Anzahl WamS</string>
+    <string name="anzahlWamSK">Anzahl WamSK</string>
+    <string name="navigationNaechsteKunde">Zum nächsten Kunden navigieren</string>
+    <string name="meldungDatenbankImport">Datenbank wurde importiert!</string>
+    <string name="meldungDatenbankExport">Datenbank wurde exportiert!</string>
+    <string name="meldungDatenbankExistiert">Datenbank existiert bereits, wollen Sie diese überschreiben ?</string>
+    <string name="meldungTrackingLaeuft">Nicht möglich während Tracking</string>
+    <string name="meldungRadiusSpechern">Radius gespeichert!</string>
+    <string name="meldungMarkerAuswahl">Marker wurde gewählt!</string>
+    <string name="meldungAdresseNichtGefunden">Adresse konnte nicht gefunden werden!</string>
+    <string name="meldungNachame">"Es muss ein Nachname angegeben werden"</string>
+    <string name="meldungZeitung">Dem Kunden muss mindestens eine Zeitung zugewiesen werden!</string>
+    <string name="meldungLoeschen">Sind Sie sicher, dass Sie den Kunden löschen möchten ?</string>
+    <string name="meldungKeineNummer">Keine Telefonnummer verfügbar!</string>
+    <string name="nameDatenbank">Kundenstamm_Neu.dat</string>
+    <string name="navigationMehrereKunden">Zu mehreren Kunden navigieren</string>
+    <string name="dialogStartAdresse">Startadresse ?</string>
+    <string name="bezahlMarkerSetzten">Bezahlmarker setzen</string>
+    <string name="bezahlMarkerEntfernen">Bezahlmarker entfernen</string>
+    <string name="nachrichtBezahlung">Kunde: %1$s%2$s%3$s (%4$s)</string>
+    <string name="nachrichtErinnerung">%1$s, %2$s (%3$s) wurde noch nicht beliefert</string>
+    <string name="nachrichtWarnung">%1$s, %2$s (%3$s) wurde deaktiviert</string>
+    <string name="btnNichtBezahlt">Nicht Bezahlt</string>
+    <string name="btnZumKunden">Zum Kunden</string>
+    <string name="meldungTrackingGestartet">Tracking wurde gestartet</string>
+    <string name="meldungTrackingBeendet">Tracking wurde beendet</string>
+    <string name="meldungDatenbankAuswaehlent">Bitte wählen Sie eine Datenbank aus</string>
+
+    <string name="meldungFehlerBeiDerEingabe">Fehler! Bitte überprüfen Sie Ihre Eingabe</string>
+
+    <string name="meldungPositionGespeichert">Kunde gespeichert auf Position</string>
+
+    <string-array name="Wochentage">
+        <item>Aktuell</item>
+        <item>Montag</item>
+        <item>Dienstag</item>
+        <item>Mittwoch</item>
+        <item>Donnerstag</item>
+        <item>Freitag</item>
+        <item>Samstag</item>
+    </string-array>
+    <string name="title_activity_location">LocationActivity</string>
+    <string name="title_activity_test">TEST</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    />
+</resources>

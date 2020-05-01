@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.timo.Zeiterfassung.Activity.KarteActivity">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="237dp"
+        android:layout_alignBottom="@+id/txtNaviAnzahl"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="51dp"
+        tools:context=".MapsActivity" />
+
+    <Button
+        android:id="@+id/btRadius"
+        android:layout_width="7dp"
+        android:layout_height="13dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="55dp"
+        android:text="@string/btRadius"
+        android:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/txtRadius"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btRadius"
+        android:layout_marginStart="226dp"
+        android:layout_marginTop="-55dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/BtRadiusEnter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/btRadius"
+        android:layout_marginEnd="188dp"
+        android:layout_marginTop="-55dp"
+        android:text="@string/BtRadiusEnter"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/lblRadius"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="85dp"
+        android:text="@string/lblRadius"
+        android:visibility="invisible"/>
+
+    <EditText
+        android:id="@+id/txtNaviAnzahl"
+        android:layout_width="41dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btRadius"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="114dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="8" />
+
+    <Button
+        android:id="@+id/btNavigate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/map"
+        android:layout_marginStart="162dp"
+        android:layout_marginTop="-51dp"
+        android:text="@string/btNavigaate" />
+
+    <TextView
+        android:id="@+id/lblNaviAnzahl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/btRadius"
+        android:layout_marginStart="57dp"
+        android:text="Anzahl: " />
+
+
+</RelativeLayout>

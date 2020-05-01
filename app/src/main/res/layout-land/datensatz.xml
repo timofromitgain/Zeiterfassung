@@ -1,0 +1,50 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <TextView
+        android:paddingLeft="30px"
+        android:text=" "
+        android:id="@+id/textViewId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_normal"/>
+
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30px"
+        android:text=" "
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textViewAdresse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30px"
+        android:text=" "
+    android:textSize="@dimen/text_normal"/>
+    <TextView
+        android:paddingLeft="30px"
+        android:text=" "
+        android:id="@+id/textViewZeitung"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_normal"/>
+    <TextView
+        android:paddingLeft="30px"
+        android:text=" "
+        android:id="@+id/textViewlat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_normal"/>
+    <TextView
+        android:paddingLeft="30px"
+        android:text=" "
+        android:id="@+id/textViewlong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_normal"/>
+</LinearLayout>

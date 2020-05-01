@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_search"
+        android:visible="false"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:title="Search"/>
+
+    <item android:id="@+id/itRoutenoptimierung"
+        android:icon="@drawable/ic_nav_rechts"
+        android:visible="false"
+        android:title="Route optimieren"
+        />
+    <item android:id="@+id/itNaigation"
+        android:icon="@drawable/ic_nav_rechts"
+        android:title="Kunden" />
+
+    <item android:id="@+id/itVerlauf"
+        android:icon="@drawable/ic_nav_rechts"
+        android:title="Rurückgeleger Weg" />
+
+
+    <item android:id="@+id/itKartenansicht"
+        android:icon="@drawable/ic_nav_rechts"
+        android:title="Kartenasicht" >
+
+
+
+
+        <menu>
+            <item android:id="@+id/itSubKarte"
+                android:icon="@drawable/ic_nav_rechts"
+                android:title="Karte" />
+            <item android:id="@+id/itSubSatelite"
+                android:icon="@drawable/ic_nav_rechts"
+                android:title="Satelite" />
+        </menu>
+    </item>
+</menu>

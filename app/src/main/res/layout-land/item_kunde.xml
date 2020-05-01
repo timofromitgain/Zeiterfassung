@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/abstand_normal"
+    android:paddingBottom="@dimen/abstand_normal">
+
+
+    <TextView
+        android:id="@+id/rvid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/abstand_normal"
+        android:text="555"
+        android:textColor="@color/grau_hell"
+        android:textSize="@dimen/text_klein"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <TextView
+        android:id="@+id/rvFirma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/abstand_normal"
+        android:text="Firma"
+        android:textSize="@dimen/text_normal"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/rvAnsprechpartner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/abstand_normal"
+        android:text="Ansprechpartner"
+        android:textSize="@dimen/text_normal"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/rvStrasse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/abstand_normal"
+        android:text="Straße"
+        android:textSize="@dimen/text_normal"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/rvOrt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/abstand_normal"
+        android:text="Ort"
+        android:textSize="@dimen/text_normal"
+        android:textStyle="bold" />
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="50dp"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/rvTaetigkeit1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/abstand_normal"
+        android:text="Tätigkeit_1"
+        android:textSize="@dimen/text_normal"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/rvTaetigkeit2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/abstand_normal"
+        android:text="Tätigkeit_2"
+        android:textSize="@dimen/text_normal"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/rvTaetigkeit3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/abstand_normal"
+        android:text="Tätigkeit_3"
+        android:textSize="@dimen/text_normal"
+        android:textStyle="bold" />
+</LinearLayout>
+    <View style="@style/dividerVertical" />
+
+
+    <!-- <CheckBoxandroid:id="@+id/checkBox"android:paddingLeft="8dp"android:layout_width="wrap_content"android:layout_height="wrap_content"android:text="Bezahlt"android:textSize="@dimen/text_normal"android:button="@null"android:drawableRight="?android:attr/listChoiceIndicatorMultiple"></CheckBox><TextViewandroid:id="@+id/textViewOptions"android:layout_width="wrap_content"android:layout_height="wrap_content"android:layout_alignParentRight="true"android:layout_alignParentTop="true"android:text="&#8942;"android:paddingLeft="8dp"android:textAppearance="?android:textAppearanceLarge" /> -->
+
+</LinearLayout>

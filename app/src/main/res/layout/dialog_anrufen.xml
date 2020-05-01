@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/btnFestnetzDialogAnrufen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@android:color/white"
+        android:drawableTop="@drawable/ic_telefon"
+        style="?android:attr/borderlessButtonStyle"
+        android:text="@string/festnetz"
+        app:layout_constraintEnd_toStartOf="@+id/btnMobilDialogAnrufen"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="@dimen/text_normal"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnMobilDialogAnrufen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="17dp"
+        android:background="@android:color/white"
+        android:drawableTop="@drawable/ic_mobil"
+        style="?android:attr/borderlessButtonStyle"
+        android:text="@string/mobil"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnFestnetzDialogAnrufen"
+        android:textSize="@dimen/text_normal"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>
+

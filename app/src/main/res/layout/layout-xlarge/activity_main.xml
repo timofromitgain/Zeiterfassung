@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context="com.example.timo.Zeiterfassung.Kundenliste">
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@android:color/darker_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:stretchColumns="0,1"
+        android:showDividers="middle"
+        android:divider="?android:listDivider">
+
+        <TableRow>
+            <Button
+                android:id="@+id/btnNeuerKunde_MainActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/darker_gray"
+                android:layout_span="2"
+                android:text="Neuer Kunde"
+                android:textSize="@dimen/text_normal"
+                android:drawableTop="@drawable/ic_neuer_kunde" />
+
+        </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/btnBericht_MainActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/darker_gray"
+                android:text="Erledigt"
+                android:textSize="@dimen/text_normal"
+                android:drawableTop="@drawable/ic_bericht" />
+            <Button
+                android:id="@+id/btnKundenliste_MainActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/darker_gray"
+                android:text="Kundenliste"
+                android:textSize="@dimen/text_normal"
+                android:drawableTop="@drawable/ic_kundenliste" />
+        </TableRow>
+        <TableRow>
+            <Button
+                android:id="@+id/btnMaps_MainActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:background="@android:color/darker_gray"
+                android:text="Google Maps"
+                android:textSize="@dimen/text_normal"
+                android:drawableTop="@drawable/map_marker" />
+
+        </TableRow>
+        <TableRow>
+            <Button
+                android:id="@+id/btnTrackingOn_MainActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/darker_gray"
+                android:text="Tracking On"
+                android:textSize="@dimen/text_normal"
+                android:drawableTop="@drawable/ic_gps_on" />
+            <Button
+                android:id="@+id/btnTrackingOff_MainActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/darker_gray"
+                android:text="Tracking Off"
+                android:textSize="@dimen/text_normal"
+                android:drawableTop="@drawable/ic_gps_off" />
+
+        </TableRow>
+        <TableRow>
+
+            <Button
+                android:id="@+id/btnLieferstatusZuruecksetzen_MainActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_span="2"
+                android:background="@android:color/darker_gray"
+                android:drawableTop="@drawable/ic_zuruecksetzen"
+                android:textSize="@dimen/text_normal"
+                android:text="Clear Maps" />
+        </TableRow>
+ <TableRow>
+
+
+         <Button
+             android:id="@+id/btnDatenbankSpeichern_MainActivity"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@android:color/darker_gray"
+             android:text="Datenbank sichern"
+             android:textSize="@dimen/text_normal"
+             android:drawableTop="@drawable/ic_datenbank_speichern" />
+         <Button
+             android:id="@+id/btnDatenbankImport_MainActivity"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@android:color/darker_gray"
+             android:text="Datenbank importieren"
+             android:textSize="@dimen/text_normal"
+             android:drawableTop="@drawable/ic_datenbank_import" />
+
+
+
+
+ </TableRow>
+    </TableLayout>
+</RelativeLayout>
+
+
+
+
+

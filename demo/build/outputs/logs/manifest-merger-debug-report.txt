@@ -1,0 +1,238 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:2:1-63:12
+INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:2:1-63:12
+INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:2:1-63:12
+MERGED from [:library] C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\library\build\intermediates\manifests\full\debug\AndroidManifest.xml:2:1-13:12
+MERGED from [com.google.android.gms:play-services-maps:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.0.4.aar\6824df7fa76f7b24d6668fbaa0ee525b\AndroidManifest.xml:16:1-25:12
+MERGED from [com.google.android.gms:play-services-base:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.0.4.aar\48006cabacd5f86dec268f507cd369a4\AndroidManifest.xml:16:1-21:12
+MERGED from [com.google.android.gms:play-services-tasks:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-tasks-11.0.4.aar\a92cce04f9dc238ade0bde7c98f94a9a\AndroidManifest.xml:2:1-5:12
+MERGED from [com.google.android.gms:play-services-basement:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.0.4.aar\40663e4fbf88472d7e4ba1a6405ea50d\AndroidManifest.xml:16:1-23:12
+MERGED from [com.android.support:support-v4:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-v4-25.2.0.aar\5d3f4913bd8b36ac25675ed40ab18385\AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:support-fragment:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-fragment-25.2.0.aar\c3d996ecb8ac727a86d7395b685f8e39\AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:support-media-compat:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-media-compat-25.2.0.aar\eac5f56e1b616abadb0624dfbc804a54\AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:support-core-utils:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-utils-25.2.0.aar\1ac123f96311cd46de98320a63f9114f\AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:support-core-ui:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-ui-25.2.0.aar\c4fc733f7ad45a261c6530a486f31f34\AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:support-compat:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-compat-25.2.0.aar\b81df1cc3e4992cd121e1c88cc2c697f\AndroidManifest.xml:17:1-27:12
+INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:2:1-63:12
+INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:2:1-63:12
+	package
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:3:11-55
+	android:versionName
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:5:11-36
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:4:11-34
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml
+permission#com.google.maps.android.utils.permission.MAPS_RECEIVE
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:7:5-9:50
+	android:protectionLevel
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:9:13-48
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:8:13-81
+uses-permission#com.google.maps.android.utils.permission.MAPS_RECEIVE
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:10:5-92
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:10:22-90
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:12:5-66
+MERGED from [com.google.android.gms:play-services-maps:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.0.4.aar\6824df7fa76f7b24d6668fbaa0ee525b\AndroidManifest.xml:20:5-66
+MERGED from [com.google.android.gms:play-services-maps:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.0.4.aar\6824df7fa76f7b24d6668fbaa0ee525b\AndroidManifest.xml:20:5-66
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:12:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:13:5-78
+MERGED from [com.google.android.gms:play-services-maps:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.0.4.aar\6824df7fa76f7b24d6668fbaa0ee525b\AndroidManifest.xml:19:5-78
+MERGED from [com.google.android.gms:play-services-maps:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.0.4.aar\6824df7fa76f7b24d6668fbaa0ee525b\AndroidManifest.xml:19:5-78
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:13:22-76
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:14:5-80
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:14:22-78
+uses-permission#com.google.android.providers.gsf.permission.READ_GSERVICES
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:15:5-97
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:15:22-95
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:17:5-80
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:17:22-78
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:18:5-78
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:18:22-76
+uses-feature#0x00020000
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:20:5-22:38
+MERGED from [com.google.android.gms:play-services-maps:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.0.4.aar\6824df7fa76f7b24d6668fbaa0ee525b\AndroidManifest.xml:21:5-77
+MERGED from [com.google.android.gms:play-services-maps:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.0.4.aar\6824df7fa76f7b24d6668fbaa0ee525b\AndroidManifest.xml:21:5-77
+	android:glEsVersion
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:21:13-45
+	android:required
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:22:13-36
+application
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:24:5-61:19
+MERGED from [:library] C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\library\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-11:19
+MERGED from [:library] C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\library\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-11:19
+MERGED from [com.google.android.gms:play-services-maps:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.0.4.aar\6824df7fa76f7b24d6668fbaa0ee525b\AndroidManifest.xml:24:5-19
+MERGED from [com.google.android.gms:play-services-maps:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.0.4.aar\6824df7fa76f7b24d6668fbaa0ee525b\AndroidManifest.xml:24:5-19
+MERGED from [com.google.android.gms:play-services-base:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.0.4.aar\48006cabacd5f86dec268f507cd369a4\AndroidManifest.xml:18:5-20:19
+MERGED from [com.google.android.gms:play-services-base:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.0.4.aar\48006cabacd5f86dec268f507cd369a4\AndroidManifest.xml:18:5-20:19
+MERGED from [com.google.android.gms:play-services-tasks:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-tasks-11.0.4.aar\a92cce04f9dc238ade0bde7c98f94a9a\AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-tasks:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-tasks-11.0.4.aar\a92cce04f9dc238ade0bde7c98f94a9a\AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-basement:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.0.4.aar\40663e4fbf88472d7e4ba1a6405ea50d\AndroidManifest.xml:19:5-21:19
+MERGED from [com.google.android.gms:play-services-basement:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.0.4.aar\40663e4fbf88472d7e4ba1a6405ea50d\AndroidManifest.xml:19:5-21:19
+MERGED from [com.android.support:support-v4:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-v4-25.2.0.aar\5d3f4913bd8b36ac25675ed40ab18385\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-v4-25.2.0.aar\5d3f4913bd8b36ac25675ed40ab18385\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-fragment-25.2.0.aar\c3d996ecb8ac727a86d7395b685f8e39\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-fragment-25.2.0.aar\c3d996ecb8ac727a86d7395b685f8e39\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-media-compat-25.2.0.aar\eac5f56e1b616abadb0624dfbc804a54\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-media-compat-25.2.0.aar\eac5f56e1b616abadb0624dfbc804a54\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-utils-25.2.0.aar\1ac123f96311cd46de98320a63f9114f\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-utils-25.2.0.aar\1ac123f96311cd46de98320a63f9114f\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-ui-25.2.0.aar\c4fc733f7ad45a261c6530a486f31f34\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-ui-25.2.0.aar\c4fc733f7ad45a261c6530a486f31f34\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-compat-25.2.0.aar\b81df1cc3e4992cd121e1c88cc2c697f\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-compat-25.2.0.aar\b81df1cc3e4992cd121e1c88cc2c697f\AndroidManifest.xml:25:5-20
+	android:label
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:26:13-45
+	android:icon
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:25:13-49
+	android:allowBackup
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:28:13-40
+	android:theme
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:27:13-54
+meta-data#com.google.android.gms.version
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:30:9-32:73
+MERGED from [:library] C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\library\build\intermediates\manifests\full\debug\AndroidManifest.xml:8:9-10:69
+MERGED from [:library] C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\library\build\intermediates\manifests\full\debug\AndroidManifest.xml:8:9-10:69
+MERGED from [com.google.android.gms:play-services-basement:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.0.4.aar\40663e4fbf88472d7e4ba1a6405ea50d\AndroidManifest.xml:20:9-121
+MERGED from [com.google.android.gms:play-services-basement:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.0.4.aar\40663e4fbf88472d7e4ba1a6405ea50d\AndroidManifest.xml:20:9-121
+	android:value
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:32:17-70
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:31:17-62
+meta-data#com.google.android.geo.API_KEY
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:34:9-36:74
+	android:value
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:36:17-72
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:35:17-62
+activity#com.google.maps.android.utils.demo.MainActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:38:9-45:20
+	android:label
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:40:17-49
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:39:17-45
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:41:13-44:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:42:17-68
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:42:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:43:17-76
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:43:27-74
+activity#com.google.maps.android.utils.demo.PolyDecodeDemoActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:47:9-59
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:47:19-57
+activity#com.google.maps.android.utils.demo.PolySimplifyDemoActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:48:9-61
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:48:19-59
+activity#com.google.maps.android.utils.demo.IconGeneratorDemoActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:49:9-62
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:49:19-60
+activity#com.google.maps.android.utils.demo.DistanceDemoActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:50:9-57
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:50:19-55
+activity#com.google.maps.android.utils.demo.ClusteringDemoActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:51:9-59
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:51:19-57
+activity#com.google.maps.android.utils.demo.BigClusteringDemoActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:52:9-62
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:52:19-60
+activity#com.google.maps.android.utils.demo.VisibleClusteringDemoActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:53:9-66
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:53:19-64
+activity#com.google.maps.android.utils.demo.CustomMarkerClusteringDemoActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:54:9-71
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:54:19-69
+activity#com.google.maps.android.utils.demo.TileProviderAndProjectionDemo
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:55:9-66
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:55:19-64
+activity#com.google.maps.android.utils.demo.HeatmapsDemoActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:56:9-57
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:56:19-55
+activity#com.google.maps.android.utils.demo.HeatmapsPlacesDemoActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:57:9-63
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:57:19-61
+activity#com.google.maps.android.utils.demo.GeoJsonDemoActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:58:9-56
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:58:19-54
+activity#com.google.maps.android.utils.demo.KmlDemoActivity
+ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:59:9-52
+	android:name
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml:59:19-50
+uses-sdk
+INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml
+INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml
+MERGED from [:library] C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\library\build\intermediates\manifests\full\debug\AndroidManifest.xml:5:5-44
+MERGED from [:library] C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\library\build\intermediates\manifests\full\debug\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-maps:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.0.4.aar\6824df7fa76f7b24d6668fbaa0ee525b\AndroidManifest.xml:23:5-43
+MERGED from [com.google.android.gms:play-services-maps:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-maps-11.0.4.aar\6824df7fa76f7b24d6668fbaa0ee525b\AndroidManifest.xml:23:5-43
+MERGED from [com.google.android.gms:play-services-base:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.0.4.aar\48006cabacd5f86dec268f507cd369a4\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-base:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.0.4.aar\48006cabacd5f86dec268f507cd369a4\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-tasks:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-tasks-11.0.4.aar\a92cce04f9dc238ade0bde7c98f94a9a\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-tasks:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-tasks-11.0.4.aar\a92cce04f9dc238ade0bde7c98f94a9a\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-basement:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.0.4.aar\40663e4fbf88472d7e4ba1a6405ea50d\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-basement:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.0.4.aar\40663e4fbf88472d7e4ba1a6405ea50d\AndroidManifest.xml:17:5-43
+MERGED from [com.android.support:support-v4:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-v4-25.2.0.aar\5d3f4913bd8b36ac25675ed40ab18385\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-v4:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-v4-25.2.0.aar\5d3f4913bd8b36ac25675ed40ab18385\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-fragment-25.2.0.aar\c3d996ecb8ac727a86d7395b685f8e39\AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-fragment:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-fragment-25.2.0.aar\c3d996ecb8ac727a86d7395b685f8e39\AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-media-compat-25.2.0.aar\eac5f56e1b616abadb0624dfbc804a54\AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-media-compat:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-media-compat-25.2.0.aar\eac5f56e1b616abadb0624dfbc804a54\AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-utils:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-utils-25.2.0.aar\1ac123f96311cd46de98320a63f9114f\AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-core-utils:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-utils-25.2.0.aar\1ac123f96311cd46de98320a63f9114f\AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-core-ui:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-ui-25.2.0.aar\c4fc733f7ad45a261c6530a486f31f34\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-ui:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-core-ui-25.2.0.aar\c4fc733f7ad45a261c6530a486f31f34\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-compat:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-compat-25.2.0.aar\b81df1cc3e4992cd121e1c88cc2c697f\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-compat:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-compat-25.2.0.aar\b81df1cc3e4992cd121e1c88cc2c697f\AndroidManifest.xml:21:5-23:58
+INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml
+INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml
+	tools:overrideLibrary
+		ADDED from [com.android.support:support-v4:25.2.0] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\support-v4-25.2.0.aar\5d3f4913bd8b36ac25675ed40ab18385\AndroidManifest.xml:23:9-51
+	android:targetSdkVersion
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml
+		ADDED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml
+		INJECTED from C:\Users\Timo\AndroidStudioProjects\android-maps-utils-master\demo\AndroidManifest.xml
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.0.4.aar\48006cabacd5f86dec268f507cd369a4\AndroidManifest.xml:19:9-172
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.0.4.aar\48006cabacd5f86dec268f507cd369a4\AndroidManifest.xml:19:146-170
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.0.4.aar\48006cabacd5f86dec268f507cd369a4\AndroidManifest.xml:19:86-145
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:11.0.4] C:\Users\Timo\.gradle\caches\transforms-1\files-1.1\play-services-base-11.0.4.aar\48006cabacd5f86dec268f507cd369a4\AndroidManifest.xml:19:19-85

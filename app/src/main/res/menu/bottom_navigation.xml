@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<!--
+    <item
+        android:id="@+id/nav_info"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="Kundeninfo" />
+-->
+
+    <item
+        android:id="@+id/nav_bezahlung"
+        android:icon="@drawable/ic_bezahlung_neutral"
+        android:title="Bezahlung" />
+
+    <item
+        android:id="@+id/nav_anrufen"
+        android:icon="@drawable/ic_anrufen"
+        android:title="Anufen" />
+    <item
+        android:id="@+id/nav_loeschen"
+        android:icon="@drawable/ic_kunde_inaktiv"
+        android:title="Deaktivieren" />
+
+
+</menu>
