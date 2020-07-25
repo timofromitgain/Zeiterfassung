@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/device/ic_access_time_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/F:/Programme/Android/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_remove_circle_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -33,8 +33,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="f67315" />
-                            <entry key="outputName" value="ic_uhr" />
+                            <entry key="color" value="f60418" />
+                            <entry key="outputName" value="ic_remove" />
                             <entry key="sourceFile" value="C:\Users\Timo" />
                           </map>
                         </option>

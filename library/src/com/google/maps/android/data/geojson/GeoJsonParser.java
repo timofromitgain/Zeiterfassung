@@ -1,6 +1,8 @@
 package com.google.maps.android.data.geojson;
 
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.maps.android.data.Geometry;
@@ -8,8 +10,6 @@ import com.google.maps.android.data.Geometry;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;

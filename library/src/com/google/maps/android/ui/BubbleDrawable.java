@@ -17,7 +17,6 @@
 package com.google.maps.android.ui;
 
 import android.content.res.Resources;
-import android.graphics.*;
 import android.graphics.drawable.Drawable;
 
 import com.google.maps.android.R;

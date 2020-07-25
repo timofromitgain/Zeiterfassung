@@ -1,5 +1,7 @@
 package com.google.maps.android.data.geojson;
 
+import android.graphics.Color;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -8,8 +10,6 @@ import com.google.maps.android.data.Feature;
 import junit.framework.TestCase;
 
 import org.json.JSONObject;
-
-import android.graphics.Color;
 
 public class GeoJsonLayerTest extends TestCase {
     GoogleMap map;

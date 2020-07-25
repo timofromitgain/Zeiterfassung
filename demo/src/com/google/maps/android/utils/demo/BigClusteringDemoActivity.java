@@ -16,17 +16,17 @@
 
 package com.google.maps.android.utils.demo;
 
-import java.io.InputStream;
-import java.util.List;
-
-import org.json.JSONException;
-
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.utils.demo.model.MyItem;
+
+import org.json.JSONException;
+
+import java.io.InputStream;
+import java.util.List;
 
 public class BigClusteringDemoActivity extends BaseDemoActivity {
     private ClusterManager<MyItem> mClusterManager;

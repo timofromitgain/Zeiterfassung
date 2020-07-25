@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ndroid="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvArbeitszeit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Arbeitszeit:"
+            android:textSize="18dp"
+            android:textStyle="bold"></TextView>
+
+        <Spinner
+            android:id="@+id/spin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:textSize="18dp"
+            android:paddingLeft="180dp"
+            style="@style/mySpinnerItemStyle"
+
+            android:entries="@array/Wochentage"></Spinner>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tvPause"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_weight="2"
+        android:text="Pause: 6:00 - 6:15 \n 14:00 - 14:30"
+        android:visibility="gone"></TextView>
+
+
+
+
+    <View
+        android:paddingTop="15dp"
+        style="@style/dividerHorizontalDick" />
+
+
+
+    <ListView
+        android:id="@+id/lvTaetigkeitsbericht"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="10"
+        android:paddingTop="15dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:background="@color/grau_hell"
+        android:orientation="horizontal">
+        <Button
+            android:visibility="gone"
+            android:gravity="center_horizontal"
+            android:id="@+id/btnsendn"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:textAlignment="center"
+            android:background="@color/gruen_hell"
+            android:textSize="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Senden"></Button>
+
+
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
