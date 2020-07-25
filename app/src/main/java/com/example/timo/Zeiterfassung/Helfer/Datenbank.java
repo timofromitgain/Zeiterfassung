@@ -69,6 +69,7 @@ public class Datenbank extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor;
         cursor = db.rawQuery(sql, listArgument);
+        Log.i("cursor",String.valueOf(cursor.getCount()));
         return cursor;
     }
 
@@ -94,10 +95,11 @@ public class Datenbank extends SQLiteOpenHelper {
 
 
     public void einfuegen(ContentValues daten, String tabelle) {
-
-
-            long a = db.insert(tabelle, null, daten);
-            Log.d("Firemire","a ist: " + String.valueOf(a));
+        DatenbankHelfer dbHelfer = new DatenbankHelfer();
+//        int n = (int) dbHelfer.ermittleAnzahlKunden(false);
+   //     Log.d("calloneme","n ist: " + String.valueOf(n));
+             db.insert(tabelle, null, daten);
+  //      Log.d("a ist ","a ist: " + String.valueOf(a));
             String gg = "";
 
 
@@ -108,7 +110,8 @@ public class Datenbank extends SQLiteOpenHelper {
 
     public void loesche(String tabelle, String bedingung, String[] listArgument) {
         SQLiteDatabase db = getWritableDatabase();
-        db.delete(tabelle, bedingung, listArgument);
+     int a =    db.delete(tabelle, bedingung, listArgument);
+     Log.d("callonme", "löschen: " + String.valueOf(a));
     }
 
 

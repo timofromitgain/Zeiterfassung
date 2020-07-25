@@ -43,9 +43,11 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -67,6 +69,7 @@ import java.util.HashMap;
  */
 public class LocationUpdatesService extends Service {
 static HashMap<String,Integer> locIntervalls;
+static ArrayList<LatLng> listGeo = new ArrayList<LatLng>();
 Float acc;
 Integer wert;
 String key;
@@ -339,7 +342,7 @@ String key;
 
         mLocation = location;
         acc = mLocation.getAccuracy();
-
+        listGeo.add(new LatLng(mLocation.getLatitude(),mLocation.getLongitude()));
         if (acc<5){
             key = "unter 5";
         }else if (acc<10){

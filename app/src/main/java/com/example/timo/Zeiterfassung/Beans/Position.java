@@ -22,8 +22,7 @@ public class Position implements Serializable, Comparable<Position> {
     String arbeitsZeitBeginnStdGerundet, arbeitsZeitBeginnMinGerundet, arbeitsZeitEndeStdGerundet, arbeitsZeitEndeMinGerundet;
 
 
-
-    Integer pause1=0,pause2=0;
+    Integer pause1 = 0, pause2 = 0;
     int minGesamt1;
     int minGesamt2;
     public static ArrayList<Position> listPosition;
@@ -66,6 +65,7 @@ public class Position implements Serializable, Comparable<Position> {
     public Kunde getKundeVorher() {
         return kundeVorher;
     }
+
     public Integer getPause1() {
         return pause1;
     }
@@ -325,8 +325,9 @@ public class Position implements Serializable, Comparable<Position> {
         String start = startStunde + ":" + startMinute;
         int pauseGesamt = pause1 + pause2;
         String ende = endeStunde + ":" + endeMinute;
-        return "Start: " + start + " Uhr" + "\n" + "Ende: " + ende + " Uhr" + "\n" + arbeitsZeitStr + "\nPause: " + pauseGesamt + " Minuten";
-      //  return "Start: " + start + " Uhr" + "\n" + "Ende: " + ende + " Uhr" + "\n" + arbeitsZeitStr;
+  //      return "Start: " + start + " Uhr" + "\n" + "Ende: " + ende + " Uhr" + "\n" + arbeitsZeitStr + "\nPause: " + pauseGesamt + " Minuten";
+        return "Start: " + start + " Uhr" + "\n" + "Ende: " + ende + " Uhr" + "\n" + arbeitsZeitStr;
+        //  return "Start: " + start + " Uhr" + "\n" + "Ende: " + ende + " Uhr" + "\n" + arbeitsZeitStr;
 
     }
 
@@ -419,13 +420,19 @@ public class Position implements Serializable, Comparable<Position> {
     }
 
     public String getArbeitszeitGesamt(ArrayList<Position> listPosition, Date dPauseStart, Date dPauseEnde, Date dPauseStart2, Date dPauseEnde2) {
+
+        if (listPosition.size() == 0){
+            return "0";
+        }
+
         Double arbeitszeit = 0.00;
         int abzug = 0;
 
         //Pause kalkurieren
-        setPostionPause1(listPosition,dPauseStart,dPauseEnde,true);
-        setPostionPause1(listPosition,dPauseStart2,dPauseEnde2,false);
-
+        if (dPauseStart!= null){
+            setPostionPause1(listPosition, dPauseStart, dPauseEnde, true);
+            setPostionPause1(listPosition, dPauseStart2, dPauseEnde2, false);
+        }
 
 
 
@@ -473,8 +480,8 @@ public class Position implements Serializable, Comparable<Position> {
         long mil2 = 0;
         Date d1 = new Date();
         long t = d1.getTime();
-        arbeitszeit = ermittleArbeitsZeitPosition(listPosition.get(0).getStartTime().getTime(),listPosition.get(listPosition.size()-1).getEndTime().getTime());
-        milTime = listPosition.get(listPosition.size()-1).getEndTime().getTime().getTime() - listPosition.get(0).getStartTime().getTime().getTime();
+        arbeitszeit = ermittleArbeitsZeitPosition(listPosition.get(0).getStartTime().getTime(), listPosition.get(listPosition.size() - 1).getEndTime().getTime());
+        milTime = listPosition.get(listPosition.size() - 1).getEndTime().getTime().getTime() - listPosition.get(0).getStartTime().getTime().getTime();
         milTime = milTime - (pause * 60000);
         /*
         for (int i = 0; i < listPosition.size(); i++) {
@@ -502,10 +509,10 @@ public class Position implements Serializable, Comparable<Position> {
         try {
             //Pausen abziehen
             abzug = 0;
-            for (int i = 0;i<listPosition.size();i++){
+            for (int i = 0; i < listPosition.size(); i++) {
                 abzug = abzug + ((listPosition.get(i).getPause1() + listPosition.get(i).getPause2()) * 60000);
             }
-            milTime = (milTime -abzug) / 60000;
+            milTime = (milTime - abzug) / 60000;
             std2 = (int) milTime / 60;
             min2 = (int) milTime % 60;
             //      iMin = Integer.parseInt(min);
@@ -514,6 +521,9 @@ public class Position implements Serializable, Comparable<Position> {
             // dbIminNe = iMinNeu / 100;
             // arbeitszeit = Double.valueOf(iStdNeu) + (Double.valueOf(iMinNeu)/100);
             arbeitszeit = Double.valueOf(std2) + (Double.valueOf(min2) / 100);
+            if (arbeitszeit<0){
+                arbeitszeit = 0.0;
+            }
             strAzeitOutput = formatArbeitszeit(arbeitszeit);
 
         } catch (NumberFormatException e) {
@@ -521,6 +531,7 @@ public class Position implements Serializable, Comparable<Position> {
             return "-" +
                     "999";
         }
+
         return strAzeitOutput;
     }
 
@@ -663,6 +674,7 @@ public class Position implements Serializable, Comparable<Position> {
         return (double) tmp / factor;
     }
 
+
     public ArrayList<Position> getListPositionOhneAusreisser(ArrayList<Position> listPosition) {
         ArrayList<Position> listPositionOhneAusreisser = new ArrayList<Position>();
         Double zeitPosition;
@@ -671,9 +683,10 @@ public class Position implements Serializable, Comparable<Position> {
 
         for (int i = 0; i < listPosition.size(); i++) {
             Position position = listPosition.get(i);
+            Log.d("catchfehler", "index: " + String.valueOf(i));
             zeitPosition = ermittleArbeitsZeitPosition(listPosition.get(i).getStartTime().getTime(), listPosition.get(i).getEndTime().getTime());
 
-            if (zeitPosition < 0.05 ) {
+            if (zeitPosition < 0.02) {
                 listPosition.get(i).setArbeitszeitMinuten(9999);
                 Log.d("zeitmao", String.valueOf(zeitPosition));
             }
@@ -689,8 +702,10 @@ public class Position implements Serializable, Comparable<Position> {
                 Log.d("zeitmao", String.valueOf(ix));
                 listPosition.remove(ix);
                 ix = 0;
+            } else {
+                ix++;
             }
-            ix++;
+
         }
 
         return listPosition;
@@ -707,9 +722,11 @@ public class Position implements Serializable, Comparable<Position> {
         boolean esWirdWasGeloescht = false;
         Boolean istKunde = false;
         Calendar endTime = Calendar.getInstance();
+    if (listPosition.size() != 0){
+
 
         while (index != listPosition.size() || duplikat) {
-            istKunde = listPosition.get(index-1).getKunde() != null && listPosition.get(index).getKunde() != null;
+            istKunde = listPosition.get(index - 1).getKunde() != null && listPosition.get(index).getKunde() != null;
             if (istKunde && listPosition.get(index - 1).getKunde().getStrasse()
                     .equals(listPosition.get(index).getKunde().getStrasse())) {
                 index2 = index - 1;
@@ -732,7 +749,6 @@ public class Position implements Serializable, Comparable<Position> {
                         index3 = index;
 
 
-
                     }
 
                 }
@@ -750,6 +766,63 @@ public class Position implements Serializable, Comparable<Position> {
                 index++;
             }
 
+        }}
+        return listPosition;
+    }
+
+    public ArrayList<Position> getListPositonOhneDuplikateSonstiges(ArrayList<Position> listPosition) {
+        int index = 0;
+        int indexCurrent = 0;
+        int indexEnde;
+        int count = 0;
+        Boolean posDuplikateFahrtzeitGefunden = false;
+        Boolean posIsFahrtzeit;
+        Boolean posNextIsFahrtzeit;
+        Boolean endeDuplikat = false;
+        Boolean isDuplikat = false;
+        Calendar endTime = Calendar.getInstance();
+
+
+     //   while (index != listPosition.size() -1 ||  !posDuplikateFahrtzeitGefunden) {
+        if (listPosition.size() != 0){
+
+
+        while (index != listPosition.size() -1 ) {
+            posIsFahrtzeit = listPosition.get(index).getKunde() == null;
+            posNextIsFahrtzeit = listPosition.get(index + 1).getKunde() == null;
+            if (posIsFahrtzeit && posNextIsFahrtzeit) {
+                indexCurrent = index + 1;
+                count = 0;
+                while (indexCurrent != listPosition.size()-1 && !endeDuplikat) {
+                    isDuplikat = listPosition.get(indexCurrent).getKunde() == null;
+                    if (isDuplikat) {
+                        indexCurrent++;
+                        count++;
+                    } else {
+                        endeDuplikat = true;
+                  //      indexCurrent--;
+
+                    }
+
+
+                }
+                indexCurrent--;
+                endTime = listPosition.get(indexCurrent).getEndTime();
+                listPosition.get(index).setEndTime(endTime);
+                //Duplikate löschen
+                indexCurrent = index + 1;
+                for (int i = 0; i < count; i++) {
+                    listPosition.remove(indexCurrent);
+                }
+                index++;
+                endeDuplikat = false;
+                posDuplikateFahrtzeitGefunden = true;
+            } else {
+                index++;
+            }
+
+        }
+
         }
         return listPosition;
     }
@@ -758,19 +831,35 @@ public class Position implements Serializable, Comparable<Position> {
         int index = 0;
         boolean posionFirma = false;
         boolean positionKunde = false;
+        boolean posKunde = false;
         Kunde kunde;
+        Log.d("changeevent", "evt: " + String.valueOf(listPosition.size()));
+
+        if (listPosition.size() ==1){
+            if (listPosition.get(0).getKunde() != null){
+                return listPosition;
+            }
+        }
+
+
+
+
         //Lösche alle Positionen VOR Firma
-        while (!posionFirma) {
+        while (!posKunde && index < listPosition.size()) {
             kunde = listPosition.get(index).getKunde();
-            if (kunde != null) {
-                if (kunde.getFirma().equals("Firma")) {
-                    Log.d("ix", String.valueOf(index));
-                    posionFirma = true;
-                }
+            if (kunde != null && !kunde.getFirma().equals("Zuhause")) {
+                posKunde = true;
+
+      //          if (kunde.getFirma().equals("Firma")) {
+        //            Log.d("ix", String.valueOf(index));
+          //          posionFirma = true;
+            //    }
 
             }
             index++;
         }
+
+
         index--;
 
         for (int i = 0; i < index; i++) {
@@ -783,10 +872,11 @@ public class Position implements Serializable, Comparable<Position> {
         posionFirma = false;
 
 
-        while (!posionFirma && !positionKunde) {
+        while (!posionFirma && !positionKunde && (index > -1 && index < listPosition.size())) {
             kunde = listPosition.get(index).getKunde();
             Log.d("filt", String.valueOf(kunde));
-            if (kunde != null) {
+            //Wenn Kunde
+            if (kunde != null && !kunde.getFirma().equals("Zuhause")) {
                 Log.d("filt", String.valueOf(kunde.getFirma()));
                 if (kunde.getFirma().equals("Firma")) {
                     posionFirma = true;
@@ -795,12 +885,15 @@ public class Position implements Serializable, Comparable<Position> {
                 }
 
             }
+
+
             index--;
         }
         index = index + 2;
+        int size = listPosition.size();
         Log.d("ix", "ix ist: " + String.valueOf(index));
         Log.d("ix", "size ist: " + String.valueOf(listPosition.size()));
-        for (int i = index; i < listPosition.size(); i++) {
+        for (int i = index; i < size; i++) {
             listPosition.remove(index);
         }
 
@@ -808,7 +901,7 @@ public class Position implements Serializable, Comparable<Position> {
         return listPosition;
     }
 
-    private void setPostionPause1 (ArrayList<Position> listPosition, Date pAnfang, Date pEnde, Boolean pause_1){
+    private void setPostionPause1(ArrayList<Position> listPosition, Date pAnfang, Date pEnde, Boolean pause_1) {
 
         int stdPosEnde;
         int minPosEnde;
@@ -854,9 +947,9 @@ public class Position implements Serializable, Comparable<Position> {
 
 
             pauseInZeit = pauseIstInPosition(cPauseBegin, cPauseEnde, cPositionAnfang, cPositionEnde);
-            Log.d("Pause: ",String.valueOf(pauseInZeit));
+            Log.d("Pause: ", String.valueOf(pauseInZeit));
             if (pauseInZeit) {
-             int abz = 0;
+                int abz = 0;
                 stdPosEnde = listPosition.get(j).getArbeitsZeitStunden();
                 minPosEnde = listPosition.get(j).getArbeitszeitMinuten();
                 stdPosAnfang = listPosition.get(j).getArbeitsZeitStunden();
@@ -872,7 +965,7 @@ public class Position implements Serializable, Comparable<Position> {
 
 
                     abz = minPauseEnde - minPosAnfang;
-Log.d("Pause","1");
+                    Log.d("Pause", "1");
                     if (abz < 0) {
                         abz = abz * (-1);
                     }
@@ -888,8 +981,8 @@ Log.d("Pause","1");
 
                     differenz = cPositionAnfang.getTime().getTime() - cPauseBegin.getTime().getTime();
                     dif2 = (cPauseEnde.getTime().getTime() - cPauseBegin.getTime().getTime()) - differenz;
-                    abz = (int) dif2/60000;
-                    Log.d("Pause","2");
+                    abz = (int) dif2 / 60000;
+                    Log.d("Pause", "2");
 
                 }
                 //Fall 3
@@ -900,7 +993,7 @@ Log.d("Pause","1");
                     abz = difStd + difMin;
                     if (abz < 0) {
                         abz = abz * (-1);
-                        Log.d("Pause","3");
+                        Log.d("Pause", "3");
                     }
                     //  minGesamt = minGesamt - abzug;
 
@@ -909,10 +1002,10 @@ Log.d("Pause","1");
                 else if (cPositionAnfang.compareTo(cPauseBegin) < 0 && cPositionEnde.compareTo(cPauseEnde) < 0) {
                     long differenz;
                     long dif2;
-                    Log.d("Pause","4");
+                    Log.d("Pause", "4");
                     differenz = cPauseEnde.getTime().getTime() - cPositionEnde.getTime().getTime();
                     dif2 = (cPauseEnde.getTime().getTime() - cPauseBegin.getTime().getTime()) - differenz;
-                    abz = (int) dif2/60000;
+                    abz = (int) dif2 / 60000;
 
                 }
 
@@ -920,13 +1013,12 @@ Log.d("Pause","1");
                 minNeu = minGesamt % 60;
                 listPosition.get(j).setArbeitsZeitStunden(stdNeu);
                 listPosition.get(j).setArbeitszeitMinuten(minNeu);
-             if (pause_1){
-                 listPosition.get(j).setPause1(abz);
-                 Log.d("Pause",String.valueOf(abz));
-             }else{
-                 listPosition.get(j).setPause2(abz);
-             }
-
+                if (pause_1) {
+                    listPosition.get(j).setPause1(abz);
+                    Log.d("Pause", String.valueOf(abz));
+                } else {
+                    listPosition.get(j).setPause2(abz);
+                }
 
 
             }
@@ -936,10 +1028,21 @@ Log.d("Pause","1");
 
     }
 
+    public Boolean istKundeInListe(ArrayList<Position> listPosition){
+        boolean istKunde = false;
+        int index = 0;
+        while (index != listPosition.size()){
+            if (listPosition.get(index).getKunde() != null){
+                return true;
+            }else{
+                index++;
+            }
+        }
+        return false;
+    }
 
 
-
-    private void setPostionPause2 (ArrayList<Position> listPosition, Date pAnfang, Date pEnde){
+    private void setPostionPause2(ArrayList<Position> listPosition, Date pAnfang, Date pEnde) {
 
         int stdPosEnde;
         int minPosEnde;
@@ -980,7 +1083,7 @@ Log.d("Pause","1");
 
 
             pauseInZeit = pauseIstInPosition(cPauseBegin, cPauseEnde, cPositionAnfang, cPositionEnde);
-            Log.d("Pause: ",String.valueOf(pauseInZeit));
+            Log.d("Pause: ", String.valueOf(pauseInZeit));
             if (pauseInZeit) {
                 int abz = 0;
                 stdPosEnde = listPosition.get(j).getArbeitsZeitStunden();
@@ -1014,7 +1117,7 @@ Log.d("Pause","1");
 
                     differenz = cPositionAnfang.getTime().getTime() - cPauseBegin.getTime().getTime();
                     dif2 = (cPauseEnde.getTime().getTime() - cPauseBegin.getTime().getTime()) - differenz;
-                    abz = (int) dif2/60000;
+                    abz = (int) dif2 / 60000;
 
                 }
                 //Fall 3
@@ -1036,7 +1139,7 @@ Log.d("Pause","1");
 
                     differenz = cPauseEnde.getTime().getTime() - cPositionEnde.getTime().getTime();
                     dif2 = (cPauseEnde.getTime().getTime() - cPauseBegin.getTime().getTime()) - differenz;
-                    abz = (int) dif2/60000;
+                    abz = (int) dif2 / 60000;
 
                 }
 

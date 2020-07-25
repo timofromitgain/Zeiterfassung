@@ -1,25 +1,18 @@
 package com.example.timo.Zeiterfassung.Activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Binder;
-import android.os.IBinder;
+import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.timo.Zeiterfassung.Beans.Position;
 import com.example.timo.Zeiterfassung.Dialog.DialogZeit;
-import com.example.timo.Zeiterfassung.Helfer.Kunde;
-import com.example.timo.Zeiterfassung.Helfer.LocationService;
-import com.example.timo.Zeiterfassung.Interface.DialogAdresseInterface;
 import com.example.timo.Zeiterfassung.Interface.IdialogZeit;
 import com.example.timo.Zeiterfassung.Interface.Iposition;
 import com.example.timo.Zeiterfassung.R;
@@ -38,6 +31,9 @@ Boolean startTime = false;
     private Iposition listenerPosition;
     Position position;
     Position positionNeu;
+
+
+
 
     @Override
     public void onBackPressed() {

@@ -1,53 +1,58 @@
 package com.example.timo.Zeiterfassung.Activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.timo.Zeiterfassung.Beans.Position;
-import com.example.timo.Zeiterfassung.Dialog.DialogDbErsetzen;
+import com.example.timo.Zeiterfassung.Dialog.DialogBerichtMessage;
+import com.example.timo.Zeiterfassung.Fragment.Heute;
+import com.example.timo.Zeiterfassung.Fragment.Woche;
 import com.example.timo.Zeiterfassung.Helfer.DatenbankHelfer;
 import com.example.timo.Zeiterfassung.Helfer.Datum;
+import com.example.timo.Zeiterfassung.Helfer.Dummy;
+import com.example.timo.Zeiterfassung.Helfer.FragmentAdapter;
 import com.example.timo.Zeiterfassung.Helfer.Kunde;
 import com.example.timo.Zeiterfassung.Helfer.ListViewPositionAdapter;
 import com.example.timo.Zeiterfassung.Helfer.ListViewPositionSonstiges;
+import com.example.timo.Zeiterfassung.Helfer.TaetigkeitsberichtUtil;
 import com.example.timo.Zeiterfassung.Interface.DialogDatenbankInterface;
+import com.example.timo.Zeiterfassung.Interface.DialogMessage;
+import com.example.timo.Zeiterfassung.Interface.IBericht;
+import com.example.timo.Zeiterfassung.Interface.ITaetigkeitsbericht;
 import com.example.timo.Zeiterfassung.R;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
-import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 
 import static com.example.timo.Zeiterfassung.Beans.Position.comparatorPosition;
 
-public class Taetigkeitsbericht extends AppCompatActivity implements Serializable, DialogDatenbankInterface {
+public class Taetigkeitsbericht extends AppCompatActivity implements Serializable, DialogDatenbankInterface, DialogMessage, ITaetigkeitsbericht, IBericht {
     boolean taetigkeitsberichtNichtAbgeschlossen;
     int adapterPosition;
-    FloatingActionButton fab;
+
+    MainActivity mainActivity = MainActivity.mainActivity;
     String wochentag;
     ListView lv, lv2;
-    Spinner spinner;
     TextView tvArbeitszeit, tvPause;
     ListViewPositionAdapter adapter;
     ListViewPositionSonstiges adapterSonstges;
@@ -68,310 +73,120 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
     Date dPauseBeginn, dPauseEnde, dPauseBegin2, dPauseEnde2;
     DatenbankHelfer dbHelfer;
     FirebaseHandler firebaseHandler;
-    public BroadcastReceiver receiverPosition = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            Position position = (Position) intent.getSerializableExtra("Position");
-            // füge weitere Informationen hinzu
-
-            ArrayList<Position> zwischenListe = new ArrayList<Position>();
-            listPosition.set(posClickId, position);
-            Position[] listPos = new Position[listPosition.size()];
-            //Zeitliche sortierung
-            for (int l = 0; l < listPosition.size(); l++) {
-                listPos[l] = listPosition.get(l);
-            }
-
-            Arrays.sort(listPos, comparatorPosition);
-            zwischenListe = listToArraylist(listPos);
-            listPosition.clear();
-            listPosition.addAll(zwischenListe);
-
-            arbeitszeit = new Position("").getArbeitszeitGesamt(listPosition, dPauseBeginn, dPauseEnde,dPauseBegin2,dPauseEnde2);
-            if (arbeitszeit.equals("-999")) {
-                Toast.makeText(Taetigkeitsbericht.this, "FEHLER BEIM PARSEN!!!", Toast.LENGTH_LONG).show();
-            } else {
-                tvArbeitszeit.setText("Arbeitszeit: " + arbeitszeit);
-                adapter.notifyDataSetChanged();
-            }
-
-        }
-
-    };
-    public BroadcastReceiver receiverNeuePosition = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            ArrayList<Position> zwischenListe = new ArrayList<Position>();
-            Position position = (Position) intent.getSerializableExtra("Position");
-            // Position position = (Position) bundle.getSerializable("Position");
-
-            if (position.getNamePosition().equals("Kunde")) {
-                if (!position.getKunde().getFirma().equals("Firma")){
-                    int index = 0;
-                    while (position.getKunde().getFirma().equals(listAlleKunden.get(index).getFirma())) {
-                        index++;
-                    }
-                    position.getKunde().setStrasse(listPosition.get(index).getKunde().getStrasse());
-                    position.getKunde().setStadt(listPosition.get(index).getKunde().getStadt());
-                    position.getKunde().setAuswahlTaetigkeit("TEST");
-                }else{
-                    position.getKunde().setStrasse("Holthausstraße 20");
-                    position.getKunde().setStadt("Dinklage");
-                    position.getKunde().setAuswahlTaetigkeit("TEST");
-                }
-
-            }
-
-            listPosition.add(position);
-            Log.d("guckn", String.valueOf(listPosition.size()));
-
-            Position[] listPos = new Position[listPosition.size()];
-            //Zeitliche sortierung
-            for (int l = 0; l < listPosition.size(); l++) {
-                listPos[l] = listPosition.get(l);
-            }
-
-            Arrays.sort(listPos, comparatorPosition);
-            zwischenListe = listToArraylist(listPos);
-            listPosition.clear();
-            listPosition.addAll(zwischenListe);
-            //     listPosition = listToArraylist(listPos);
-
-            arbeitszeit = new Position("").getArbeitszeitGesamt(listPosition, dPauseBeginn, dPauseEnde,dPauseBegin2,dPauseEnde2);
-            if (arbeitszeit.equals("-999")) {
-                Toast.makeText(Taetigkeitsbericht.this, "FEHLER BEIM PARSEN!!!", Toast.LENGTH_LONG).show();
-            } else {
-                Log.d("guckn", String.valueOf(listPosition.size()));
-                tvArbeitszeit.setText("Arbeitszeit: " + arbeitszeit);
-                adapter.notifyDataSetChanged();
-            }
-
-        }
-
-    };
+    public static Taetigkeitsbericht taetigkeitsbericht;
+    private NavigationView bottomNavigationView;
     Button btnSenden;
+    private Boolean berichtHeute = false;
+
+    private ViewPager viewPager;
+    private FragmentAdapter fragmentAdapter;
+
+    private Heute fragmentHeute;
+    private Heute listenerHeute;
+    private Woche listenerWoche;
+    private Woche fragmentWoche;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_taetigkeitsbericht);
+        taetigkeitsbericht = this;
+        viewPager = findViewById(R.id.pager);
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        initialisiereViewPager(viewPager);
+
+        listenerHeute = Heute.heute;
         dbHelfer = new DatenbankHelfer(Taetigkeitsbericht.this);
         firebaseHandler = new FirebaseHandler();
+        taetigkeitsbericht = this;
 
-        //      Log.d("testtest",String.valueOf(listPosition.size()));
-
-        try {
-            fab = findViewById(R.id.btnAddPosition);
-            listPosition = new ArrayList<Position>();
-            LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(receiverPosition, new IntentFilter("rPosition"));
-            LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(receiverNeuePosition, new IntentFilter("neuePosition"));
-            lv = findViewById(R.id.lvTaetigkeitsbericht);
-            btnSenden = (Button) findViewById(R.id.btnsendn);
-            listPositionAktuell = new ArrayList<Position>();
-            listAlleKunden = new ArrayList<Kunde>();
-            listAlleKunden = dbHelfer.getListKunde();
-            adapter = new ListViewPositionAdapter(getApplicationContext(), R.layout.item_position, listPosition);
-            lv.setAdapter(adapter);
-            registerForContextMenu(lv);
+        listPosition = new ArrayList<Position>();
 
 
-            dPauseBeginn = new Date();
-            dPauseEnde = new Date();
-            dPauseBegin2 = new Date();
-            dPauseEnde2 = new Date();
-
-            dPauseBeginn.setHours(9);
-            dPauseBeginn.setMinutes(0);
-            dPauseBeginn.setSeconds(0);
-
-            dPauseEnde.setHours(9);
-            dPauseEnde.setMinutes(15);
-            dPauseEnde.setSeconds(0);
-
-            dPauseBegin2.setHours(12);
-            dPauseBegin2.setMinutes(35);
-            dPauseBegin2.setSeconds(0);
-
-            dPauseEnde2.setHours(13);
-            dPauseEnde2.setMinutes(20);
-            dPauseEnde2.setSeconds(0);
+        listPositionAktuell = new ArrayList<Position>();
+        //    listAlleKunden = new ArrayList<Kunde>();
+        //      listAlleKunden = dbHelfer.getListKunde();
 
 
+        dPauseBeginn = new Date();
+        dPauseEnde = new Date();
+        dPauseBegin2 = new Date();
+        dPauseEnde2 = new Date();
 
-            final Position posGesamt = new Position("");
-            final Bundle extras = getIntent().getExtras();
-            taetigkeitsberichtNichtAbgeschlossen = extras.getBoolean("taetigkeitsbericht");
+        dPauseBeginn.setHours(9);
+        dPauseBeginn.setMinutes(0);
+        dPauseBeginn.setSeconds(0);
+
+        dPauseEnde.setHours(9);
+        dPauseEnde.setMinutes(15);
+        dPauseEnde.setSeconds(0);
+
+        dPauseBegin2.setHours(12);
+        dPauseBegin2.setMinutes(35);
+        dPauseBegin2.setSeconds(0);
+
+        dPauseEnde2.setHours(13);
+        dPauseEnde2.setMinutes(20);
+        dPauseEnde2.setSeconds(0);
 
 
+        final Position posGesamt = new Position("");
+        final Bundle extras = getIntent().getExtras();
+        taetigkeitsberichtNichtAbgeschlossen = extras.getBoolean("taetigkeitsbericht");
+        berichtHeute = extras.getBoolean("berichtHeute");
 
-            tvArbeitszeit = findViewById(R.id.tvArbeitszeit);
 
-            spinner = findViewById(R.id.spin);
-            tvPause = findViewById(R.id.tvPause);
-            listPos2 = new ArrayList<Position>();
-            listSplit = new ArrayList<ArrayList<Position>>();
-            //DUMMY
-       //     Dummy dummy = new Dummy();
-         //   listPositionGesamt = dummy.getDummyList();
-            listPositionGesamt = (ArrayList<Position>) extras.getSerializable("listPosition");
-            Log.d("posSize",String.valueOf(listPositionGesamt.size()));
-            if (taetigkeitsberichtNichtAbgeschlossen){
-                btnSenden.setVisibility(View.GONE);
-                fab.setVisibility(View.GONE);
-                spinner.setVisibility(View.VISIBLE);
+        listPos2 = new ArrayList<Position>();
+        listSplit = new ArrayList<ArrayList<Position>>();
+        //DUMMY
+        Dummy dummy = new Dummy();
+        //   listPositionGesamt = dummy.getDummyList3();
+        listPositionGesamt = (ArrayList<Position>) extras.getSerializable("listPosition");
+
+        //Tracking gestartet
+        TaetigkeitsberichtUtil taetigkeitsberichtUtil = new TaetigkeitsberichtUtil();
+        if (listPositionGesamt != null && listPositionGesamt.size() > 0) {
+            listPositionGefiltert = posGesamt.getListPositionOhneAusreisser(listPositionGesamt);
+            //    listPositionGefiltert = listPositionGesamt;
+            listPositionOhneDuplikate = taetigkeitsberichtUtil.sortiereListe(listPositionGefiltert, listPositionGesamt);
+
+            listPos2 = posGesamt.getListPositonOhneDuplikate(listPositionOhneDuplikate);
+            listPos2 = posGesamt.getListPositonOhneDuplikateSonstiges(listPos2);
+            listPos2 = posGesamt.getGueltigePositionen(listPos2);
+            listPosition.clear();
+            listPosition.addAll(listPos2);
+            Log.i("posSize", String.valueOf(listPosition.size()));
+
+            // listPosition = listPositionGueltig;
+            // erstellen einer Kopie des aktuellen Berichts
+            for (int i = 0; i < listPosition.size(); i++) {
+                listPositionAktuell.add(listPosition.get(i));
             }
-            if (listPositionGesamt != null) {
-           //     listPositionGefiltert = posGesamt.getListPositionOhneAusreisser(listPositionGesamt);
-                listPositionGefiltert = listPositionGesamt;
-            //    listPositionGueltig = posGesamt.getGueltigePositionen(listPositionGefiltert);
-
-                listPositionOhneDuplikate = sortiereListe(listPositionGefiltert);
-
-                listPos2 = posGesamt.getListPositonOhneDuplikate(listPositionOhneDuplikate);
-                listPosition.clear();
-                listPosition.addAll(listPos2);
-
-                // listPosition = listPositionGueltig;
-                // erstellen einer Kopie des aktuellen Berichts
-                for (int i = 0; i < listPosition.size(); i++) {
-                    listPositionAktuell.add(listPosition.get(i));
-                }
-                //ARBEITSZEIT
-                String arbeitszeit = posGesamt.getArbeitszeitGesamt(listPosition, dPauseBeginn, dPauseEnde,dPauseBegin2,dPauseEnde2);
+            //ARBEITSZEIT
+            String arbeitszeit = posGesamt.getArbeitszeitGesamt(listPosition, dPauseBeginn, dPauseEnde, dPauseBegin2, dPauseEnde2);
 
 
-
-
-                if (arbeitszeit.equals("-999")) {
-                    Toast.makeText(Taetigkeitsbericht.this, "FEHLER BEIM PARSEN!!!", Toast.LENGTH_LONG).show();
-                } else {
-                    listPosition = Position.listPosition;
-                    DecimalFormat formatDouble = new DecimalFormat("#.##");
-                    tvArbeitszeit.setText("Arbeitszeit: " + arbeitszeit);
-                }
+            if (arbeitszeit.equals("-999")) {
+                Toast.makeText(Taetigkeitsbericht.this, "FEHLER BEIM PARSEN!!!", Toast.LENGTH_LONG).show();
+            } else {
+                listPosition = Position.listPosition;
+                DecimalFormat formatDouble = new DecimalFormat("#.##");
+                // tvArbeitszeit.setText("Arbeitszeit: " + arbeitszeit);
+             //   listenerHeute.onListPosFiltered(listPosition);
             }
-            //   tvPause.setText("Pause: 09:00 Uhr - 09:15 Uhr\n12:00 Uhr - 12:30");
-
-
-            btnSenden.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Position position = new Position("");
-                    Boolean istZeitüberschneidung = position.istZeitüberschneidung(listPosition);
-                    istZeitüberschneidung = false;
-
-                    if (istZeitüberschneidung) {
-                        Toast.makeText(Taetigkeitsbericht.this, "Nicht möglich aufgrund von Zeitüberschneidungen", Toast.LENGTH_LONG).show();
-                    } else {
-                        String wochentag = dbHelfer.getWochentag();
-                        if (!wochentag.equals("SONNTAG")){
-                            String jsonArray = dbHelfer.getBerichtWochentag(wochentag);
-                            isTaetigkeitsbericht = String.valueOf(jsonArray.charAt(0)).equals("[");
-                            if (isTaetigkeitsbericht) {
-                                Bundle daten = new Bundle();
-                                DialogDbErsetzen dialog = new DialogDbErsetzen();
-                                dialog.setArguments(daten);
-                                dialog.show(getSupportFragmentManager(), "dia");
-
-                            } else {
-                                setNewTaetigkeitsbericht();
-                            }
-                        }else{
-                            Toast.makeText(Taetigkeitsbericht.this, "Nicht an einem Sonntag möglich", Toast.LENGTH_LONG).show();
-                        }
-
-
-
-                    }
-
-                }
-
-
-            });
-
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getApplicationContext(), AddPosition.class);
-                    startActivity(intent);
-                    //    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    //          .setAction("Action", null).show();
-                }
-            });
-            //Auswahl nach was sortiert werden soll
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    try {
-                         wochentag = adapterView.getSelectedItem().toString().toUpperCase();
-
-                        if (!wochentag.equals("AKTUELL")) {
-                            String jsonArray = dbHelfer.getBerichtWochentag(wochentag);
-                            isTaetigkeitsbericht = String.valueOf(jsonArray.charAt(0)).equals("[");
-                            if (isTaetigkeitsbericht) {
-                                Type listType = new TypeToken<ArrayList<Position>>() {
-                                }.getType();
-                                listPositionWochentag = new Gson().fromJson(jsonArray, listType);
-                                listPosition.clear();
-                                adapter.clear();
-                                //         adapter.notifyDataSetChanged();
-                                //       adapter = new ListViewPositionAdapter(getApplicationContext(), R.layout.item_position, listPosition);
-                                listPosition.addAll(listPositionWochentag);
-                            } else {
-                                listPosition.clear();
-                                adapter.clear();
-                                //           adapter = new ListViewPositionAdapter(getApplicationContext(), R.layout.item_position, listPosition);
-                                Toast.makeText(getApplicationContext(), "Keine Daten für den Tag verfügbar",
-                                        Toast.LENGTH_LONG).show();
-                            }
-
-                        } else {
-                            listPosition.clear();
-                            adapter.clear();
-                            //  adapter.notifyDataSetChanged();
-                            // adapter = new ListViewPositionAdapter(getApplicationContext(), R.layout.item_position, listPosition);
-                            listPosition.addAll(listPositionAktuell);
-                        }
-                        String arbeitszeit = posGesamt.getArbeitszeitGesamt(listPosition, dPauseBeginn, dPauseEnde,dPauseBegin2,dPauseEnde2);
-                        tvArbeitszeit.setText("Arbeitszeit: " + arbeitszeit);
-                        //       adapter.notifyDataSetChanged();
-
-
-                        String gg = "jf";
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                   //     Toast.makeText(Taetigkeitsbericht.this, "Fehler", Toast.LENGTH_LONG).show();
-                    }
-                    //Keine Sortierung
-
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-
-                }
-            });
-// Log.d("zeittest", String.valueOf(listPosition.size()));
-//        Log.d("testtest",String.valueOf(listPosition.size()));
-
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    //    Intent intent = new Intent(getApplicationContext(), KundenInfoActivity.class);
-                    //  intent.putExtra("kunde", listKunde.get(position));
-                    // intent.putExtra("position", position);
-                    // startActivity(intent);
-                    Intent intent = new Intent(getApplicationContext(), TaetigkeitsberichtUeberarbeiten.class);
-                    intent.putExtra("Position", listPosition.get(position));
-                    startActivity(intent);
-                    posClickId = position;
-                    // startActivity(intent);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+            //Tracking nicht gestartet
         }
+
+        if (!berichtHeute && listPositionGesamt == null) {
+            {
+
+            }
+
+
+        }
+
 
     }
 
@@ -493,33 +308,6 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
         }
     }
 
-    protected void onActivityResult(
-            int requestCode,
-            int resultCode,
-            Intent intent) {
-        super.onActivityResult(requestCode,
-                resultCode,
-                intent);
-        if (requestCode == 1 || resultCode == RESULT_OK) {
-            Toast.makeText(getApplicationContext(), "Perfekt!!!",
-                    Toast.LENGTH_LONG).show();
-            if (intent == null) {
-
-            }
-            //      final Bundle extras = getIntent().getExtras();
-            //    intent = this.getIntent();
-//            Bundle bundle = intent.getExtras();
-
-            Position position = (Position) intent.getSerializableExtra("Position");
-            // Position position = (Position) bundle.getSerializable("Position");
-            listPosition.set(posClickId, position);
-            adapter.notifyDataSetChanged();
-
-        }
-
-
-    }
-
     private void testF(View view) {
 
         Position position = new Position("");
@@ -531,12 +319,12 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
         Gson gson = new Gson();
         Datum datumHeute = new Datum();
         String tagHeute = datumHeute.getDatumHeute();
-        tagHeute = tagHeute.replace(".","-");
-      //  tagHeute = "27-04-2020";
+        tagHeute = tagHeute.replace(".", "-");
+        //   tagHeute = "27-04-2020";
         String jsonArray = gson.toJson(listPosition);
         Log.d("sizeOfList", jsonArray);
-    //    dbHelfer.update(1, jsonArray, "");
-        firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeute,jsonArray);
+        //    dbHelfer.update(1, jsonArray, "");
+        firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeute, jsonArray);
 
     }
 
@@ -550,39 +338,32 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
-       String aktuellerTag = dbHelfer.getWochentag();
-  //     if (aktuellerTag.toUpperCase().equals(wochentag.toUpperCase()) && !taetigkeitsberichtNichtAbgeschlossen) {
+        Log.d("changeevent", "onCreateContextMenu ");
+        String aktuellerTag = dbHelfer.getWochentag();
+        //     if (aktuellerTag.toUpperCase().equals(wochentag.toUpperCase()) && !taetigkeitsberichtNichtAbgeschlossen) {
 
-           super.onCreateContextMenu(menu, v, menuInfo);
-           MenuInflater inflater = getMenuInflater();
-           AdapterView.AdapterContextMenuInfo info =
-                   (AdapterView.AdapterContextMenuInfo) menuInfo;
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        AdapterView.AdapterContextMenuInfo info =
+                (AdapterView.AdapterContextMenuInfo) menuInfo;
 
-           adapterPosition = (int) info.id;
-           inflater.inflate(R.menu.loeschen_menu, menu);
-    //     }
-       }
-
+        adapterPosition = (int) info.id;
+        inflater.inflate(R.menu.loeschen_menu, menu);
+        //     }
+    }
 
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        Log.d("changeevent", "onContextItemSelected: ");
         DatenbankHelfer dbHelfer = new DatenbankHelfer(getApplicationContext());
         int knId;
         switch (item.getItemId()) {
             case R.id.menuLoeschen:
 
                 listPosition.remove(adapterPosition);
-                arbeitszeit = new Position("").getArbeitszeitGesamt(listPosition, dPauseBeginn, dPauseEnde,dPauseBegin2,dPauseEnde2);
-                if (arbeitszeit.equals("-999")) {
-                    Toast.makeText(Taetigkeitsbericht.this, "FEHLER BEIM PARSEN!!!", Toast.LENGTH_LONG).show();
-                } else {
-                    tvArbeitszeit.setText("Arbeitszeit: " + arbeitszeit);
-                }
-                adapter.notifyDataSetChanged();
+                arbeitszeit = new Position("").getArbeitszeitGesamt(listPosition, dPauseBeginn, dPauseEnde, dPauseBegin2, dPauseEnde2);
 
-                //dbHelfer.update(knId, "true", "Beliefert");
-                //   fragmentListener.updateKunde(kundeNichtBeliefert.get(adapterId).getPosition() - 1, true);
             default:
                 return super.onContextItemSelected(item);
         }
@@ -590,6 +371,169 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
 
     @Override
     public void listenerDbSpeichern(String dbName) {
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Toast.makeText(Taetigkeitsbericht.this, "Click", Toast.LENGTH_LONG).show();
+        // Inflate the menu; this adds items to the action bar if it is present.
+
+        getMenuInflater().inflate(R.menu.bottom_navigation, menu);
+
+
+        if (!berichtHeute) {
+            MenuItem itemCheck = menu.findItem(R.id.it_check);
+            MenuItem itemInfo = menu.findItem(R.id.it_notiz);
+            MenuItem itemRemove = menu.findItem(R.id.it_remove);
+            itemCheck.setVisible(false);
+            itemInfo.setVisible(false);
+            itemRemove.setVisible(false);
+        }
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Datum datum = new Datum();
+        String datumHeute = datum.getFormatedTagHeute();
+
+        switch (item.getItemId()) {
+            case R.id.it_check:
+                DialogBerichtMessage dialogBerichtMessage = new DialogBerichtMessage();
+                dialogBerichtMessage.show(getSupportFragmentManager(), "dialog");
+
+
+                return true;
+            case R.id.it_notiz:
+                Toast.makeText(Taetigkeitsbericht.this, "notiz", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.it_remove:
+                firebaseHandler.removePath("taetigkeitsbericht/" + firebaseHandler.userId() + "/" + datumHeute);
+                mainActivity.onRemoveTaetigkeitsbericht();
+                taetigkeitsbericht = null;
+                super.onBackPressed();
+                finish();
+                //finish();
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /*
+        private void setLayout(){
+            NavigationView navigationView = findViewById(R.id.bottomNavigation);
+            if (berichtHeute) {
+                Log.d("eventhandler", "berichtheute=sichtbar");
+                navigationView.setVisibility(View.VISIBLE);
+            }else{
+                Log.d("eventhandler", "berichtheute=unsichtbar");
+                navigationView.setVisibility(View.GONE);
+            }
+        }
+    */
+    @Override
+    public void onGetTaetigkeitsberichtData(TaetigkeitsberichtUtil taetigkeitsberichtUtil) {
+        String gg = "ff";
+
+    }
+
+    @Override
+    public void onSendTaetigkeitsbericht() {
+
+    }
+
+    @Override
+    public void onRemoveTaetigkeitsbericht() {
+
+    }
+
+    @Override
+    public void onDayOfTaetigkeitsberichtChange(TaetigkeitsberichtUtil taetigkeitsberichtUtil) {
+        if (taetigkeitsberichtUtil != null) {
+            ArrayList<Position> listPostionOfDay = new ArrayList<Position>();
+
+            String berichtOfDay = taetigkeitsberichtUtil.getBericht();
+
+            listPostionOfDay = taetigkeitsberichtUtil.getTaetigkeitsbericht2(berichtOfDay);
+            listPosition.clear();
+            listPosition.addAll(listPostionOfDay);
+
+        } else {
+            listPosition.clear();
+            Toast.makeText(getApplicationContext(), "Keine Daten für den Tag verfügbar",
+                    Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+    @Override
+    public void onGetWochenbericht(HashMap<String, TaetigkeitsberichtUtil> listWochenBericht) {
+        listenerWoche = Woche.woche;
+        listenerWoche.onGetWochenbericht(listWochenBericht);
+
+    }
+
+    private void initialisiereViewPager(ViewPager viewPager) {
+        fragmentAdapter = new FragmentAdapter(getSupportFragmentManager());
+        fragmentAdapter.addFragment(new Heute(), "Heute");
+        fragmentAdapter.addFragment(new Woche(), "Wochenübersicht");
+        viewPager.setAdapter(fragmentAdapter);
+     //   viewPager.setCurrentItem(1);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+               // Intent intent = new Intent("register");
+               // intent.putExtra("tabId", position);
+                Log.i("changePage","change to page: " + String.valueOf(position));
+                if (position == 0) {
+
+                } else {
+                   String gg =  firebaseHandler.getWochenData();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+
+        });
+    }
+
+    @Override
+    public void onListPosFiltered(ArrayList<Position> listPosition) {
+
+    }
+
+    @Override
+    public void onFragmetHeuteCreated(Heute contextFragmentHeute) {
+        Log.d("ctxH",contextFragmentHeute.toString());
+        String ff = "";
+        contextFragmentHeute.onListPosFiltered(listPosition);
+
+    }
+
+    @Override
+    public void listenerMessage(String nachricht) {
+        Datum datum = new Datum();
+        String datumHeute = datum.getFormatedTagHeute();
+        mainActivity.onSendTaetigkeitsbericht();
+        Toast.makeText(Taetigkeitsbericht.this, "check", Toast.LENGTH_LONG).show();
+        firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.userId() + "/" + datumHeute + "/abgeschlossen", true);
+        firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.userId() + "/" + datumHeute + "/notiz", nachricht);
+        super.onBackPressed();
+        finish();
 
     }
 }

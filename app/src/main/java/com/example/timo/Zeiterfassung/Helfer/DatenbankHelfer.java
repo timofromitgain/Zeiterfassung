@@ -7,7 +7,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.timo.Zeiterfassung.Activity.FirebaseHandler;
-import com.example.timo.Zeiterfassung.Activity.MainActivity;
 import com.example.timo.Zeiterfassung.Interface.OnGetData;
 import com.example.timo.Zeiterfassung.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,7 +15,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -24,10 +22,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 
 public class DatenbankHelfer {
     private Datenbank db;
@@ -110,11 +106,16 @@ public class DatenbankHelfer {
             Kunde kunde = new Kunde();
             @Override
             public void onSuccess(ArrayList<Kunde> listKunde) {
-                db.loesche("Kunde", "KnId<>?",new String[]{String.valueOf("1")});
+            //    db.loesche("Kunde", "KnId<>?",new String[]{String.valueOf("1")});
+             //   db.loesche("Kunde", "KnId<>?",new String[]{String.valueOf("999")});
+                int anzDatens = (int) ermittleAnzahlKunden(false);
+
+                Log.i("callfire","call");
                 for (int i = 0;i<listKunde.size();i++){
                     kunde = listKunde.get(i);
                     datensatzEinfuegen(kunde,"Kunde");
                 }
+                Log.i("callfire","call555");
                 Toast.makeText(context, "Neue Daten importiert", Toast.LENGTH_SHORT).show();
             }
 
@@ -159,7 +160,7 @@ public class DatenbankHelfer {
         daten.put("Strasse", kunde.strasse);
         daten.put("Stadt", kunde.stadt);
         daten.put("Anmerkung", "hgg");
-        daten.put("Latitude", kunde.latiude);
+        daten.put("Latitude", kunde.latitude);
         daten.put("Longitude", kunde.longitude);
         daten.put("Status", 1);
         daten.put("Radius", 60);
@@ -259,7 +260,7 @@ public class DatenbankHelfer {
         }
         int idLetzterKunde = listKunde.get(listKunde.size() - 1).getId();
     /*    Kunde firma = new Kunde();
-        firma.setLatiude(555.444);
+        firma.setLatitude(555.444);
         firma.setLongitude(33.44);
         firma.setId(idLetzterKunde+1);
         firma.setRadius(10)        listKunde.add(firma);*/
@@ -284,7 +285,7 @@ public class DatenbankHelfer {
 
 
     /*    Kunde firma = new Kunde();
-        firma.setLatiude(555.444);
+        firma.setLatitude(555.444);
         firma.setLongitude(33.44);
         firma.setId(idLetzterKunde+1);
         firma.setRadius(10)        listKunde.add(firma);*/
@@ -309,7 +310,7 @@ public class DatenbankHelfer {
         kunde.setAnmerkung(cursor.getString(cursor.getColumnIndex("Anmerkung")));
         kunde.setStatus(cursor.getInt(cursor.getColumnIndex("Status")));
         kunde.setRadius(cursor.getInt(cursor.getColumnIndex("Radius")));
-        kunde.setLatiude(cursor.getDouble(cursor.getColumnIndex("Latitude")));
+        kunde.setLatitude(cursor.getDouble(cursor.getColumnIndex("Latitude")));
         kunde.setLongitude(cursor.getDouble(cursor.getColumnIndex("Longitude")));
 
         return kunde;

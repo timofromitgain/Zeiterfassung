@@ -24,7 +24,9 @@ public class ListViewPositionAdapter extends ArrayAdapter<Position> {
 
     public ListViewPositionAdapter(Context context, int resource, ArrayList<Position> position) {
         super(context, resource, position);
+        Log.d("changeevent", "ListViewPositionAdapter call ");
         String gg = "ff";
+        Log.d("eventhandler","listpo");
         this.context = context;
         this.resource = resource;
         this.listPosition = position;
@@ -35,6 +37,7 @@ public class ListViewPositionAdapter extends ArrayAdapter<Position> {
     @NonNull
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
+        Log.d("changeevent", "ListViewPositionAdapterView call ");
         ViewHolder holder;
         String barzahler = context.getString(R.string.barzahler);
         if (view == null) {
@@ -86,7 +89,8 @@ public class ListViewPositionAdapter extends ArrayAdapter<Position> {
                 holder.tvFirma.setText(listPosition.get(position).getKunde().getFirma());
                 holder.tvAnsprechpartner.setText(listPosition.get(position).getKunde().getAnsprechpartner());
                 if (listPosition.get(position).getKunde().getAuswahlTaetigkeit() == null) {
-                    holder.tvTaetigkeit.setText(listPosition.get(position).getKunde().getTaetigkeit_1());
+
+                    holder.tvTaetigkeit.setText(listPosition.get(position).getKunde().getListAuftrag().get(0));
                 } else {
                     holder.tvTaetigkeit.setText(listPosition.get(position).getKunde().getAuswahlTaetigkeit());
                 }
@@ -124,7 +128,7 @@ public class ListViewPositionAdapter extends ArrayAdapter<Position> {
                     firmaDummy = firmaAktuell + " -> " + "?";
                 }
                 */
-            firmaDummy = "Sonstiges";
+            firmaDummy = "Fahrtzeit";
             if (listPosition.get(position).getNamePosition().equals("AKTUELL")) {
 
 

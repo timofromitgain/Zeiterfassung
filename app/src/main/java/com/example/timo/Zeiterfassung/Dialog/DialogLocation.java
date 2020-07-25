@@ -60,21 +60,43 @@ public class DialogLocation extends AppCompatDialogFragment  {
 
 
 
+        if (locationNewApi != null && locationOldApi != null){
+            intervalls = "zwischen 0 und 5: Alt: " + String.valueOf(locationOldApi.get("unter 5"))+
+                    "    Neu: " + String.valueOf(locationNewApi.get("unter 5")) + "\n";
+            intervalls = intervalls  + "zwischen 5 und 10: Alt: " + String.valueOf(locationOldApi.get("unter 10"))+
+                    "    Neu: " + String.valueOf(locationNewApi.get("unter 10")) + "\n";
+            intervalls = intervalls  + "zwischen 10 und 15: Alt: " + String.valueOf(locationOldApi.get("unter 15"))+
+                    "    Neu: " + String.valueOf(locationNewApi.get("unter 15")) + "\n";
+            intervalls = intervalls  + "zwischen 15 und 20: Alt: " + String.valueOf(locationOldApi.get("unter 20"))+
+                    "    Neu: " + String.valueOf(locationNewApi.get("unter 20")) + "\n";
+            intervalls = intervalls  + "zwischen 20 und 30: Alt: " + String.valueOf(locationOldApi.get("unter 30"))+
+                    "    Neu: " + String.valueOf(locationNewApi.get("unter 30")) + "\n";
+            intervalls =intervalls  +  "zwischen 30 und 40: Alt: " + String.valueOf(locationOldApi.get("unter 40"))+
+                    "    Neu: " + String.valueOf(locationNewApi.get("unter 40")) + "\n";
+            intervalls =intervalls  +  "über 40 " + String.valueOf(locationOldApi.get("über 40"))+
+                    "    Neu: " + String.valueOf(locationNewApi.get("über 40")) + "\n";
+        }else if (locationNewApi == null){
+            intervalls = "zwischen 0 und 5: Alt: " + String.valueOf(locationOldApi.get("unter 5")+ "\n");
+            intervalls = intervalls  + "zwischen 5 und 10: Alt: " + String.valueOf(locationOldApi.get("unter 10"))+ "\n";
+            intervalls = intervalls  + "zwischen 10 und 15: Alt: " + String.valueOf(locationOldApi.get("unter 15"))+ "\n";
+            intervalls = intervalls  + "zwischen 15 und 20: Alt: " + String.valueOf(locationOldApi.get("unter 20"))+ "\n";
+            intervalls = intervalls  + "zwischen 20 und 30: Alt: " + String.valueOf(locationOldApi.get("unter 30"))+ "\n";
+            intervalls =intervalls  +  "zwischen 30 und 40: Alt: " + String.valueOf(locationOldApi.get("unter 40"))+ "\n";
+            intervalls =intervalls  +  "über 40 " + String.valueOf(locationOldApi.get("über 40"));
 
-        intervalls = "zwischen 0 und 5: Alt: " + String.valueOf(locationOldApi.get("unter 5"))+
-                "    Neu: " + String.valueOf(locationNewApi.get("unter 5")) + "\n";
-        intervalls = intervalls  + "zwischen 5 und 10: Alt: " + String.valueOf(locationOldApi.get("unter 10"))+
-                "    Neu: " + String.valueOf(locationNewApi.get("unter 10")) + "\n";
-        intervalls = intervalls  + "zwischen 10 und 15: Alt: " + String.valueOf(locationOldApi.get("unter 15"))+
-                "    Neu: " + String.valueOf(locationNewApi.get("unter 15")) + "\n";
-        intervalls = intervalls  + "zwischen 15 und 20: Alt: " + String.valueOf(locationOldApi.get("unter 20"))+
-                "    Neu: " + String.valueOf(locationNewApi.get("unter 20")) + "\n";
-        intervalls = intervalls  + "zwischen 20 und 30: Alt: " + String.valueOf(locationOldApi.get("unter 30"))+
-                "    Neu: " + String.valueOf(locationNewApi.get("unter 30")) + "\n";
-        intervalls =intervalls  +  "zwischen 30 und 40: Alt: " + String.valueOf(locationOldApi.get("unter 40"))+
-                "    Neu: " + String.valueOf(locationNewApi.get("unter 40")) + "\n";
-        intervalls =intervalls  +  "über 40 " + String.valueOf(locationOldApi.get("über 40"))+
-                "    Neu: " + String.valueOf(locationNewApi.get("über 40")) + "\n";
+        }else {
+            intervalls = "zwischen 0 und 5: Alt: " + String.valueOf(locationNewApi.get("unter 5"))+ "\n";
+            intervalls = intervalls  + "zwischen 5 und 10: Alt: " + String.valueOf(locationNewApi.get("unter 10"))+ "\n";
+            intervalls = intervalls  + "zwischen 10 und 15: Alt: " + String.valueOf(locationNewApi.get("unter 15"))+ "\n";
+            intervalls = intervalls  + "zwischen 15 und 20: Alt: " + String.valueOf(locationNewApi.get("unter 20"))+ "\n";
+            intervalls = intervalls  + "zwischen 20 und 30: Alt: " + String.valueOf(locationNewApi.get("unter 30"))+ "\n";
+            intervalls =intervalls  +  "zwischen 30 und 40: Alt: " + String.valueOf(locationNewApi.get("unter 40"))+ "\n";
+            intervalls =intervalls  +  "über 40 " + String.valueOf(locationNewApi.get("über 40"));
+
+        }
+
+
+
         tv = view.findViewById(R.id.dialogLocation);
     ///    String intervalls = "Jau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\n";
         tv.setText(intervalls);

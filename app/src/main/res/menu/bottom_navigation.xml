@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 <!--
     <item
         android:id="@+id/nav_info"
@@ -8,18 +9,24 @@
 -->
 
     <item
-        android:id="@+id/nav_bezahlung"
-        android:icon="@drawable/ic_bezahlung_neutral"
-        android:title="Bezahlung" />
+        android:id="@+id/it_notiz"
+        android:icon="@drawable/ic_notiz"
+        app:showAsAction="always"
+        android:title="Notiz hinzufügen/ändern" />
+    <item
+        android:id="@+id/it_check"
+        android:icon="@drawable/ic_check"
+        app:showAsAction="always"
+        android:title="Senden" />
 
     <item
-        android:id="@+id/nav_anrufen"
-        android:icon="@drawable/ic_anrufen"
-        android:title="Anufen" />
-    <item
-        android:id="@+id/nav_loeschen"
-        android:icon="@drawable/ic_kunde_inaktiv"
-        android:title="Deaktivieren" />
+        android:id="@+id/it_remove"
+        android:icon="@drawable/ic_remove"
+        app:showAsAction="always"
+        android:title="Senden" />
+
+
+
 
 
 </menu>

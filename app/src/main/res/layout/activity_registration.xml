@@ -55,6 +55,21 @@
         android:paddingBottom="6dp"
         android:hint="Vorname">
     </EditText>
+    <EditText
+        android:id="@+id/regStrasse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="6dp"
+        android:hint="Straße">
+    </EditText>
+    <EditText
+        android:id="@+id/regStadt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="6dp"
+        android:hint="Stadt">
+    </EditText>
+
 
     <EditText
         android:id="@+id/regEmail"

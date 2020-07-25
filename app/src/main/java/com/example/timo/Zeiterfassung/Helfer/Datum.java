@@ -1,10 +1,12 @@
 package com.example.timo.Zeiterfassung.Helfer;
 
 import java.text.DateFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class Datum {
@@ -34,6 +36,87 @@ public class Datum {
         datum = format.format(datumHeute);
         return datum;
 
+    }
+
+    public String getFormatedTagHeute(){
+        Datum datum = new Datum();
+        String wochentag = datum.getWochentag();
+        Datum datumHeute = new Datum();
+        String tagHeute = datumHeute.getDatumHeute();
+        tagHeute = tagHeute.replace(".", "-");
+        return tagHeute;
+    }
+
+    public String getFormatedTag(String tag){
+        String formatedTag;
+        Calendar c = Calendar.getInstance();
+        int tagImMonat = c.get(Calendar.DAY_OF_WEEK);
+        int tagImMonatAuswahl=0;
+        int tagDif;
+        //Wenn es heute Sonntag ist
+        if (tagImMonat == 1){
+            tagImMonat = 7;
+        }else{
+            tagImMonat--;
+        }
+        String day,month,year;
+
+        if (tag.equals("MONTAG")){
+          //  c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+            tagImMonatAuswahl = 1;
+        }else if (tag.equals("DIENSTAG")){
+            tagImMonatAuswahl = 2;
+        }else if (tag.equals("MITTWOCH")){
+            tagImMonatAuswahl = 3;
+        }else if (tag.equals("DONNERSTAG")){
+            tagImMonatAuswahl = 4;
+        }else if (tag.equals("FREITAG")){
+            tagImMonatAuswahl = 5;
+        }
+        else if (tag.equals("SAMSTAG")){
+            tagImMonatAuswahl = 6;
+        }
+        else if (tag.equals("SONNTAG")){
+            tagImMonatAuswahl = 7;
+        }
+
+        tagDif = tagImMonat - tagImMonatAuswahl;
+
+        c.add(Calendar.DAY_OF_MONTH,-tagDif);
+        day = String.valueOf(c.get(Calendar.DAY_OF_MONTH));
+        month = String.valueOf(c.getTime().getMonth()+1);
+        year = String.valueOf(c.getTime().getYear() + 1900);
+        if (day.length() == 1){
+            day = "0" + day;
+        }
+        if (month.length() == 1){
+            month = "0" + month;
+        }
+        formatedTag = day + "-" + month + "-" + year;
+
+       return formatedTag;
+    }
+
+    public String getWochentag(){
+        Calendar calendar = Calendar.getInstance();
+        Date dateHeute = new Date();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) +1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+// First convert to Date. This is one of the many ways.
+        String dateString = String.format("%d-%d-%d", year, month, day);
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-M-d").parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+// Then get the day of week from the Date based on specific locale.
+        String dayOfWeek = new SimpleDateFormat("EEEE", Locale.GERMAN).format(date);
+
+        return dayOfWeek; // Friday
     }
     public Date getDatumHeute2(){
         Date datumHeute = new Date();

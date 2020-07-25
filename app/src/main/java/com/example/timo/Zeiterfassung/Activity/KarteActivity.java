@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,7 +31,6 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.timo.Zeiterfassung.Beans.Position;
 import com.example.timo.Zeiterfassung.Dialog.DialogLocation;
@@ -39,6 +40,7 @@ import com.example.timo.Zeiterfassung.Helfer.Geo;
 import com.example.timo.Zeiterfassung.Helfer.Kunde;
 import com.example.timo.Zeiterfassung.Helfer.ListViewKundenAdapter;
 import com.example.timo.Zeiterfassung.Helfer.LocationService;
+import com.example.timo.Zeiterfassung.Interface.IFirebase;
 import com.example.timo.Zeiterfassung.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -60,16 +62,18 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by User on 10/2/2017.
  */
 
-public class KarteActivity extends AppCompatActivity implements OnMapReadyCallback,
+public class KarteActivity extends AppCompatActivity implements OnMapReadyCallback, IFirebase,
 
 
         SearchView.OnQueryTextListener,
         TextWatcher {
+    public static KarteActivity karteActivity;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final int REQUEST_PERMISSION_ACCESS_FINE_LOCATION = 123;
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -78,9 +82,11 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
 
     public static HashMap<String,Integer> locIntervalls = new HashMap<>();
     public static HashMap<String,Integer> locIntervallsNewApi = new HashMap<>();
-
+ArrayList<LatLng> listGeo2 = new ArrayList<>();
     Polyline polyline = null;
+    Polyline polyline2 = null;
     ListView lvKunden;
+    FirebaseHandler firebaseHandler;
     ListViewKundenAdapter listViewKundenAdapter;
     private GoogleMap googleMap;
     private DatenbankHelfer dbHelfer;
@@ -137,26 +143,29 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
     private ArrayList<LatLng> listGeo = new ArrayList<LatLng>();
     private ArrayList<String> listNummernReihenfolge = new ArrayList<String>();
     private ArrayList<Polyline> listPoly = new ArrayList<Polyline>();
+    private ArrayList<Polyline> listPoly2 = new ArrayList<Polyline>();
     private ArrayList<Kunde> kundeListOhneAbgaenge = new ArrayList<Kunde>();
     private ArrayList<Kunde> listKundeSuche = new ArrayList<Kunde>();
-    private ArrayList<Kunde> listKunde = new ArrayList<Kunde>();
+    private Map<String,Kunde> listKunde = new HashMap<>();
     private ArrayList<LatLng> latLngPolyline = new ArrayList<LatLng>();
     private ArrayList<Circle> listKreis = new ArrayList<Circle>();
-    private ArrayList<Marker> listMarker = new ArrayList<Marker>();
+   // private ArrayList<Marker> listMarker = new ArrayList<Marker>();
+    private Map<String,Marker> listMarker = new HashMap<>();
     private ArrayList<Polyline> listPolyline = new ArrayList<Polyline>();
     private HashMap<Integer, PolygonOptions> hashPolygonOptions = new HashMap<Integer, PolygonOptions>();
     private HashMap<Integer, Polygon> hashPolygon = new HashMap<Integer, Polygon>();
-    private HashMap<Integer, Circle> hashKreis = new HashMap<Integer, Circle>();
+    private HashMap<String, Circle> hashKreis = new HashMap<String, Circle>();
     //Nachricht über belieferten Kunden durch den Location Service
     public BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
             try {
-                Integer nachricht = intent.getIntExtra("markernr", 0);
+             //   Integer nachricht = intent.getIntExtra("markernr", 0);
+                String uid = intent.getStringExtra("markernr");
                 Boolean kundeHatKreis = intent.getBooleanExtra("kreis", true);
                 Integer status = intent.getIntExtra("status", -1);
-                Marker marker = listMarker.get((nachricht));
+                Marker marker = listMarker.get((uid));
                 int color;
                 int farbeauswahl;
                 if (status == 2) {
@@ -170,9 +179,9 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
                     marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
                 }
 
-                listKunde.get(nachricht).setStatus(status);
+                listKunde.get(uid).setStatus(status);
 
-                Circle kreis = hashKreis.get(nachricht);
+                Circle kreis = hashKreis.get(uid);
                 kreis.setStrokeColor(color);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -231,15 +240,10 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
 
 
                     listGeo = locationService.getListGeo();
+                    listGeo2 = LocationUpdatesService.listGeo;
                     locIntervalls = locationService.getListIntervalls();
                     locIntervallsNewApi = LocationUpdatesService.locIntervalls;
-                    intervalls = "zwischen 0 und 5: " + String.valueOf(locIntervalls.get("unter 5"))+"\n";
-                    intervalls = intervalls + "zwischen 5 und 10: " + String.valueOf(locIntervalls.get("unter 10")) + "\n";
-                    intervalls = intervalls + "zwischen 10 und 15: " + String.valueOf(locIntervalls.get("unter 15")) + "\n";
-                    intervalls = intervalls + "zwischen 15 und 20: " + String.valueOf(locIntervalls.get("unter 20")) + "\n";
-                    intervalls = intervalls + "zwischen 20 und 30: " + String.valueOf(locIntervalls.get("unter 30")) + "\n";
-                    intervalls = intervalls + "zwischen 30 und 40: " + String.valueOf(locIntervalls.get("unter 40")) + "\n";
-                    intervalls = intervalls + "über 40 " + String.valueOf(locIntervalls.get("über 40"));
+
 
                     DialogLocation dialogLocation = new DialogLocation();
                     Bundle bundle = new Bundle();
@@ -251,7 +255,8 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
 
 
 
-             //       zeigeStreckenverlauf(listGeo);
+                    zeigeStreckenverlauf(listGeo,getResources().getColor(R.color.gelb));
+                    zeigeStreckenverlauf2(listGeo2,getResources().getColor(R.color.rot));
 
                 }
 
@@ -281,18 +286,23 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
     public void onMapReady(final GoogleMap googleMap) {
         int anzahlKunden;
         this.googleMap = googleMap;
+        firebaseHandler = new FirebaseHandler();
         UiSettings mapUiSettings = googleMap.getUiSettings();
         mapUiSettings.setZoomControlsEnabled(true);
         binder = new Binder();
         dbHelfer = new DatenbankHelfer(this);
-        listKundeSuche = dbHelfer.getListKunde();
-        listKunde = dbHelfer.getListKunde();
+//        listKundeSuche = dbHelfer.getListKunde();
+        listKunde = FirebaseHandler.listKunde;
+
+        karteActivity = this;
         geo = new Geo(this);
-        anzahlKunden = (int) dbHelfer.ermittleAnzahlKunden(true);
+       // anzahlKunden = (int) dbHelfer.ermittleAnzahlKunden(true);
         initialisiereXML();
-        initialisiere(anzahlKunden);
+        initialisiere();
         latLngPolyline.clear();
-        listViewKundenAdapter = new ListViewKundenAdapter(getApplicationContext(), R.layout.item_kunde, listKunde,true);
+
+        //HIER
+       // listViewKundenAdapter = new ListViewKundenAdapter(getApplicationContext(), R.layout.item_kunde, listKunde,true);
         lvKunden.setAdapter(listViewKundenAdapter);
         registerForContextMenu(lvKunden);
 
@@ -308,96 +318,16 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
                 new IntentFilter("kundeBeliefert"));
 
 
-        googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
-            Circle kreis;
-            private boolean ersteBewegung = true;
-
-            @Override
-            public void onMarkerDragStart(Marker marker) {
-                ersteBewegung = true;
-            }
-
-            @Override
-            public void onMarkerDrag(Marker marker) {
-                if (ersteBewegung) {
-
-                    kreis = listKreis.get(markerID);
-                    kreis.setRadius(0);
-                    ersteBewegung = false;
-                }
-                if (kreis != null) {
-                    kreis.remove();
-                }
-
-                kreis = googleMap.addCircle(new CircleOptions()
-                        .center((marker.getPosition()))
-                        .radius(radiusUmfang));
 
 
-            }
 
 
-            @Override
-            public void onMarkerDragEnd(Marker marker) {
-                ersteBewegung = true;
-                latitude_Kunde = marker.getPosition().latitude;
-                longitude_Kunde = marker.getPosition().longitude;
-
-                //Alten Radiuskreis vom Kunden entfernen
-                Circle c = hashKreis.get(markerID);
-                c.setRadius(0);
-                listKreis.remove(markerID);
-                hashKreis.remove(markerID);
-                //Dem Kunden den neuen Radiuskreis hinzufügen
-                hashKreis.put(markerID, kreis);
-
-                try {
-                    listKreis.add(markerID, kreis);
-                } catch (IndexOutOfBoundsException e) {
-                    listKreis.add(kreis);
-                    e.printStackTrace();
-                }
-                listKunde.get(markerID).setLatiude(latitude_Kunde);
-                listKunde.get(markerID).setLongitude(longitude_Kunde);
-
-                //         Intent intent = new Intent("maps");
-                //       intent.putExtra("KUNDE", listKunde.get(markerID));
-                //     LocalBroadcastManager.getInstance(binder.getService()).sendBroadcast(intent);
-
-                dbHelfer.update(listKunde.get(markerID).getId(), longitude_Kunde.toString(), "Longitude");
-                dbHelfer.update(listKunde.get(markerID).getId(), latitude_Kunde.toString(), "Latitude");
-            }
-        });
-
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int radius, boolean b) {
-                Circle kreis;
-                int radiusNeu = radius;
-                radius = radiusNeu;
-                tvRadiusGrösse.setText(String.valueOf(radius) + " Meter");
-
-                kreis = hashKreis.get(markerID);
-                kreis.setRadius(radius);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
 
 
         lvSuchvorschlaege.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                double latitude = listKundeSuche.get(position).getLatiude();
+                double latitude = listKundeSuche.get(position).getLatitude();
                 double longitude = listKundeSuche.get(position).getLongitude();
                 lvSuchvorschlaege.setVisibility(View.GONE);
 
@@ -411,7 +341,7 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
         lvKunden.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                double latitude = listKunde.get(position).getLatiude();
+                double latitude = listKunde.get(position).getLatitude();
                 double longitude = listKunde.get(position).getLongitude();
 
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,
@@ -443,39 +373,8 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
         });
 
 
-        //Größe des Radiuskreises verändern
-        btRadius.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setZeilenUnsichtbar();
-                tr3.setVisibility(View.VISIBLE);
-                tvRadiusGrösse.setText(String.valueOf(listKunde.get(markerID).getRadius()) + " Meter");
-                seekBar.setProgress(listKunde.get(markerID).getRadius());
-            }
-        });
 
 
-        //Größe des Radiuskreises speichern
-        btRadiusSpeichern.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int radius;
-                radius = seekBar.getProgress();
-                listKunde.get(markerID).setRadius(radius);
-                String meldungRadiusSpeichern = getString(R.string.meldungRadiusSpechern);
-                Toast.makeText(KarteActivity.this, meldungRadiusSpeichern, Toast.LENGTH_LONG).show();
-                //    Intent intent = new Intent("maps");
-
-                //   intent.putExtra("KUNDE", listKunde.get(markerID));
-                //  LocalBroadcastManager.getInstance(binder.getService()).sendBroadcast(intent);
-
-                //Datenbank aktuallisieren
-                dbHelfer.update(listKunde.get(markerID).getId(), String.valueOf(radius), "Radius");
-
-
-                setZeilenUnsichtbar();
-            }
-        });
 
 
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -484,6 +383,9 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
                 Boolean kundeBeliefert = false;
                 int anzahAbgaenge = 0;
                 int idLaenge;
+                marker.showInfoWindow();
+                String tit = marker.getTitle();
+                /*
                 int anzahlAllerKunden = (int) dbHelfer.ermittleAnzahlKunden(true);
                 Marker markerKunde = null;
                 if (markerID != null) {
@@ -509,7 +411,7 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
                 if (listKunde.get(markerID).getStatus() == 1) {
                     kundeBeliefert = true;
                 }
-                marker.showInfoWindow();
+
 
                 radiusUmfang = listKunde.get(markerID).getRadius();
 
@@ -527,42 +429,82 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
 //                btErledigtKreis.setVisibility(View.VISIBLE);
             //    tr2.setWeightSum(3);
 
-
+*/
                 return true;
 
             }
         });
     }
 
-    public void initialisiere(int anzahlKunden) {
+    public void initialisiere() {
         String firma, kundeStrasse;
         Integer kundeStatus;
-        for (int i = 0; i < anzahlKunden; i++) {
 
-            firma = listKunde.get(i).getFirma();
-
-            longitude_Kunde = listKunde.get(i).getLongitude();
-            latitude_Kunde = listKunde.get(i).getLatiude();
-            radiusUmfang = listKunde.get(i).getRadius();
-            kundeStrasse = listKunde.get(i).getStrasse();
-            kundeStatus = listKunde.get(i).getStatus();
-            String markerTitel = firma + " | " + kundeStrasse;
-
-            addMarkerMitErkennungsbereich(i, kundeStatus, markerTitel);
+        for (Map.Entry<String, Kunde> entry : listKunde.entrySet()) {
+            String key = entry.getKey();
+            Kunde kunde = entry.getValue();
+            if (!key.equals("Zuhause") && !key.equals("firma")){
+                addMarkerMitErkennungsbereich(key,kunde);
+            }else{
+                addMarkerMitErkennungsbereichCustom(kunde);
+            }
 
         }
+     //   User user = FirebaseHandler.monteur;
+       // addMarkerMitErkennungsbereichZuhause(user);
+
     }
 
+    public void addMarkerMitErkennungsbereichCustom(Kunde kunde){
+
+        int height = 150;
+        int width = 150;
+        String title;
+        BitmapDrawable bitmapdraw;
+        if (kunde.getFirma().equals("Firma")){
+             bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.firma);
+             title = "Firma";
+        }else{
+             bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.zuhause);
+             title = "Zuhause";
+        }
+
+        Bitmap b = bitmapdraw.getBitmap();
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+
+       MarkerOptions markerOption = new MarkerOptions()
+                .position(new LatLng(kunde.getLatitude(), kunde.getLongitude()))
+                .title(title).draggable(false)
+              //  .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+               .icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+      Marker marker = googleMap.addMarker(markerOption);
+
+       Circle kreis = googleMap.addCircle(new CircleOptions()
+                .center(new LatLng(kunde.getLatitude(), kunde.getLongitude()))
+                .radius(75)
+                .strokeColor((int) BitmapDescriptorFactory.HUE_ORANGE));
+
+
+        kreis.setStrokeColor(Color.RED);
+        kreis.setStrokeWidth(10);
+
+    }
+
+
+
     //Kundenmarker + Erkennungsbereich hinzufügen
-    public void addMarkerMitErkennungsbereich(int i, Integer kundeStatus, String markerTitel) {
+    public void addMarkerMitErkennungsbereich(String key, Kunde kunde) {
         Polygon polygon;
         Marker marker;
         MarkerOptions markerOption;
         Circle kreis;
         Gson gson = new Gson();
         int color, farbauswahl;
-
-
+        int kundeStatus = kunde.getStatus();
+        String markerTitel = kunde.getFirma();
+        latitude_Kunde = kunde.getLatitude();
+        longitude_Kunde = kunde.getLongitude();
+        radiusUmfang = kunde.getRadius();
         if (kundeStatus == 2) {
             color =Color.GREEN;
             markerOption = new MarkerOptions()
@@ -585,7 +527,19 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
 
         //Marker hinzufügen
         marker = googleMap.addMarker(markerOption);
-        listMarker.add(marker);
+      //  listKunde.remove(key);
+
+        try{
+            Marker m = listMarker.get(key);
+            m.remove();
+        }catch (Exception e){
+
+        }
+        listMarker.put(key,marker);
+
+
+     //   listMarker.add(marker);
+
         //Falls Kunden einen Erkennungskreis besitzt
 
         //Erkennungskreis erstellen
@@ -599,8 +553,16 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
         kreis.setStrokeWidth(10);
 
         //Erkennungskreis der Liste hinzufügen
-        listKreis.add(kreis);
-        hashKreis.put(i, kreis);
+      //  listKreis.add(kreis);
+  //      hashKreis.remove(key);
+        try{
+            Circle c = hashKreis.get(key);
+            c.remove();
+        }catch (Exception e){
+
+        }
+        hashKreis.put(key, kreis);
+
         //Falls Kunden einen Polygon Erkennungsbereich besitzt
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude_Kunde,
@@ -751,12 +713,29 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
 
-    private void zeigeStreckenverlauf(ArrayList<LatLng> listGeo) {
+    private void zeigeStreckenverlauf(ArrayList<LatLng> listGeo, Integer farbe) {
 
         if (polyline == null) {
             PolylineOptions polylineOptions = new PolylineOptions()
                     .width(8)
-                    .color(getResources().getColor(R.color.gelb));
+                    .color(farbe);
+               //     .color(getResources().getColor(R.color.gelb));
+            polylineOptions.addAll(listGeo);
+            listPoly.add(polyline = googleMap.addPolyline(polylineOptions));
+
+        } else {
+            polyline.setPoints(listGeo);
+        }
+        //  Toast.makeText(KarteActivity.this, String.valueOf(listGeo.size()), Toast.LENGTH_SHORT).show();
+    }
+
+    private void zeigeStreckenverlauf2(ArrayList<LatLng> listGeo, Integer farbe) {
+
+        if (polyline2 == null) {
+            PolylineOptions polylineOptions = new PolylineOptions()
+                    .width(8)
+                    .color(farbe);
+            //     .color(getResources().getColor(R.color.gelb));
             polylineOptions.addAll(listGeo);
             listPoly.add(polyline = googleMap.addPolyline(polylineOptions));
 
@@ -773,6 +752,40 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
         //  tr5.setVisibility(View.GONE);
         // tr6.setVisibility(View.GONE);
 
+    }
+
+    public static KarteActivity getInstance() {
+        if (karteActivity == null) {
+            karteActivity = new KarteActivity();
+        }
+        return karteActivity;
+    }
+
+    @Override
+    public void neuerKunde(HashMap<String, Kunde> listKunde) {
+
+    }
+
+    @Override
+    public void neuerKunde(String key, Kunde kunde) {
+        listKunde.put(key,kunde);
+        addMarkerMitErkennungsbereich(key,kunde);
+
+
+    }
+
+    @Override
+    public void loescheKunde(String key) {
+        Marker marker;
+        Circle circle;
+        marker = listMarker.get(key);
+        circle = hashKreis.get(key);
+
+        listKunde.remove(key);
+        listMarker.remove(key);
+        hashKreis.remove(key);
+        marker.remove();
+        circle.remove();
     }
 
     public class Binder extends android.os.Binder {

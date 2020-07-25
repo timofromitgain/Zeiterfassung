@@ -2,7 +2,6 @@ package com.example.timo.Zeiterfassung.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -153,9 +152,7 @@ public class NeuerKundeActivity extends AppCompatActivity {
                         "TEST",
                         kundeStrasse,
                         kundeStadt,
-                        taetigkeit1,
-                        taetigkeit2,
-                        taetigkeit3,
+                null,
                         anmerkung,
                         radius,
                         latitudeKunde,
@@ -169,9 +166,7 @@ public class NeuerKundeActivity extends AppCompatActivity {
                                 "TEST",
                                 kundeStrasse,
                                 kundeStadt,
-                                taetigkeit1,
-                                taetigkeit2,
-                                taetigkeit3,
+null,
                                 anmerkung,
                                 radius,
                                 latitudeKunde,
@@ -186,9 +181,7 @@ public class NeuerKundeActivity extends AppCompatActivity {
                                 "TEST",
                                 kundeStrasse,
                                 kundeStadt,
-                                taetigkeit1,
-                                taetigkeit2,
-                                taetigkeit3,
+                                null,
                                 anmerkung,
                                 radius,
                                 latitudeKunde,

@@ -3,10 +3,12 @@ package com.example.timo.Zeiterfassung.Helfer;
 import android.content.Context;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Kunde implements Serializable {
     static Context context;
     int id;
+    ArrayList<String> listAuftrag;
     String auftragsId;
     String firma;
     String ansprechpartner;
@@ -18,7 +20,7 @@ public class Kunde implements Serializable {
     String auswahlTaetigkeit;
     String taetigkeitString;
     int radius, status;
-    double latiude;
+    double latitude;
     double longitude;
     String anmerkung;
     Integer position;
@@ -86,18 +88,24 @@ public class Kunde implements Serializable {
         return auftragsId;
     }
 
+    public ArrayList<String> getListAuftrag() {
+        return listAuftrag;
+    }
+
+    public void setListAuftrag(ArrayList<String> listAuftrag) {
+        this.listAuftrag = listAuftrag;
+    }
+
     public Kunde(Context context,
                  String auftragsId,
                  String firma,
                  String ansprechpartner,
                  String strasse,
                  String stadt,
-                 String taetigkeit_1,
-                 String taetigkeit_2,
-                 String taetigkeit_3,
+                 ArrayList<String> listAuftrag,
                  String anmerkung,
                  Integer radius,
-                 double latiude,
+                 double latitude,
                  double longitude,
                  Integer status) {
         this.auftragsId = auftragsId;
@@ -105,12 +113,10 @@ public class Kunde implements Serializable {
         this.ansprechpartner = ansprechpartner;
         this.strasse = strasse;
         this.stadt = stadt;
-        this.taetigkeit_1 = taetigkeit_1;
-        this.taetigkeit_2 = taetigkeit_2;
-        this.taetigkeit_3 = taetigkeit_3;
+        this.listAuftrag = listAuftrag;
         this.anmerkung = anmerkung;
         this.radius = radius;
-        this.latiude = latiude;
+        this.latitude = latitude;
         this.longitude = longitude;
         this.status = status;
     }
@@ -122,7 +128,7 @@ public class Kunde implements Serializable {
                  String ansprechpartner,
                  String taetigkeit_1,
                  String anmerkung,
-                 double latiude,
+                 double latitude,
                  double longitude) {
         this.firma = firma;
         this.strasse = strasse;
@@ -130,7 +136,7 @@ public class Kunde implements Serializable {
         this.ansprechpartner = ansprechpartner;
         this.taetigkeit_1 = taetigkeit_1;
         this.anmerkung = anmerkung;
-        this.latiude = latiude;
+        this.latitude = latitude;
         this.longitude = longitude;
 
     }
@@ -193,8 +199,8 @@ public class Kunde implements Serializable {
         this.radius = radius;
     }
 
-    public void setLatiude(double latiude) {
-        this.latiude = latiude;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
     public void setLongitude(double longitude) {
@@ -237,8 +243,8 @@ public class Kunde implements Serializable {
         return radius;
     }
 
-    public double getLatiude() {
-        return latiude;
+    public double getLatitude() {
+        return latitude;
     }
 
     public double getLongitude() {

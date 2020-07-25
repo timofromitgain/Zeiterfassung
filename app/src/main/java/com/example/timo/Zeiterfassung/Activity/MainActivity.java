@@ -9,15 +9,19 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.timo.Zeiterfassung.Beans.Position;
-import com.example.timo.Zeiterfassung.Beans.Testklasse;
 import com.example.timo.Zeiterfassung.Helfer.DatenbankHelfer;
+import com.example.timo.Zeiterfassung.Helfer.Datum;
 import com.example.timo.Zeiterfassung.Helfer.Kunde;
 import com.example.timo.Zeiterfassung.Helfer.LocationService;
+import com.example.timo.Zeiterfassung.Helfer.TaetigkeitsberichtUtil;
+import com.example.timo.Zeiterfassung.Interface.IFirebase;
+import com.example.timo.Zeiterfassung.Interface.ITaetigkeitsbericht;
 import com.example.timo.Zeiterfassung.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,14 +43,19 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 
-public class MainActivity extends AppCompatActivity implements Serializable {
+public class MainActivity extends AppCompatActivity implements Serializable, IFirebase, ITaetigkeitsbericht {
     private static final int CODE = 1;
+    public static MainActivity mainActivity;
     ArrayList<Position> listPosition;
     FirebaseAuth firebaseAuth;
     Bundle bundle;
-    private DatabaseReference refAuftrag,refUser;
+    FirebaseHandler firebaseHandler;
+    FirebaseUser user;
+    private static ArrayList<Position> listPositionHeute = new ArrayList<Position>();
+    private DatabaseReference refAuftrag, refUser, refFirma;
     private String
             dbNameImport,
             dbPfadZiel,
@@ -66,12 +75,13 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             btnDatenbankImport,
             btnReg,
             btnLog,
-    btnLogout;
-    FirebaseHandler firebaseHandler;
-    FirebaseUser user;
+            btnLogout;
     private FileChannel quelle = null, ziel = null;
     private File dbZiel, dbQuelle;
     private DatenbankHelfer dbHelfer;
+    public static boolean firebaseDataLoaded = false;
+    public static boolean istAbgeschlossen;
+    public static boolean trackingStartenPresses = false;
 
     @Override
     protected void onDestroy() {
@@ -82,11 +92,12 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainActivity = this;
         final Bundle extras = getIntent().getExtras();
-firebaseHandler = new FirebaseHandler();
+
         boolean changeUser = false;
         try {
-            changeUser = extras.getBoolean("changeUser",false);
+            changeUser = extras.getBoolean("changeUser", false);
             status = extras.getString("status");
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,38 +107,30 @@ firebaseHandler = new FirebaseHandler();
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        if (firebaseAuth.getCurrentUser() == null){
+        if (firebaseAuth.getCurrentUser() == null) {
             finish();
             starteIntent(Registration.class);
             return;
         }
 
+        firebaseHandler = new FirebaseHandler(true);
 
 
+        user = firebaseAuth.getCurrentUser();
+        Log.i("userid ", user.getEmail());
+        Toast.makeText(getApplicationContext(), "Hallo " + user.getEmail(), Toast.LENGTH_LONG).show();
 
-        try {
-             user = firebaseAuth.getCurrentUser();
-
-            Toast.makeText(getApplicationContext(),"Hallo " + user.getEmail(),Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        dbHelfer = new DatenbankHelfer(this);
-    //    dbHelfer.update(1,"[ugireer","MITTWOCH");
 
         //TESTSZENARIO
 
-        if (changeUser){
-            Log.d("Firemire", "Login");
-            dbHelfer.copyDataFromFirebaseToLocal();
-        }else{
-            Log.d("Firemire", "Kein Login");
-            //    dbHelfer.copyDataFromFirebaseToLocal();
-        }
-      //  Toast.makeText(MainActivity.this, "Neuen Auftrag erhalten", Toast.LENGTH_SHORT).show();
 
-        refAuftrag = FirebaseDatabase.getInstance().getReference().child("auftrag").child(user.getUid());
-        refUser = FirebaseDatabase.getInstance().getReference().child("user").child(user.getUid());
+        //    dbHelfer.copyDataFromFirebaseToLocal();
+
+        //  Toast.makeText(MainActivity.this, "Neuen Auftrag erhalten", Toast.LENGTH_SHORT).show();
+
+        //   refAuftrag = FirebaseDatabase.getInstance().getReference().child("auftrag").child(user.getUid());
+        //  refUser = FirebaseDatabase.getInstance().getReference().child("user").child(user.getUid());
+        // refFirma = FirebaseDatabase.getInstance().getReference().child("auftrag").child("firma");
 
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -139,7 +142,6 @@ firebaseHandler = new FirebaseHandler();
                 //   Post post = dataSnapshot.getValue(Post.class);
                 // ...
             }
-
 
 
             @Override
@@ -155,7 +157,7 @@ firebaseHandler = new FirebaseHandler();
         ChildEventListener newItemListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
+                Log.i("userid", "add kunde");
                 Kunde kunde = dataSnapshot.getValue(Kunde.class);
                 String key = dataSnapshot.getKey();
                 dbHelfer.datensatzEinfuegen(new Kunde(
@@ -165,15 +167,62 @@ firebaseHandler = new FirebaseHandler();
                                 "TEST",
                                 kunde.getStrasse(),
                                 kunde.getStadt(),
-                                kunde.getTaetigkeit_1(),
-                                "",
-                                "",
+                                null,
                                 kunde.getAnmerkung(),
                                 50,
-                                kunde.getLatiude(),
+                                kunde.getLatitude(),
                                 kunde.getLongitude(),
                                 0),
                         "Kunde");
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        ChildEventListener listenerFirma = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+
+                try {
+                    Kunde kunde = dataSnapshot.getValue(Kunde.class);
+                    String key = dataSnapshot.getKey();
+                    dbHelfer.datensatzEinfuegen(new Kunde(
+                                    getApplicationContext(),
+                                    key,
+                                    kunde.getFirma(),
+                                    "TEST",
+                                    kunde.getStrasse(),
+                                    kunde.getStadt(),
+                                    null,
+                                    kunde.getAnmerkung(),
+                                    50,
+                                    kunde.getLatitude(),
+                                    kunde.getLongitude(),
+                                    0),
+                            "Kunde");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
 
@@ -216,7 +265,7 @@ firebaseHandler = new FirebaseHandler();
                                 "",
                                 kunde.getAnmerkung(),
                                 50,
-                                kunde.getLatiude(),
+                                kunde.getLatitude(),
                                 kunde.getLongitude(),
                                 0),
                         "Kunde");
@@ -245,10 +294,10 @@ firebaseHandler = new FirebaseHandler();
         };
 
 
-
-    //    refAuftrag.addValueEventListener(postListener);
-        refAuftrag.addChildEventListener(newItemListener);
-        refUser.addChildEventListener(listenerUser);
+        //    refAuftrag.addValueEventListener(postListener);
+        //  refAuftrag.addChildEventListener(newItemListener);
+        //  refUser.addChildEventListener(listenerUser);
+        //  refFirma.addChildEventListener(listenerFirma);
 
         ArrayList<Position> Testliste = new ArrayList<Position>();
         Position posDump = new Position("Kunde");
@@ -314,7 +363,6 @@ firebaseHandler = new FirebaseHandler();
         posDump6.setKunde(kunde6);
 
 
-
         dateAnf.setHours(11);
         dateAnf.setMinutes(23);
 
@@ -361,14 +409,14 @@ firebaseHandler = new FirebaseHandler();
         posDump5.setKunde(kunde4);
 
 
-    //    Testliste.add(posDump);
+        //    Testliste.add(posDump);
         Testliste.add(posDump2);
-      //  Testliste.add(posDump6);
+        //  Testliste.add(posDump6);
         Testliste.add(posDump8);
         Testliste.add(posDump3);
         Testliste.add(posDump5);
-     //   Testliste.add(posDump7);
-      //  Testliste.add(posDump6);
+        //   Testliste.add(posDump7);
+        //  Testliste.add(posDump6);
 
         Position dummy = new Position("dummy");
         ArrayList<Position> outputliste = new ArrayList<Position>();
@@ -413,7 +461,7 @@ firebaseHandler = new FirebaseHandler();
                                              @Override
                                              public void onClick(View v) {
 
-                                                 starteIntent(NeuerKundeActivity.class);
+                                                 starteIntent(Bericht.class);
 
                                              }
                                          }
@@ -422,7 +470,7 @@ firebaseHandler = new FirebaseHandler();
                                               @Override
                                               public void onClick(View v) {
                                                   starteIntent(Auftragsliste.class);
-                                              //    starteIntent(Testactivity.class);
+
                                               }
                                           }
         );
@@ -438,31 +486,28 @@ firebaseHandler = new FirebaseHandler();
         btnStartTracking.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-
-                                                    try {
-                                                        if (!LocationService.getInstance().getAktiviert()) {
-
-
-                                                            Testklasse testklasse = new Testklasse();
-                                                            listPosition = null;
-                                                            statusZuruecksetzen();
-                                                            String meldungTrackingGestartet = getString(R.string.meldungTrackingGestartet);
-                                                            Toast.makeText(MainActivity.this, meldungTrackingGestartet, Toast.LENGTH_SHORT).show();
-
-                                                            Intent intent = new Intent(MainActivity.this, LocationService.class);
-                                                            ContextCompat.startForegroundService(MainActivity.this, intent);
-                                                            LocationService.getInstance().setAktiviert(true);
-
-                                                        } else {
-                                                            Toast.makeText(MainActivity.this, "Tracking läuft bereits", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    } catch (Exception e) {
-                                                        e.printStackTrace();
+                                                    trackingStartenPresses = true;
+                                                    if (firebaseDataLoaded) {
+                                                        startTracking();
+                                                    } else {
+                                                        //    String tagHeute = "23-05-2020";
+                                                        Datum datum = new Datum();
+                                                        String tagHeute = datum.getFormatedTagHeute();
+                                                        firebaseHandler.getSingleData("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeute);
                                                     }
+
+
                                                 }
                                             }
         );
         btnStopTracking.setOnClickListener(new View.OnClickListener() {
+                                               TaetigkeitsberichtUtil taetigkeitsberichtUtil = new TaetigkeitsberichtUtil();
+                                               String taetigkeitsbericht;
+                                               Datum datumHeute = new Datum();
+                                               String tagHeute = datumHeute.getDatumHeute();
+                                               String tagHeuteFormated = tagHeute.replace(".", "-");
+
+
                                                @Override
                                                public void onClick(View v) {
 
@@ -478,12 +523,33 @@ firebaseHandler = new FirebaseHandler();
                                                            //    if (listPosition == null) {
 
                                                            listPosition = LocationService.getInstance().getListPosition(true);
-                                                           Log.d("zeittest", String.valueOf("MainAct" + listPosition.size()));
+                                                           Log.d("listSize", String.valueOf("size: " + listPosition.size()));
                                                            //    }
-                                                           starteIntent(Taetigkeitsbericht.class, listPosition,false);
-                                                           listPosition.clear();
-                                                           String gg = "iu";
+                                                           //      starteIntent(Taetigkeitsbericht.class, listPosition,false);
+                                                            ArrayList<Position> listPostionGesamt = new ArrayList<Position>();
+                                                           listPostionGesamt.addAll(listPosition);
+                                                           Position posGesamt = new Position("");
+                                                           listPosition = posGesamt.getListPositionOhneAusreisser(listPosition);
+                                                           Log.d("listSize", String.valueOf("size2: " + listPosition.size()));
+                                                           listPosition = taetigkeitsberichtUtil.sortiereListe(listPosition,listPostionGesamt);
+                                                           Log.d("listSize", String.valueOf("size3: " + listPosition.size()));
+                                                           listPosition = posGesamt.getListPositonOhneDuplikate(listPosition);
+                                                           Log.d("listSize", String.valueOf("size4: " + listPosition.size()));
+                                                           listPosition = posGesamt.getListPositonOhneDuplikateSonstiges(listPosition);
+                                                           Log.d("listSize", String.valueOf("size5: " + listPosition.size()));
+                                                           listPosition = posGesamt.getGueltigePositionen(listPosition);
+                                                           Log.d("listSize", String.valueOf("size6: " + listPosition.size()));
+                                                           String  taetigkeitsbericht = taetigkeitsberichtUtil.getTaetigkeitsbericht(listPosition);
+                                                           taetigkeitsbericht = taetigkeitsberichtUtil.getTaetigkeitsbericht(listPosition);
+                                                           String arbeitszeit = posGesamt.getArbeitszeitGesamt(listPosition, null, null, null, null);
+                                                              // tagHeuteFormated = "14-07-2020";
+                                                           firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/bericht", taetigkeitsbericht,mainActivity,false);
+                                                           firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/abgeschlossen", false,mainActivity,false);
+                                                           firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/arbeitszeit", arbeitszeit,mainActivity,true);
 
+                                                           listPosition.clear();
+                                                           Position.setListPosition(listPosition);
+                                                           String gg = "iu";
                                                            stopService(new Intent(MainActivity.this, LocationService.class));
 
                                                        } else {
@@ -494,9 +560,15 @@ firebaseHandler = new FirebaseHandler();
                                                    } catch (Exception e) {
                                                        Toast.makeText(MainActivity.this, "Ein Fehler ist aufgetreten", Toast.LENGTH_LONG).show();
                                                        e.printStackTrace();
-                                                       starteIntent(Taetigkeitsbericht.class, listPosition,false);
+                                                       //   starteIntent(Taetigkeitsbericht.class, listPosition, false);
+                                                       taetigkeitsbericht = taetigkeitsberichtUtil.getTaetigkeitsbericht(listPosition);
+                                                       //    tagHeuteFormated = "23-05-2020";
+                                                       firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/bericht", taetigkeitsbericht,mainActivity,false);
+                                                       firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/abgeschlossen", false,mainActivity,true);
                                                        listPosition.clear();
+                                                       Position.setListPosition(listPosition);
                                                        String gg = "iu";
+                                                       Log.d("catchfehler", "Fehler: ");
 
                                                        stopService(new Intent(MainActivity.this, LocationService.class));
                                                    }
@@ -547,9 +619,32 @@ firebaseHandler = new FirebaseHandler();
                 }
             }
         });
+
         btnTaetigkeitsbericht.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                trackingStartenPresses = false;
+                //      String tagHeute = "23-05-2020";
+
+                if (LocationService.isLocation()) {
+                    listPosition = LocationService.getInstance().getListPosition(false);
+                    Log.d("changeevent", "jauu " + String.valueOf(listPosition.size()));
+                    starteIntent(Taetigkeitsbericht.class, listPosition, false);
+                } else {
+                    if (firebaseDataLoaded) {
+                        startTaetigkeitsbericht();
+                    } else {
+                        //  String tagHeute = "23-05-2020";
+                        Datum datum = new Datum();
+                        String tagHeute = datum.getFormatedTagHeute();
+                        firebaseHandler.getSingleData("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeute);
+                    }
+                }
+
+
+
+
+           /*
                 try {
                     if (LocationService.getInstance().getAktiviert()) {
 
@@ -561,22 +656,23 @@ firebaseHandler = new FirebaseHandler();
                         }
                         try {
                             listPosition = LocationService.getInstance().getListPosition(false);
-                            starteIntent(Taetigkeitsbericht.class, listPosition,true);
+                            starteIntent(Taetigkeitsbericht.class, listPosition, true);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     } else {
                         ArrayList<Position> listDummy = new ArrayList<Position>();
-                        starteIntent(Taetigkeitsbericht.class, listPosition,true);
+                        starteIntent(Taetigkeitsbericht.class, listPosition, true);
                     }
                 } catch (Exception e) {
                     Toast.makeText(MainActivity.this, "Ein Fehler ist aufgetreten", Toast.LENGTH_LONG).show();
-                    starteIntent(Taetigkeitsbericht.class, listPosition,true);
+                    starteIntent(Taetigkeitsbericht.class, listPosition, true);
                     listPosition.clear();
                     String gg = "iu";
 
-                    stopService(new Intent(MainActivity.this, LocationService.class));
+                    //     stopService(new Intent(MainActivity.this, LocationService.class));
                 }
+                */
             }
         });
 
@@ -588,19 +684,20 @@ firebaseHandler = new FirebaseHandler();
                 Position dumpPos = new Position("Firma");
                 Kunde k = new Kunde();
                 k.setFirma("fkfof");
-                Calendar  calendar= Calendar.getInstance();
+                Calendar calendar = Calendar.getInstance();
                 dumpPos.setStartTime(calendar);
                 listPosition.add(dumpPos);
                 listPosition.add(dumpPos);
                 String jsonArray = gson.toJson(listPosition);
-            //    dbHelfer.datensatzEinfuegen(null,"BERICHT",jsonArray);
+                //    dbHelfer.datensatzEinfuegen(null,"BERICHT",jsonArray);
             }
         });
 
         btnReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                starteIntent(Registration.class);
+
+                starteIntent(Testactivity.class);
             }
         });
 
@@ -699,7 +796,7 @@ firebaseHandler = new FirebaseHandler();
                     "MITTWOCH TEXT, " +
                     "DONNERSTAG TEXT, " +
                     "FREITAG TEXT, " +
-                    "SAMSTAG TEXT) " ;
+                    "SAMSTAG TEXT) ";
             tabelle.add(sql);
 
             sql = "CREATE TABLE Benutzer (" +
@@ -710,34 +807,31 @@ firebaseHandler = new FirebaseHandler();
 
             dbHelfer = new DatenbankHelfer(this, "Kundenstamm_Neu.dat", tabelle);
             leereTabelle = dbHelfer.ermittleAnzahlKunden(false) == 0;
-            if (leereTabelle){
-            Kunde kunde = new Kunde(getApplicationContext(),
-                    "1",
-                    "Firma",
-                    "Harbecke",
-                    "Hanseatenstraße 41",
-                    "Langenhagen",
-                    "Aufenthalt in der Firma",
-                    null,
-                    null,
-                    "",
-                    75,
-                    52.454922,
-                    9.733890,
-                    0);
+            if (leereTabelle) {
+                Kunde kunde = new Kunde(getApplicationContext(),
+                        "1",
+                        "Firma",
+                        "Harbecke",
+                        "Hanseatenstraße 41",
+                        "Langenhagen",
+                        null,
+                        "",
+                        75,
+                        52.454922,
+                        9.733890,
+                        0);
 
 
+                //         dbHelfer.datensatzEinfuegen(kunde, "Kunde");
 
-                dbHelfer.datensatzEinfuegen(kunde, "Kunde");
+                //       firebaseHandler.insert("user/"+firebaseHandler.getUserId(),kunde);
+                Log.d("Firemire", "Benutzer anlegen");
 
-                firebaseHandler.insert("user/"+firebaseHandler.getUserId(),kunde);
-                Log.d("Firemire","Benutzer anlegen");
-
-             //   dbHelfer.datensatzEinfuegenFirebase(firebaseAuth.getCurrentUser().getUid(),status);
+                //   dbHelfer.datensatzEinfuegenFirebase(firebaseAuth.getCurrentUser().getUid(),status);
             }
             leereTabelle = dbHelfer.ermittleAnzahlDatensaetze() == 0;
-            if (leereTabelle){
-                dbHelfer.datensatzEinfuegen(null,"BERICHT");
+            if (leereTabelle) {
+                dbHelfer.datensatzEinfuegen(null, "BERICHT");
             }
 
 
@@ -752,35 +846,161 @@ firebaseHandler = new FirebaseHandler();
         startActivity(intent);
     }
 
-    private void starteIntent(Class klasse, ArrayList<Position> listPosition,boolean taetigkeitsbericht) {
+    private void starteIntent(Class klasse, ArrayList<Position> listPosition, Boolean berichtHeute) {
         Intent intent = new Intent(this, klasse);
         intent.putExtra("listPosition", listPosition);
-        if (taetigkeitsbericht){
-            intent.putExtra("taetigkeitsbericht",taetigkeitsbericht);
-        }
+        intent.putExtra("berichtHeute", berichtHeute);
+
         startActivity(intent);
     }
 
-    private void checkDb(){
+    private void checkDb() {
 
-            Calendar dummyCalendar = Calendar.getInstance();
-            int aktuelleWoche = dummyCalendar.get(Calendar.WEEK_OF_YEAR);
-            int wocheDb =Integer.parseInt(dbHelfer.getBerichtWochentag("KWOCHE"));
-            if (aktuelleWoche != wocheDb){
-                dbHelfer.update(1,String.valueOf(aktuelleWoche),"KWOCHE");
-                dbHelfer.update(1,"MONTAG","MONTAG");
-                dbHelfer.update(1,"DIENSTAG","DIENSTAG");
-                dbHelfer.update(1,"MITTWOCH","MITTWOCH");
-                dbHelfer.update(1,"DONNERSTAG","DONNERSTAG");
-                dbHelfer.update(1,"FREITAG","FREITAG");
-                dbHelfer.update(1,"SAMSTAG","SAMSTAG");
-            }
-
+        Calendar dummyCalendar = Calendar.getInstance();
+        int aktuelleWoche = dummyCalendar.get(Calendar.WEEK_OF_YEAR);
+        int wocheDb = Integer.parseInt(dbHelfer.getBerichtWochentag("KWOCHE"));
+        if (aktuelleWoche != wocheDb) {
+            dbHelfer.update(1, String.valueOf(aktuelleWoche), "KWOCHE");
+            dbHelfer.update(1, "MONTAG", "MONTAG");
+            dbHelfer.update(1, "DIENSTAG", "DIENSTAG");
+            dbHelfer.update(1, "MITTWOCH", "MITTWOCH");
+            dbHelfer.update(1, "DONNERSTAG", "DONNERSTAG");
+            dbHelfer.update(1, "FREITAG", "FREITAG");
+            dbHelfer.update(1, "SAMSTAG", "SAMSTAG");
+        }
 
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.beliefert_menu, menu);
+        return true;
+    }
 
+    @Override
+    public void neuerKunde(HashMap<String, Kunde> listKunde) {
+        Log.i("555nase", "message from firebase");
+    }
+
+    @Override
+    public void neuerKunde(String key, Kunde kunde) {
+        Log.i("listenerfb", "message from firebase, neuer Kunde");
+    }
+
+    @Override
+    public void loescheKunde(String key) {
+
+    }
+
+    @Override
+    public void onGetTaetigkeitsberichtData(TaetigkeitsberichtUtil taetigkeitsberichtUtil) {
+        firebaseDataLoaded = true;
+        if (taetigkeitsberichtUtil == null) {
+            istAbgeschlossen = true;
+            listPositionHeute = null;
+        } else {
+            istAbgeschlossen =  taetigkeitsberichtUtil != null && taetigkeitsberichtUtil.getAbgeschlossen();
+            if (taetigkeitsberichtUtil != null){
+                listPositionHeute =  taetigkeitsberichtUtil.getTaetigkeitsbericht2(taetigkeitsberichtUtil.getBericht());
+            }
+
+        }
+
+        if (trackingStartenPresses) {
+            startTracking();
+        } else {
+            startTaetigkeitsbericht();
+        }
+    }
+
+    @Override
+    public void onSendTaetigkeitsbericht() {
+        istAbgeschlossen = true;
+        firebaseDataLoaded = false;
+    }
+
+    @Override
+    public void onRemoveTaetigkeitsbericht() {
+        istAbgeschlossen = false;
+        firebaseDataLoaded = false;
+
+    }
+
+    @Override
+    public void onDayOfTaetigkeitsberichtChange(TaetigkeitsberichtUtil taetigkeitsberichtUtil) {
+
+    }
+
+    @Override
+    public void onGetWochenbericht(HashMap<String, TaetigkeitsberichtUtil> listWochenBericht) {
+
+    }
+
+    private void startTracking() {
+        if (listPositionHeute == null) {
+
+            if (!LocationService.getInstance().getAktiviert()) {
+                istAbgeschlossen = false;
+                listPosition = null;
+                statusZuruecksetzen();
+                String meldungTrackingGestartet = getString(R.string.meldungTrackingGestartet);
+                Toast.makeText(MainActivity.this, meldungTrackingGestartet, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, LocationService.class);
+                ContextCompat.startForegroundService(MainActivity.this, intent);
+                LocationService.getInstance().setAktiviert(true);
+
+            } else {
+                Toast.makeText(MainActivity.this, "Tracking läuft bereits", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+
+
+            if (istAbgeschlossen) {
+                Toast.makeText(getApplicationContext(), "Tracking kann heute nicht mehr gestartet werden", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Bericht bereits vorhanden", Toast.LENGTH_LONG).show();
+                firebaseDataLoaded = true;
+            }
+        }
+/*
+        if (istAbgeschlossen) {
+
+                if (!LocationService.getInstance().getAktiviert()) {
+                    istAbgeschlossen = false;
+                    listPosition = null;
+                    statusZuruecksetzen();
+                    String meldungTrackingGestartet = getString(R.string.meldungTrackingGestartet);
+                    Toast.makeText(MainActivity.this, meldungTrackingGestartet, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, LocationService.class);
+                    ContextCompat.startForegroundService(MainActivity.this, intent);
+                    LocationService.getInstance().setAktiviert(true);
+
+                } else {
+                    Toast.makeText(MainActivity.this, "Tracking läuft bereits", Toast.LENGTH_SHORT).show();
+                }
+
+        } else {
+         //   listPositionHeute = taetigkeitsberichtUtil.getTaetigkeitsbericht2(taetigkeitsberichtUtil.getBericht());
+            Toast.makeText(getApplicationContext(), "Bericht bereits vorhanden", Toast.LENGTH_LONG).show();
+            firebaseDataLoaded = true;
+        }*/
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private void startTaetigkeitsbericht() {
+        if (istAbgeschlossen) {
+            starteIntent(Taetigkeitsbericht.class, null, false);
+        } else {
+            starteIntent(Taetigkeitsbericht.class, listPositionHeute, true);
+        }
+
+    }
 }
 
 

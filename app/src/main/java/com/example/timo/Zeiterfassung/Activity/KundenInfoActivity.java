@@ -69,7 +69,7 @@ public class KundenInfoActivity extends AppCompatActivity implements DialogBearb
         initialisiere();
 
         Menu menu = bottomNavigationView.getMenu();
-        menu.findItem(R.id.nav_loeschen).setIcon(R.drawable.ic_loeschen).setTitle("Löschen");
+   //     menu.findItem(R.id.nav_loeschen).setIcon(R.drawable.ic_loeschen).setTitle("Löschen");
 
 
         tv[0].setText(kunde.getFirma());
@@ -350,7 +350,7 @@ public class KundenInfoActivity extends AppCompatActivity implements DialogBearb
         dbHelfer.update(id, longitude, "Longitude");
         kunde.setStrasse(strasse);
         kunde.setStadt(stadt);
-        kunde.setLatiude(Double.parseDouble(latitude));
+        kunde.setLatitude(Double.parseDouble(latitude));
         kunde.setLongitude(Double.parseDouble(longitude));
     }
 

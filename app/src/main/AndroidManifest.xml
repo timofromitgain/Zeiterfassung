@@ -34,13 +34,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.Testactivity"></activity>
+        <activity android:name=".Activity.BerichtWoche"></activity>
+        <activity android:name=".Activity.Bericht" />
+        <activity android:name=".Activity.BerichtAdapter" />
+        <activity android:name=".Activity.Testactivity" />
         <activity android:name=".Activity.LoginActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activity.Registration" />
         <activity
             android:name=".Activity.Main2Activity"
             android:label="@string/title_activity_main2"
@@ -49,7 +51,7 @@
         <activity android:name=".Activity.TaetigkeitsberichtUeberarbeiten" />
         <activity
             android:name=".Activity.Taetigkeitsbericht"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -81,20 +83,20 @@
 
         <meta-data
             android:name="android.app.searchable"
-            android:resource="@xml/searchable" />
-
-        <!-- Foreground services in Q+ require type. -->
+            android:resource="@xml/searchable" /> <!-- Foreground services in Q+ require type. -->
         <service
             android:name=".Activity.LocationUpdatesService"
             android:enabled="true"
             android:exported="true"
             android:foregroundServiceType="location" />
-
         <service
             android:name=".Helfer.LocationService"
             android:stopWithTask="false" />
 
         <activity android:name=".Bericht2" />
+        <activity
+            android:name=".Activity.Registration"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.KundenInfoActivity"
             android:screenOrientation="portrait" />

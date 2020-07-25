@@ -25,6 +25,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.timo.Zeiterfassung.Activity.FirebaseHandler;
 import com.example.timo.Zeiterfassung.Beans.Position;
@@ -39,11 +40,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import static android.app.Notification.EXTRA_NOTIFICATION_ID;
 
 
 public class LocationService extends Service {
+    String uid;
     private static final String TAG = "logger";
     private static final int LOCATION_INTERVAL = 5000;
     private static final float LOCATION_DISTANCE = 0f;
@@ -53,12 +56,12 @@ public class LocationService extends Service {
     public static Boolean serviceAktiviert = false;
     public static DatenbankHelfer dbHelfer;
     public static Context context;
-    public static ArrayList<Kunde> listKunde = new ArrayList<Kunde>();
+    public static Map<String, Kunde> listKunde = new HashMap<String, Kunde>();
     public static Binder binder;
     public static NotificationManagerCompat notificationManager;
     public static ArrayList<Position> listPosition = new ArrayList<Position>();
     public static Position position;
-    public static HashMap<String,Integer> locIntervalls = new HashMap<>();
+    public static HashMap<String, Integer> locIntervalls = new HashMap<>();
     public ArrayList<LatLng> LatLngPolyline = new ArrayList<LatLng>();
     public ArrayList<String> zahlartList = new ArrayList<String>();
     public ArrayList<String> zahlungsIntervallList = new ArrayList<String>();
@@ -68,6 +71,7 @@ public class LocationService extends Service {
     public ArrayList<String> listAbgang = new ArrayList<String>();
     public double lastValidLatitude;
     public double lastValidLongitude;
+    public float lasValidAcc;
     public float currentAccuracy;
     public int countGeo;
     public Boolean inKreis;
@@ -76,7 +80,7 @@ public class LocationService extends Service {
     public Boolean mapsKoordinaten = false;
     public String strDatum;
     public double distance;
-    public int indexLetzterKunde;
+    public String uidLetzterKunde;
     public Integer tagHeute;
     public Integer monatHeute;
     public Integer jahrHeute;
@@ -87,23 +91,7 @@ public class LocationService extends Service {
     public Integer letzterSonntagImMonat = 0;
     public Integer ersterSonntagImMonat = 0;
     public View mapView;
-    public BroadcastReceiver receiverMaps = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            int position = -1;
-            Kunde kunde = (Kunde) intent.getSerializableExtra("KUNDE");
-            int id = kunde.getId();
 
-            for (int i = 0; i < listKunde.size(); i++) {
-                if (id == listKunde.get(i).getId()) {
-                    position = i;
-                }
-
-            }
-            listKunde.set(position, kunde);
-        }
-
-    };
     double latAlt_test;
     double longAlt_test;
     long time_test;
@@ -163,10 +151,47 @@ public class LocationService extends Service {
         return locationService;
     }
 
+    public static Boolean isLocation() {
+        if (locationService == null) {
+            return false;
+        }else{
+            return true;
+        }
+
+    }
+
+    public BroadcastReceiver receiverMaps = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int position = -1;
+            Kunde kunde = (Kunde) intent.getSerializableExtra("KUNDE");
+            int id = kunde.getId();
+
+            for (int i = 0; i < listKunde.size(); i++) {
+                if (id == listKunde.get(uid).getId()) {
+                    position = i;
+                }
+
+            }
+            //HIER
+            //   listKunde.set(position, kunde);
+        }
+
+    };
+
+    public BroadcastReceiver receiverFirebase = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+             Toast.makeText(LocationService.this, String.valueOf("Message from Firebase"), Toast.LENGTH_SHORT).show();
+        }
+
+    };
+
     public ArrayList<LatLng> getListGeo() {
         return listGeo;
     }
-    public HashMap<String,Integer> getListIntervalls() {
+
+    public HashMap<String, Integer> getListIntervalls() {
         return locIntervalls;
     }
 
@@ -182,12 +207,14 @@ public class LocationService extends Service {
         listHelferLocation = new ArrayList<HelferLocation>();
         listAusreiser_test = new ArrayList<String>();
         serviceAktiviert = true;
-        listKunde = dbHelfer.getListKunde();
+        listKunde = FirebaseHandler.listKunde;
         //    firebaseHandler.insertDate("auftrag/" + listKunde.get(1).getAuftragsId(),3);
-        countGeo = (int) dbHelfer.ermittleAnzahlKunden(true);
+        // countGeo = (int) dbHelfer.ermittleAnzahlKunden(true);
         notificationManager = NotificationManagerCompat.from(this);
         LocalBroadcastManager.getInstance(context).registerReceiver(receiverMaps, new IntentFilter("maps"));
-
+        LocalBroadcastManager.getInstance(context).registerReceiver(receiverFirebase, new IntentFilter("firebase"));
+        String meldungTrackingGestartet = getString(R.string.meldungTrackingGestartet);
+        startForeground(1, pushNotificationTracking(LocationService.this, meldungTrackingGestartet, new Intent()));
         super.onStartCommand(intent, flags, startId);
         return START_STICKY;
     }
@@ -218,16 +245,15 @@ public class LocationService extends Service {
         firebaseHandler = new FirebaseHandler();
 
         //NUR ZUM TESTEN
-        locIntervalls.put("unter 5",0);
-        locIntervalls.put("unter 10",0);
-        locIntervalls.put("unter 15",0);
-        locIntervalls.put("unter 20",0);
-        locIntervalls.put("unter 30",0);
-        locIntervalls.put("unter 40",0);
-        locIntervalls.put("über 40",0);
+        locIntervalls.put("unter 5", 0);
+        locIntervalls.put("unter 10", 0);
+        locIntervalls.put("unter 15", 0);
+        locIntervalls.put("unter 20", 0);
+        locIntervalls.put("unter 30", 0);
+        locIntervalls.put("unter 40", 0);
+        locIntervalls.put("über 40", 0);
 
-        String meldungTrackingGestartet = getString(R.string.meldungTrackingGestartet);
-        startForeground(1, pushNotificationTracking(LocationService.this, meldungTrackingGestartet, new Intent()));
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -260,9 +286,15 @@ public class LocationService extends Service {
 
         unregisterReceiver(mReceiver);
         unregisterReceiver(receiverNeuerKunde);
-        Log.e(TAG, "onDestroy");
+
         pushNotificationTracking(LocationService.this, "Tracking wurde beendet", new Intent());
-        super.onDestroy();
+        setAktiviert(false);
+        locationService = null;
+        Log.d("changeEvent", "onDestroy: ");
+      //  stopForeground(STOP_FOREGROUND_DETACH);
+       // stopSelf();
+     //   super.onDestroy();
+  /*
         if (mLocationManager != null) {
             for (int i = 0; i < mLocationListeners.length; i++) {
                 try {
@@ -273,8 +305,12 @@ public class LocationService extends Service {
                     System.exit(0);
                 }
             }
+
         }
+        */
+
         System.exit(0);
+
     }
 
     //Location Manager initialisieren falls noch nicht geschehen
@@ -290,78 +326,7 @@ public class LocationService extends Service {
         }
     }
 
-    /*
-        //Nachricht - Erinnerung
-        public void pushNotification(Kunde kunde) {
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            String nachrichtErinnerung = context.getString(R.string.nachrichtErinnerung);
-            String kundeNachnameVorherige = kunde.getNname();
-            String kundeVornameVorherige = kunde.getVname();
-            String kundeStrasseVorherige = kunde.getStrasse();
-            int id = kunde.getId();
-            nachrichtErinnerung = String.format(nachrichtErinnerung, kundeNachnameVorherige, kundeVornameVorherige, kundeStrasseVorherige);
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            String channelId = "channel-01";
-            String channelName = "Channel1";
 
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                NotificationChannel mChannel = new NotificationChannel(
-                        channelId, channelName, importance);
-                notificationManager.createNotificationChannel(mChannel);
-            }
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
-                    .setSmallIcon(R.drawable.ic_erinnerung)
-                    .setContentTitle("Erinnerung")
-                    .setContentText(nachrichtErinnerung)
-                    .setSound(uri)
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setCategory(NotificationCompat.CATEGORY_REMINDER)
-                    .setColor(8)
-                    .setAutoCancel(false);
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-            stackBuilder.addNextIntent(new Intent());
-            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
-                    0,
-                    PendingIntent.FLAG_UPDATE_CURRENT
-            );
-            mBuilder.setContentIntent(resultPendingIntent);
-
-            notificationManager.notify("erinnerung", id, mBuilder.build());
-        }
-
-        public void showNotification(Context context, String title, String body, Intent intent) {
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            int notificationId = 0;
-            String channelId = "channel-01";
-            String channelName = "Channel Name";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                NotificationChannel mChannel = new NotificationChannel(
-                        channelId, channelName, importance);
-                notificationManager.createNotificationChannel(mChannel);
-            }
-
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle(title)
-                    .setSound(uri)
-                    .setPriority(PRIORITY_HIGH)
-                    .setContentText(body);
-
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-            stackBuilder.addNextIntent(intent);
-            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
-                    0,
-                    PendingIntent.FLAG_UPDATE_CURRENT
-            );
-            mBuilder.setContentIntent(resultPendingIntent);
-
-            notificationManager.notify(notificationId, mBuilder.build());
-        }
-    */
     public android.app.Notification pushNotificationTracking(Context context, String titel, Intent intent) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -396,42 +361,46 @@ public class LocationService extends Service {
 
     //Nachricht - BezahlungActivity
     public void pushNotificationTaetigkeit(
-
+            Kunde kunde,
             Integer id,
-            String firma,
-            String kundeStrasse,
-            int index
+            String uid
+
     ) {
 
-        String nichtBezahlt = context.getString(R.string.btnNichtBezahlt);
-        String nachrichtTaetigkeit = "Bitte wählen Sie eine Tätigkeit aus";
-        String zumKunden = context.getString(R.string.btnZumKunden);
-        String trennung;
-        String tat1, tat2, tat3;
-        tat1 = listKunde.get(index).getTaetigkeit_1();
-        tat2 = listKunde.get(index).getTaetigkeit_2();
-        tat3 = listKunde.get(index).getTaetigkeit_3();
 
-        nachrichtTaetigkeit = String.format("Bitte Tätigkeit bei der Firma " + firma + " auswählen");
+        String nachrichtTaetigkeit = "Bitte wählen Sie eine Tätigkeit aus";
+
+        String tat1 = "", tat2 = "", tat3 = "";
+        tat1 = kunde.getListAuftrag().get(0);
+        tat2 = kunde.getListAuftrag().get(1);
+        if (kunde.getListAuftrag().size() > 2) {
+            tat3 = kunde.getListAuftrag().get(2);
+        }
+
+
+        nachrichtTaetigkeit = String.format("Bitte Tätigkeit bei der Firma " + kunde.getFirma() + " auswählen");
 
         Intent snoozeIntent = new Intent(context, NotificationReceiver.class);
         snoozeIntent.setAction(tat1);
         snoozeIntent.putExtra(EXTRA_NOTIFICATION_ID, 0);
-        snoozeIntent.putExtra("kunde", listKunde.get(index));
+        snoozeIntent.putExtra("kunde", kunde);
+        snoozeIntent.putExtra("uid", uid);
         PendingIntent snoozePendingIntent =
                 PendingIntent.getBroadcast(context, 0, snoozeIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Intent snoozeIntent2 = new Intent(context, NotificationReceiver.class);
         snoozeIntent2.setAction(tat2);
         snoozeIntent2.putExtra(EXTRA_NOTIFICATION_ID, 0);
-        snoozeIntent2.putExtra("kunde", listKunde.get(index));
+        snoozeIntent2.putExtra("kunde", kunde);
+        snoozeIntent2.putExtra("uid", uid);
         PendingIntent snoozePendingIntent2 =
                 PendingIntent.getBroadcast(context, 0, snoozeIntent2, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Intent snoozeIntent3 = new Intent(context, NotificationReceiver.class);
         snoozeIntent3.setAction(tat3);
         snoozeIntent3.putExtra(EXTRA_NOTIFICATION_ID, 0);
-        snoozeIntent3.putExtra("kunde", listKunde.get(index));
+        snoozeIntent3.putExtra("kunde", kunde);
+        snoozeIntent3.putExtra("uid", uid);
         PendingIntent snoozePendingIntent3 =
                 PendingIntent.getBroadcast(context, 0, snoozeIntent3, PendingIntent.FLAG_CANCEL_CURRENT);
 
@@ -591,6 +560,12 @@ public class LocationService extends Service {
         ArrayList<Position> listPositionCopy = new ArrayList<Position>();
         //Kopie der Liste erstellen
         listPositionCopy.clear();
+        /*
+        if (listPosition.size() == 0){
+            return listPosition;
+        }
+        */
+
         for (int i = 0; i < listPosition.size(); i++) {
             listPositionCopy.add(listPosition.get(i));
         }
@@ -636,48 +611,49 @@ public class LocationService extends Service {
         serviceAktiviert = aktiviert;
     }
 
-    private void ueberpruefeKunde(int i, int k, int status) {
-     /*   kundeNachname = listKunde.get(i).getNname();
-        kundeVorname = listKunde.get(i).getVname();
-        knAdresse = listKunde.get(i).getStrasse();
-        abgang = listKunde.get(i).getPosition() == -1;
+    private void ueberpruefeKunde(String uid, int k, int status) {
+     /*   kundeNachname = listKunde.get(uid).getNname();
+        kundeVorname = listKunde.get(uid).getVname();
+        knAdresse = listKunde.get(uid).getStrasse();
+        abgang = listKunde.get(uid).getPosition() == -1;
         Zahlung zahlung = new Zahlung();*/
         //Falls es sich bei Kunden nicht um einen Abgang hält
 
 
-        if (status != listKunde.get(i).getStatus()) {
-            sendeBroadcast(i, k, listKunde.get(i).getStatus());
+        if (status != listKunde.get(uid).getStatus()) {
+
+            sendeBroadcast(uid, k, listKunde.get(uid).getStatus());
         }
 
 
     }
 
-    private void sendeBroadcast(int i, int k, int status) {
+    private void sendeBroadcast(String uid, int k, int status) {
         Intent intent;
         intent = new Intent("kundeBeliefert");
-        intent.putExtra("markernr", i);
+        intent.putExtra("markernr", uid);
 
         //Kunde besitzt Kundenradius als Erkennungsbereich
 
-        intent.putExtra("status", listKunde.get(i).getStatus());
+        intent.putExtra("status", listKunde.get(uid).getStatus());
         //Kunde besitzt Polygon als Erkennungsbereich
         Log.d("status", "SENDEVONLOCCCCCC");
         LocalBroadcastManager.getInstance(binder.getService()).sendBroadcast(intent);
     }
 
-    public void checkAenderung(Kunde kunde, Boolean warBeiEinemKunden, int i) {
+    public void checkAenderung(Kunde kunde, Boolean warBeiEinemKunden, String uid) {
 
         if (kunde != null) {
             Boolean aktuellBeimKunden = kunde.getMonteurBeimKunden();
             //kreis true
             if (!aktuellBeimKunden) {
-                listKunde.get(i).setMonteurBeimKunden(true);
+                listKunde.get(uid).setMonteurBeimKunden(true);
                 try {
                     position.setEndTime(Calendar.getInstance());
                     position.setArbeitszeitMinuten();
                     position.setArbeitsZeitSekunden();
-                    position.setKundeAktuell(listKunde.get(i));
-                    kundeAktuell = listKunde.get(i);
+                    position.setKundeAktuell(listKunde.get(uid));
+                    kundeAktuell = listKunde.get(uid);
                     if (listPosition.size() == 0) {
                         // rundeZeitBegin(position);
                     }
@@ -689,12 +665,45 @@ public class LocationService extends Service {
                 position = new Position("Kunde", kunde.getFirma());
                 position.setStartTime(Calendar.getInstance());
                 position.setKunde(kunde);
-                kundeVorher = listKunde.get(i);
+                kundeVorher = listKunde.get(uid);
+
+                if (position.getKunde().getFirma().equals("Zuhause")){
+                    Log.d("changeevent", "Zuhause");
+                    boolean istKundeInListe = position.istKundeInListe(listPosition);
+                    if (istKundeInListe){
+                        Log.d("changeevent", "Stop Tracking");
+                        //    if (listPosition == null) {
+                        ArrayList<Position> listPostionGesamt = new ArrayList<Position>();
+                        listPosition = getListPosition(true);
+                        TaetigkeitsberichtUtil taetigkeitsberichtUtil = new TaetigkeitsberichtUtil();
+                        //Filter Positionen
+                        listPostionGesamt.addAll(listPosition);
+                        Position posGesamt = new Position("");
+                        listPosition = posGesamt.getListPositionOhneAusreisser(listPosition);
+                        listPosition = taetigkeitsberichtUtil.sortiereListe(listPosition,listPostionGesamt);
+
+                        listPosition = posGesamt.getListPositonOhneDuplikate(listPosition);
+                        listPosition = posGesamt.getListPositonOhneDuplikateSonstiges(listPosition);
+                        listPosition = posGesamt.getGueltigePositionen(listPosition);
+
+                        String  taetigkeitsbericht = taetigkeitsberichtUtil.getTaetigkeitsbericht(listPosition);
+                        Datum datum = new Datum();
+                        String tagHeuteFormated = datum.getFormatedTagHeute();
+                        String arbeitszeit = posGesamt.getArbeitszeitGesamt(listPosition, null, null, null, null);
+                        firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/bericht", taetigkeitsbericht);
+                        firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/abgeschlossen", false);
+                        firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/arbeitszeit", arbeitszeit);
+                        stopSelf();
+                        stopForeground(true);
+                   //     stopService(new Intent(MainActivity.this, LocationService.class));
+                        //Stop
+                    }
+                }
             }
         } else {
             if (warBeiEinemKunden) {
                 this.warBeiEinemKunden = false;
-                listKunde.get(indexLetzterKunde).setMonteurBeimKunden(false);
+                listKunde.get(uidLetzterKunde).setMonteurBeimKunden(false);
                 position.setEndTime(Calendar.getInstance());
                 position.setArbeitszeitMinuten();
                 position.setArbeitsZeitSekunden();
@@ -712,38 +721,11 @@ public class LocationService extends Service {
                 position.setKundeVorher(kundeVorher);
             }
         }
-
-        /*
-            if (aktuellBeimKunden && monteurBeiKeinemKunden) {
-                aktuellBeimKunden = false;
-
-                position.setEndTime();
-                position.setArbeitszeitMinuten();
-                position.setArbeitsZeitSekunden();
-                listPosition.add(position);
-                position = new Position("Sonstiges");
-                position.setStartTime();
-
-
-
-            } else {
-                if (position == null) {
-                    position = new Position("Sonstiges");
-                    position.setStartTime();
-
-
-                }
-            }
-            //listPosition.add(new Position("Kunde",listKunde.get(i).getFirma()));
-        }
-      */
-
-
     }
 
     private Integer posFromId(int id) {
         for (int i = 0; i < listKunde.size(); i++) {
-            if (listKunde.get(i).getId() == id) {
+            if (listKunde.get(uid).getId() == id) {
                 return i;
             }
         }
@@ -769,10 +751,13 @@ public class LocationService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             // do something
-            Integer id = intent.getIntExtra("id", -1);
+            //   Integer id = intent.getIntExtra("id", -1);
+            String uid = intent.getStringExtra("uid");
             String auswahlTaetigkeit = intent.getStringExtra("auswahl");
-            int pos = posFromId(id);
-            listKunde.get(pos).setAuswahlTaetigkeit(auswahlTaetigkeit);
+            Log.i("555", "Auswahl " + auswahlTaetigkeit);
+            Log.i("555", "UidLoc " + uid);
+            //  int pos = posFromId(id);
+            listKunde.get(uid).setAuswahlTaetigkeit(auswahlTaetigkeit);
             notificationManager.cancelAll();
 
         }
@@ -789,7 +774,8 @@ public class LocationService extends Service {
             //   listKunde = dbHelfer.getListKunde();
             Log.d("status", "empfangeBroadcast");
             Kunde kunde = (Kunde) intent.getSerializableExtra("Kunde");
-            listKunde.add(kunde);
+            //HIER
+            //   listKunde.add(kunde);
         }
 
 
@@ -807,165 +793,196 @@ public class LocationService extends Service {
 
         @Override
         public void onLocationChanged(Location location) {
-            //    Log.d(TAG, location.toString());
-            LatLng latLng;
-            Intent intent;
-            Integer statusVorher;
-            Integer anzahlWerte;
-            String key;
-            mLastLocation.set(location);
-            geo = new Geo(context);
-          double latitudeCurrentLocation = lastValidLatitude;
-          double longitudeCurrenLocation = lastValidLongitude;
-            currentAccuracy = location.getAccuracy();
-
-           if (currentAccuracy<5){
-               key = "unter 5";
-           }else if (currentAccuracy<10){
-               key = "unter 10";
-           }else if (currentAccuracy<15){
-               key = "unter 15";
-           }else if (currentAccuracy<20){
-               key = "unter 20";
-           }else if (currentAccuracy<30){
-               key = "unter 30";
-           }else if (currentAccuracy<40){
-               key = "unter 40";
-           }else {
-               key = "über 40";
-           }
-           anzahlWerte =  locIntervalls.get(key);
-           anzahlWerte++;
-           locIntervalls.put(key,anzahlWerte);
+            Log.d("changeEvent", "onLocationChanged: ");
+            if (location.getAccuracy() < 13) {
 
 
+                //    Log.d(TAG, location.toString());
+                LatLng latLng;
+                Intent intent;
+                Integer statusVorher;
+                Integer anzahlWerte;
+                String key;
+                Float t = location.getAccuracy();
+                mLastLocation.set(location);
+                geo = new Geo(context);
+                double latitudeCurrentLocation = lastValidLatitude;
+                double longitudeCurrenLocation = lastValidLongitude;
+                currentAccuracy = location.getAccuracy();
 
-            if (currentAccuracy >15 && listGeo.size() != 0){
-                latitudeCurrentLocation = lastValidLatitude;
-                longitudeCurrenLocation = lastValidLongitude;
-            }else{
-                 latitudeCurrentLocation = location.getLatitude();
-                 longitudeCurrenLocation = location.getLongitude();
-                 lastValidLatitude = latitudeCurrentLocation;
-                 lastValidLongitude = longitudeCurrenLocation;
-            }
-            //   Toast.makeText(LocationService.this, String.valueOf(location.getProvider()), Toast.LENGTH_SHORT).show();
-            firebaseHandler.insertDate("Standort", new LatLng(latitudeCurrentLocation, longitudeCurrenLocation));
-            latLng = new LatLng(latitudeCurrentLocation, longitudeCurrenLocation);
-            listGeo.add(latLng);
-
-
-            double longitudeOfMarker;
-            double latitudeOfMarker;
-            int radius;
-            int k = 0;
-            double dist;
-            Boolean KnBeliefet;
-            //   Log.d(TAG, "LocationChange");
-            for (int i = 0; i < listKunde.size(); i++) {
-                Log.d("listSize", String.valueOf(listKunde.size()));
-                if (i == listKunde.size() - 1) {
-                    letzterDurchlauf = true;
-                }
-                longitudeOfMarker = listKunde.get(i).getLongitude();
-                latitudeOfMarker = listKunde.get(i).getLatiude();
-                radius = listKunde.get(i).getRadius();
-                dist = geo.getDistance(latitudeCurrentLocation, longitudeCurrenLocation, latitudeOfMarker, longitudeOfMarker);
-                //     Log.d("zeittest", "koordinaten: " + String.valueOf(latitudeCurrentLocation) +
-                //           "   " + String.valueOf(longitudeCurrenLocation)
-                //         + "   " + String.valueOf(latitudeOfMarker)
-                //       + "   " + String.valueOf(longitudeOfMarker));
-                if (listKunde.get(i).getStatus() == 1) {
-                    KnBeliefet = true;
+                if (currentAccuracy < 5) {
+                    key = "unter 5";
+                } else if (currentAccuracy < 10) {
+                    key = "unter 10";
+                } else if (currentAccuracy < 15) {
+                    key = "unter 15";
+                } else if (currentAccuracy < 20) {
+                    key = "unter 20";
+                } else if (currentAccuracy < 30) {
+                    key = "unter 30";
+                } else if (currentAccuracy < 40) {
+                    key = "unter 40";
                 } else {
-                    KnBeliefet = false;
+                    key = "über 40";
                 }
-                //Falls Kunden einen Kundenradius als Erkennungsbereich besitzt
+                anzahlWerte = locIntervalls.get(key);
+                anzahlWerte++;
+                locIntervalls.put(key, anzahlWerte);
 
-                inKreis = geo.inKreis(dist, radius);
 
-
-                String gg = "IJ";
-                //Falls Kunde einen Polygon als Erkennungsberich besitzt
-                statusVorher = listKunde.get(i).getStatus();
-                //Falls sich der aktuelle Standort im Kunden Erkennungsbereich befindet und der Kunde noch nicht beliefert wurde
-                if (inKreis) {
-                    Log.d("listsize", String.valueOf(listKunde.get(i).getBesucht()));
-                    indexLetzterKunde = i;
-                    warBeiEinemKunden = true;
-                    zeitGesetzt = true;
-                    checkAenderung(listKunde.get(i), warBeiEinemKunden, i);
-
-                    if (listKunde.get(i).getTaetigkeit_2() != null && !listKunde.get(i).getBesucht()) {
-                        pushNotificationTaetigkeit(listKunde.get(i).getId(), listKunde.get(i).getFirma(), listKunde.get(i).getStrasse(), i);
-                    }
-                    listKunde.get(i).setBesucht(true);
-                    if (listKunde.get(i).getStatus() == 1 || listKunde.get(i).getStatus() == 2) {
-                        listKunde.get(i).setStatus(3);
-                        dbHelfer.update(listKunde.get(i).getId(), "3", "Status");
-                        firebaseHandler.insert("auftrag/" + firebaseHandler.getUserId() + "/" + listKunde.get(i).getAuftragsId() + "/status", 3);
-                    }
-
+                if (currentAccuracy > 8 && listGeo.size() != 0) {
+                    latitudeCurrentLocation = lastValidLatitude;
+                    longitudeCurrenLocation = lastValidLongitude;
+                    acc_test = lasValidAcc;
                 } else {
-                    if (!zeitGesetzt && letzterDurchlauf) {
-                        checkAenderung(null, warBeiEinemKunden, i);
-                    }
+                    latitudeCurrentLocation = location.getLatitude();
+                    longitudeCurrenLocation = location.getLongitude();
+                    acc_test = location.getAccuracy();
+                    lastValidLatitude = latitudeCurrentLocation;
+                    lastValidLongitude = longitudeCurrenLocation;
+                    lasValidAcc = acc_test;
+                }
+                //   Toast.makeText(LocationService.this, String.valueOf(location.getProvider()), Toast.LENGTH_SHORT).show();
+                firebaseHandler.insert("Standort/" + firebaseHandler.getUserId(), new LatLng(latitudeCurrentLocation, longitudeCurrenLocation));
+                latLng = new LatLng(latitudeCurrentLocation, longitudeCurrenLocation);
+                listGeo.add(latLng);
 
-                    if (listKunde.get(i).getBesucht()) {
-                        listKunde.get(i).setStatus(2);
-                        dbHelfer.update(listKunde.get(i).getId(), "2", "Status");
-                        firebaseHandler.insert("auftrag/" + firebaseHandler.getUserId() + "/" + listKunde.get(i).getAuftragsId() + "/status", 2);
+
+                double longitudeOfMarker;
+                double latitudeOfMarker;
+                int radius;
+                int k = 0;
+                double dist;
+                Boolean KnBeliefet;
+                //   Log.d(TAG, "LocationChange");
+
+                int i = 0;
+                for (Map.Entry<String, Kunde> entry : listKunde.entrySet()) {
+                    i++;
+                    String uid = entry.getKey();
+
+                    if (i == listKunde.size() - 1) {
+                        letzterDurchlauf = true;
+                    }
+                    longitudeOfMarker = listKunde.get(uid).getLongitude();
+                    latitudeOfMarker = listKunde.get(uid).getLatitude();
+                    radius = listKunde.get(uid).getRadius();
+                    dist = geo.getDistance(latitudeCurrentLocation, longitudeCurrenLocation, latitudeOfMarker, longitudeOfMarker);
+                    //     Log.d("zeittest", "koordinaten: " + String.valueOf(latitudeCurrentLocation) +
+                    //           "   " + String.valueOf(longitudeCurrenLocation)
+                    //         + "   " + String.valueOf(latitudeOfMarker)
+                    //       + "   " + String.valueOf(longitudeOfMarker));
+                    if (listKunde.get(uid).getStatus() == 1) {
+                        KnBeliefet = true;
                     } else {
-                        listKunde.get(i).setStatus(1);
-                        dbHelfer.update(listKunde.get(i).getId(), "1", "Status");
-                        firebaseHandler.insert("auftrag/" + firebaseHandler.getUserId() + "/" + listKunde.get(i).getAuftragsId() + "/status", 1);
+                        KnBeliefet = false;
                     }
+                    //Falls Kunden einen Kundenradius als Erkennungsbereich besitzt
 
-                }
+                    inKreis = geo.inKreis(dist, radius);
+                    Log.d("debugloc", String.valueOf(inKreis));
+
+
+                    //Falls Kunde einen Polygon als Erkennungsberich besitzt
+                    statusVorher = listKunde.get(uid).getStatus();
+                    //Falls sich der aktuelle Standort im Kunden Erkennungsbereich befindet und der Kunde noch nicht beliefert wurde
+                    if (inKreis) {
+                        Log.d("listsize", String.valueOf(listKunde.get(uid).getBesucht()));
+                        uidLetzterKunde = uid;
+                        warBeiEinemKunden = true;
+                        zeitGesetzt = true;
+                        checkAenderung(listKunde.get(uid), warBeiEinemKunden, uid);
+
+                        //Default Tätigkeite
+                        if (listKunde.get(uid).getListAuftrag() == null){
+                            listKunde.get(uid).setAuswahlTaetigkeit("-");
+                        }else{
+                            listKunde.get(uid).setAuswahlTaetigkeit(listKunde.get(uid).getListAuftrag().get(0));
+                        }
+
+                        if (listKunde.get(uid).getListAuftrag() != null){
+                            if (listKunde.get(uid).getListAuftrag().size() > 1 && !listKunde.get(uid).getBesucht()) {
+                                pushNotificationTaetigkeit(listKunde.get(uid), i, uid);
+                            }
+                        }
+
+                        listKunde.get(uid).setBesucht(true);
+                        if (listKunde.get(uid).getStatus() == 1 || listKunde.get(uid).getStatus() == 2) {
+                            listKunde.get(uid).setStatus(3);
+                            //  dbHelfer.update(listKunde.get(uid).getId(), "3", "Status");
+                            if (!uid.equals("Zuhause")){
+                                firebaseHandler.insert("kunde/" + uid + "/status", 3);
+                            }
+
+                        }
+
+                    } else {
+                        if (!zeitGesetzt && letzterDurchlauf) {
+                            checkAenderung(null, warBeiEinemKunden, uid);
+                        }
+
+                        if (listKunde.get(uid).getBesucht()) {
+                            listKunde.get(uid).setStatus(2);
+                            //     dbHelfer.update(listKunde.get(uid).getId(), "2", "Status");
+                            if (!uid.equals("Zuhause")){
+                                firebaseHandler.insert("kunde/" + uid + "/status", 2);
+                            }
+
+                        } else {
+                            listKunde.get(uid).setStatus(1);
+                            //      dbHelfer.update(listKunde.get(uid).getId(), "1", "Status");
+                            if (!uid.equals("Zuhause")){
+                                firebaseHandler.insert("kunde/" + uid + "/status", 1);
+                            }
+
+                        }
+
+                    }
 
 //                Log.d("zeittest", String.valueOf("position" + position.toString()));
-                ueberpruefeKunde(i, k, statusVorher);
+                    ueberpruefeKunde(uid, k, statusVorher);
+                }
+
+
+                zeitGesetzt = false;
+                letzterDurchlauf = false;
+                monteurBeiKeinemKunden = false;
+
+
+                //NUR ZUM TESTEN
+                if (listHelferLocation.size() > 1) {
+                    latAlt_test = listHelferLocation.get(listHelferLocation.size() - 2).getLatAlt();
+                    longAlt_test = listHelferLocation.get(listHelferLocation.size() - 2).getLongAlt();
+                } else {
+                    latAlt_test = 0;
+                    longAlt_test = 0;
+                }
+
+                time_test = location.getTime();
+                strTime_test = convertTime(time_test);
+                hasAcc_test = location.hasAccuracy();
+                //  acc_test = location.getAccuracy();
+                hasSpeedAcc_test = location.hasSpeed();
+                provider_test = location.getProvider();
+                distanceToLastPoint_test = geo.getDistance(latitudeCurrentLocation, longitudeCurrenLocation, latAlt_test, longAlt_test);
+
+
+                listHelferLocation.add(new HelferLocation(
+                        latitudeCurrentLocation,
+                        longitudeCurrenLocation,
+                        strTime_test,
+                        hasAcc_test,
+                        acc_test,
+                        hasSpeedAcc_test,
+                        distanceToLastPoint_test,
+                        provider_test));
+
+                if (acc_test >= 100 || !provider_test.equals("gps")) {
+                    listAusreiser_test.add(provider_test + " -> " + " -> index: " + String.valueOf(listHelferLocation.size()) + " -> " + String.valueOf(acc_test));
+                }
+
             }
-            zeitGesetzt = false;
-            letzterDurchlauf = false;
-            monteurBeiKeinemKunden = false;
-
-
-            //NUR ZUM TESTEN
-            if (listHelferLocation.size() >1){
-                latAlt_test = listHelferLocation.get(listHelferLocation.size() - 2).getLatAlt();
-                longAlt_test = listHelferLocation.get(listHelferLocation.size() - 2).getLongAlt();
-            }else{
-                latAlt_test = 0;
-                longAlt_test = 0;
-            }
-
-            time_test = location.getTime();
-            strTime_test = convertTime(time_test);
-            hasAcc_test = location.hasAccuracy();
-            acc_test = location.getAccuracy();
-            hasSpeedAcc_test = location.hasSpeed();
-            provider_test = location.getProvider();
-            distanceToLastPoint_test = geo.getDistance(latitudeCurrentLocation, longitudeCurrenLocation, latAlt_test, longAlt_test);
-
-
-            listHelferLocation.add(new HelferLocation(
-                    latitudeCurrentLocation,
-                    longitudeCurrenLocation,
-                    strTime_test,
-                    hasAcc_test,
-                    acc_test,
-                    hasSpeedAcc_test,
-                    distanceToLastPoint_test,
-                    provider_test));
-
-            if (acc_test >= 100 || !provider_test.equals("gps")){
-                listAusreiser_test.add(provider_test + " -> " + " -> index: " + String.valueOf(listHelferLocation.size()) + " -> " + String.valueOf(acc_test));
-            }
-
         }
-
-
 
 
         @Override

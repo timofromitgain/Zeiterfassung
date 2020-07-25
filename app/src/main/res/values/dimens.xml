@@ -16,6 +16,7 @@
     <dimen name="abstand_btbearbeiten">7dp</dimen>
     <dimen name="icon_klein">20dp</dimen>
     <dimen name="icon_normal">16dp</dimen>
+    <dimen name="icon_mittel">36dp</dimen>
     <dimen name="icon_gross">20dp</dimen>
     <dimen name="icon_gross_xx">32dp</dimen>
     <dimen name="icon_gross_xxx">72dp</dimen>
