@@ -526,12 +526,12 @@ public class MainActivity extends AppCompatActivity implements Serializable, IFi
                                                            Log.d("listSize", String.valueOf("size: " + listPosition.size()));
                                                            //    }
                                                            //      starteIntent(Taetigkeitsbericht.class, listPosition,false);
-                                                            ArrayList<Position> listPostionGesamt = new ArrayList<Position>();
+                                                           ArrayList<Position> listPostionGesamt = new ArrayList<Position>();
                                                            listPostionGesamt.addAll(listPosition);
                                                            Position posGesamt = new Position("");
                                                            listPosition = posGesamt.getListPositionOhneAusreisser(listPosition);
                                                            Log.d("listSize", String.valueOf("size2: " + listPosition.size()));
-                                                           listPosition = taetigkeitsberichtUtil.sortiereListe(listPosition,listPostionGesamt);
+                                                           listPosition = taetigkeitsberichtUtil.sortiereListe(listPosition, listPostionGesamt);
                                                            Log.d("listSize", String.valueOf("size3: " + listPosition.size()));
                                                            listPosition = posGesamt.getListPositonOhneDuplikate(listPosition);
                                                            Log.d("listSize", String.valueOf("size4: " + listPosition.size()));
@@ -539,13 +539,17 @@ public class MainActivity extends AppCompatActivity implements Serializable, IFi
                                                            Log.d("listSize", String.valueOf("size5: " + listPosition.size()));
                                                            listPosition = posGesamt.getGueltigePositionen(listPosition);
                                                            Log.d("listSize", String.valueOf("size6: " + listPosition.size()));
-                                                           String  taetigkeitsbericht = taetigkeitsberichtUtil.getTaetigkeitsbericht(listPosition);
+                                                           String taetigkeitsbericht = taetigkeitsberichtUtil.getTaetigkeitsbericht(listPosition);
                                                            taetigkeitsbericht = taetigkeitsberichtUtil.getTaetigkeitsbericht(listPosition);
                                                            String arbeitszeit = posGesamt.getArbeitszeitGesamt(listPosition, null, null, null, null);
-                                                              // tagHeuteFormated = "14-07-2020";
-                                                           firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/bericht", taetigkeitsbericht,mainActivity,false);
-                                                           firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/abgeschlossen", false,mainActivity,false);
-                                                           firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/arbeitszeit", arbeitszeit,mainActivity,true);
+                                                           // tagHeuteFormated = "14-07-2020";
+                                                           if (listPosition.size() != 0) {
+                                                               firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/bericht", taetigkeitsbericht, mainActivity, false);
+                                                               firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/abgeschlossen", false, mainActivity, false);
+                                                               firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/arbeitszeit", arbeitszeit, mainActivity, true);
+                                                           } else {
+                                                               Toast.makeText(MainActivity.this, "Es wurde keine Arbeitszeit erfasst", Toast.LENGTH_LONG).show();
+                                                           }
 
                                                            listPosition.clear();
                                                            Position.setListPosition(listPosition);
@@ -561,10 +565,15 @@ public class MainActivity extends AppCompatActivity implements Serializable, IFi
                                                        Toast.makeText(MainActivity.this, "Ein Fehler ist aufgetreten", Toast.LENGTH_LONG).show();
                                                        e.printStackTrace();
                                                        //   starteIntent(Taetigkeitsbericht.class, listPosition, false);
-                                                       taetigkeitsbericht = taetigkeitsberichtUtil.getTaetigkeitsbericht(listPosition);
-                                                       //    tagHeuteFormated = "23-05-2020";
-                                                       firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/bericht", taetigkeitsbericht,mainActivity,false);
-                                                       firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/abgeschlossen", false,mainActivity,true);
+                                                       if (listPosition.size() != 0) {
+                                                           taetigkeitsbericht = taetigkeitsberichtUtil.getTaetigkeitsbericht(listPosition);
+                                                           //    tagHeuteFormated = "23-05-2020";
+                                                           firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/bericht", taetigkeitsbericht, mainActivity, false);
+                                                           firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/abgeschlossen", false, mainActivity, true);
+                                                       } else {
+                                                           Toast.makeText(MainActivity.this, "Es wurde keine Arbeitszeit erfasst", Toast.LENGTH_LONG).show();
+                                                       }
+
                                                        listPosition.clear();
                                                        Position.setListPosition(listPosition);
                                                        String gg = "iu";
@@ -901,9 +910,9 @@ public class MainActivity extends AppCompatActivity implements Serializable, IFi
             istAbgeschlossen = true;
             listPositionHeute = null;
         } else {
-            istAbgeschlossen =  taetigkeitsberichtUtil != null && taetigkeitsberichtUtil.getAbgeschlossen();
-            if (taetigkeitsberichtUtil != null){
-                listPositionHeute =  taetigkeitsberichtUtil.getTaetigkeitsbericht2(taetigkeitsberichtUtil.getBericht());
+            istAbgeschlossen = taetigkeitsberichtUtil != null && taetigkeitsberichtUtil.getAbgeschlossen();
+            if (taetigkeitsberichtUtil != null) {
+                listPositionHeute = taetigkeitsberichtUtil.getTaetigkeitsbericht2(taetigkeitsberichtUtil.getBericht());
             }
 
         }

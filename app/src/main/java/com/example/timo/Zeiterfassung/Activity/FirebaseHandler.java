@@ -223,7 +223,7 @@ public class FirebaseHandler {
                     ArrayList<String> listAuftrag = new ArrayList<String>();
                     listAuftrag.add(tateigkeit);
 
-                    listKunde.get(kundeid).setListAuftrag(listAuftrag);
+//                    listKunde.get(kundeid).setListAuftrag(listAuftrag);
 
 
                 }

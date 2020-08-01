@@ -154,7 +154,7 @@ public class LocationService extends Service {
     public static Boolean isLocation() {
         if (locationService == null) {
             return false;
-        }else{
+        } else {
             return true;
         }
 
@@ -182,7 +182,7 @@ public class LocationService extends Service {
     public BroadcastReceiver receiverFirebase = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-             Toast.makeText(LocationService.this, String.valueOf("Message from Firebase"), Toast.LENGTH_SHORT).show();
+            Toast.makeText(LocationService.this, String.valueOf("Message from Firebase"), Toast.LENGTH_SHORT).show();
         }
 
     };
@@ -291,9 +291,9 @@ public class LocationService extends Service {
         setAktiviert(false);
         locationService = null;
         Log.d("changeEvent", "onDestroy: ");
-      //  stopForeground(STOP_FOREGROUND_DETACH);
-       // stopSelf();
-     //   super.onDestroy();
+        //  stopForeground(STOP_FOREGROUND_DETACH);
+        // stopSelf();
+        //   super.onDestroy();
   /*
         if (mLocationManager != null) {
             for (int i = 0; i < mLocationListeners.length; i++) {
@@ -645,6 +645,7 @@ public class LocationService extends Service {
 
         if (kunde != null) {
             Boolean aktuellBeimKunden = kunde.getMonteurBeimKunden();
+            Log.d("AktuellK", String.valueOf(aktuellBeimKunden));
             //kreis true
             if (!aktuellBeimKunden) {
                 listKunde.get(uid).setMonteurBeimKunden(true);
@@ -667,11 +668,11 @@ public class LocationService extends Service {
                 position.setKunde(kunde);
                 kundeVorher = listKunde.get(uid);
 
-                if (position.getKunde().getFirma().equals("Zuhause")){
+                if (position.getKunde().getFirma().equals("Zuhause")) {
                     Log.d("changeevent", "Zuhause");
                     boolean istKundeInListe = position.istKundeInListe(listPosition);
-                    if (istKundeInListe){
-                        Log.d("changeevent", "Stop Tracking");
+                    if (istKundeInListe) {
+                        Log.d("testev", "Stop Tracking");
                         //    if (listPosition == null) {
                         ArrayList<Position> listPostionGesamt = new ArrayList<Position>();
                         listPosition = getListPosition(true);
@@ -680,22 +681,27 @@ public class LocationService extends Service {
                         listPostionGesamt.addAll(listPosition);
                         Position posGesamt = new Position("");
                         listPosition = posGesamt.getListPositionOhneAusreisser(listPosition);
-                        listPosition = taetigkeitsberichtUtil.sortiereListe(listPosition,listPostionGesamt);
+                        listPosition = taetigkeitsberichtUtil.sortiereListe(listPosition, listPostionGesamt);
 
                         listPosition = posGesamt.getListPositonOhneDuplikate(listPosition);
                         listPosition = posGesamt.getListPositonOhneDuplikateSonstiges(listPosition);
                         listPosition = posGesamt.getGueltigePositionen(listPosition);
 
-                        String  taetigkeitsbericht = taetigkeitsberichtUtil.getTaetigkeitsbericht(listPosition);
+                        String taetigkeitsbericht = taetigkeitsberichtUtil.getTaetigkeitsbericht(listPosition);
                         Datum datum = new Datum();
                         String tagHeuteFormated = datum.getFormatedTagHeute();
                         String arbeitszeit = posGesamt.getArbeitszeitGesamt(listPosition, null, null, null, null);
-                        firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/bericht", taetigkeitsbericht);
-                        firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/abgeschlossen", false);
-                        firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/arbeitszeit", arbeitszeit);
+                        if (listPostionGesamt.size() != 0) {
+                            firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/bericht", taetigkeitsbericht);
+                            firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/abgeschlossen", false);
+                            firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/arbeitszeit", arbeitszeit);
+                        } else {
+                            Toast.makeText(LocationService.this, "Es wurde keine Arbeitszeit erfasst", Toast.LENGTH_LONG).show();
+                        }
+
                         stopSelf();
                         stopForeground(true);
-                   //     stopService(new Intent(MainActivity.this, LocationService.class));
+                        //     stopService(new Intent(MainActivity.this, LocationService.class));
                         //Stop
                     }
                 }
@@ -894,13 +900,13 @@ public class LocationService extends Service {
                         checkAenderung(listKunde.get(uid), warBeiEinemKunden, uid);
 
                         //Default Tätigkeite
-                        if (listKunde.get(uid).getListAuftrag() == null){
+                        if (listKunde.get(uid).getListAuftrag() == null) {
                             listKunde.get(uid).setAuswahlTaetigkeit("-");
-                        }else{
+                        } else {
                             listKunde.get(uid).setAuswahlTaetigkeit(listKunde.get(uid).getListAuftrag().get(0));
                         }
 
-                        if (listKunde.get(uid).getListAuftrag() != null){
+                        if (listKunde.get(uid).getListAuftrag() != null) {
                             if (listKunde.get(uid).getListAuftrag().size() > 1 && !listKunde.get(uid).getBesucht()) {
                                 pushNotificationTaetigkeit(listKunde.get(uid), i, uid);
                             }
@@ -910,7 +916,7 @@ public class LocationService extends Service {
                         if (listKunde.get(uid).getStatus() == 1 || listKunde.get(uid).getStatus() == 2) {
                             listKunde.get(uid).setStatus(3);
                             //  dbHelfer.update(listKunde.get(uid).getId(), "3", "Status");
-                            if (!uid.equals("Zuhause")){
+                            if (!uid.equals("Zuhause")) {
                                 firebaseHandler.insert("kunde/" + uid + "/status", 3);
                             }
 
@@ -924,14 +930,14 @@ public class LocationService extends Service {
                         if (listKunde.get(uid).getBesucht()) {
                             listKunde.get(uid).setStatus(2);
                             //     dbHelfer.update(listKunde.get(uid).getId(), "2", "Status");
-                            if (!uid.equals("Zuhause")){
+                            if (!uid.equals("Zuhause")) {
                                 firebaseHandler.insert("kunde/" + uid + "/status", 2);
                             }
 
                         } else {
                             listKunde.get(uid).setStatus(1);
                             //      dbHelfer.update(listKunde.get(uid).getId(), "1", "Status");
-                            if (!uid.equals("Zuhause")){
+                            if (!uid.equals("Zuhause")) {
                                 firebaseHandler.insert("kunde/" + uid + "/status", 1);
                             }
 

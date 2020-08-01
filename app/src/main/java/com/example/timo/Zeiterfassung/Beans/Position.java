@@ -81,6 +81,14 @@ public class Position implements Serializable, Comparable<Position> {
     public void setPause2(Integer pause2) {
         this.pause2 = pause2;
     }
+    public void setFirma(String firma) {
+        this.firma = firma;
+    }
+
+    public String getFirma() {
+        return firma;
+    }
+
 /*
     public void setArbeitsZeitBeginnStdGerundet(String std) {
         this.arbeitsZeitBeginnStdGerundet = arbeitsZeitBeginnStdGerundet;
@@ -1032,7 +1040,11 @@ public class Position implements Serializable, Comparable<Position> {
         boolean istKunde = false;
         int index = 0;
         while (index != listPosition.size()){
-            if (listPosition.get(index).getKunde() != null){
+            if (
+                    listPosition.get(index).getFirma() != null &&
+                    !listPosition.get(index).getFirma().equals("Zuhause") &&
+                    listPosition.get(index).getKunde() != null){
+                Log.d("probebr", "pr:" + String.valueOf(listPosition.size()));
                 return true;
             }else{
                 index++;
