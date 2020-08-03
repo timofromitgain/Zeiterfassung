@@ -160,6 +160,76 @@ public class Position implements Serializable, Comparable<Position> {
 
     }
 
+    public Calendar getAzeitAbgerundet(Calendar calendar) {
+        //  int min = position.getArbeitszeitMinuten();
+        int min = calendar.getTime().getMinutes();
+        int minGerundet = 0;
+        int std = calendar.getTime().getHours();
+        Calendar newTime = calendar;
+        Date date = new Date();
+
+        if (min >= 0 && min < 15) {
+            minGerundet = 0;
+        } else if (min >= 15 && min < 30) {
+            minGerundet = 15;
+        } else if (min >= 30 && min < 45) {
+            minGerundet = 30;
+        } else if (min >= 45 && min < 60) {
+            minGerundet = 45;
+        }
+
+        newTime.set( Calendar.MINUTE, minGerundet);
+int a = newTime.get(Calendar.MINUTE);
+      //  calendar.setTime(date);
+        return newTime;
+
+    }
+
+    public Position getRoundEndzeit(Position position){
+        Position pos = position;
+        Calendar endzeit = position.getEndTime();
+        int min = endzeit.get(Calendar.MINUTE);
+        int minGerundet = 0;
+
+        if (min >= 0 && min < 15) {
+            minGerundet = 0;
+        } else if (min >= 15 && min < 30) {
+            minGerundet = 15;
+        } else if (min >= 30 && min < 45) {
+            minGerundet = 30;
+        } else if (min >= 45 && min < 60) {
+            minGerundet = 45;
+        }
+        endzeit.set(Calendar.MINUTE,minGerundet);
+        position.setEndTime(endzeit);
+
+        return position;
+    }
+
+    public Position getRoundStartzeit(Position position){
+        Position pos = position;
+        Calendar startzeit = position.getStartTime();
+        int min = startzeit.get(Calendar.MINUTE);
+        int minGerundet = 0;
+        int stdGerundet = startzeit.get(Calendar.HOUR);
+
+        if (min >= 0 && min < 15) {
+            minGerundet = 15;
+        } else if (min >= 15 && min < 30) {
+            minGerundet = 30;
+        } else if (min >= 30 && min < 45) {
+            minGerundet = 45;
+        } else if (min >= 45 && min < 60) {
+            minGerundet = 0;
+            stdGerundet++;
+        }
+        startzeit.set(Calendar.MINUTE,minGerundet);
+        startzeit.set(Calendar.HOUR,stdGerundet);
+        position.setStartTime(startzeit);
+
+        return position;
+    }
+
     public void setArbeitsZeitEndeStdGerundet(String std) {
         this.arbeitsZeitEndeStdGerundet = arbeitsZeitEndeStdGerundet;
     }
@@ -429,9 +499,9 @@ public class Position implements Serializable, Comparable<Position> {
 
     public String getArbeitszeitGesamt(ArrayList<Position> listPosition, Date dPauseStart, Date dPauseEnde, Date dPauseStart2, Date dPauseEnde2) {
 
-        if (listPosition.size() == 0){
+   /*     if (listPosition.size() == 0){
             return "0";
-        }
+        }*/
 
         Double arbeitszeit = 0.00;
         int abzug = 0;

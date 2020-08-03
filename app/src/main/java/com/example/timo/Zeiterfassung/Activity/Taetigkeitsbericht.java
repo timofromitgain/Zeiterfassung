@@ -142,7 +142,7 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
         listSplit = new ArrayList<ArrayList<Position>>();
         //DUMMY
         Dummy dummy = new Dummy();
-        //   listPositionGesamt = dummy.getDummyList3();
+          // listPositionGesamt = dummy.getDummyList5();
         listPositionGesamt = (ArrayList<Position>) extras.getSerializable("listPosition");
 
         //Tracking gestartet
@@ -155,6 +155,10 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
             listPos2 = posGesamt.getListPositonOhneDuplikate(listPositionOhneDuplikate);
             listPos2 = posGesamt.getListPositonOhneDuplikateSonstiges(listPos2);
             listPos2 = posGesamt.getGueltigePositionen(listPos2);
+            //Arbeitszeit runden
+            listPos2.set(0,posGesamt.getRoundStartzeit(listPos2.get(0)));
+            listPos2.set(listPos2.size()-1,posGesamt.getRoundEndzeit(listPos2.get(listPos2.size()-1)));
+
             listPosition.clear();
             listPosition.addAll(listPos2);
             Log.i("posSize", String.valueOf(listPosition.size()));
@@ -173,7 +177,8 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
             } else {
                 listPosition = Position.listPosition;
                 DecimalFormat formatDouble = new DecimalFormat("#.##");
-                // tvArbeitszeit.setText("Arbeitszeit: " + arbeitszeit);
+             //   fragmentHeute.onCalculateArbeitszeit(arbeitszeit);
+                //  tvArbeitszeit.setText("Arbeitszeit: " + arbeitszeit);
              //   listenerHeute.onListPosFiltered(listPosition);
             }
             //Tracking nicht gestartet
@@ -521,6 +526,8 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
         Log.d("ctxH",contextFragmentHeute.toString());
         String ff = "";
         contextFragmentHeute.onListPosFiltered(listPosition);
+        fragmentHeute = contextFragmentHeute;
+
 
     }
 
@@ -534,6 +541,11 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
         firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.userId() + "/" + datumHeute + "/notiz", nachricht);
         super.onBackPressed();
         finish();
+
+    }
+    @Override
+    public void onCalculateArbeitszeit(String str) {
+
 
     }
 }

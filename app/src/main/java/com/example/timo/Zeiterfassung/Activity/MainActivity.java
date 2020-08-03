@@ -123,6 +123,18 @@ public class MainActivity extends AppCompatActivity implements Serializable, IFi
 
         //TESTSZENARIO
 
+        Position posTest = new Position("");
+        Calendar c1 =  Calendar.getInstance();
+        Date date = new Date();
+        date.setHours(11);
+        date.setMinutes(44);
+        c1.setTime(date);
+        Calendar cNew = posTest.getAzeitAbgerundet(c1);
+       int hr =  cNew.get(Calendar.HOUR);
+       int min = cNew.get(Calendar.MINUTE);
+
+        String ff = "ff";
+String g  ="d";
 
         //    dbHelfer.copyDataFromFirebaseToLocal();
 

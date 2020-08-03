@@ -166,6 +166,12 @@ public class Heute extends Fragment implements IBericht {
     }
 
     @Override
+    public void onCalculateArbeitszeit(String str) {
+tvArbeitszeit.setText(str);
+
+    }
+
+    @Override
     public void onFragmetHeuteCreated(Heute contextFragmentHeute) {
 
     }

@@ -560,18 +560,18 @@ public class LocationService extends Service {
         ArrayList<Position> listPositionCopy = new ArrayList<Position>();
         //Kopie der Liste erstellen
         listPositionCopy.clear();
-        /*
+
         if (listPosition.size() == 0){
             return listPosition;
         }
-        */
+
 
         for (int i = 0; i < listPosition.size(); i++) {
             listPositionCopy.add(listPosition.get(i));
         }
 
         if (stopTracking) {
-            position.setEndTime(Calendar.getInstance());
+            position.setEndTime(position.getAzeitAbgerundet( Calendar.getInstance()));
             position.setArbeitszeitMinuten();
             position.setArbeitsZeitSekunden();
             position.setKundeAktuell(kundeAktuell);
@@ -664,7 +664,7 @@ public class LocationService extends Service {
                 }
 
                 position = new Position("Kunde", kunde.getFirma());
-                position.setStartTime(Calendar.getInstance());
+                position.setStartTime( Calendar.getInstance());
                 position.setKunde(kunde);
                 kundeVorher = listKunde.get(uid);
 
@@ -710,7 +710,7 @@ public class LocationService extends Service {
             if (warBeiEinemKunden) {
                 this.warBeiEinemKunden = false;
                 listKunde.get(uidLetzterKunde).setMonteurBeimKunden(false);
-                position.setEndTime(Calendar.getInstance());
+                position.setEndTime( Calendar.getInstance());
                 position.setArbeitszeitMinuten();
                 position.setArbeitsZeitSekunden();
                 if (listPosition.size() == 0) {
@@ -718,12 +718,11 @@ public class LocationService extends Service {
                 }
                 listPosition.add(position);
                 position = new Position("Sonstiges");
-                position.setStartTime(Calendar.getInstance());
+                position.setStartTime( Calendar.getInstance());
                 position.setKundeVorher(kundeVorher);
             }
             if (position == null) {
                 position = new Position("Sonstiges");
-                position.setStartTime(Calendar.getInstance());
                 position.setKundeVorher(kundeVorher);
             }
         }

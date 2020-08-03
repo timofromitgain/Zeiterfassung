@@ -274,10 +274,17 @@ public class Woche extends Fragment implements ITaetigkeitsbericht {
             if (listPos != null){
                 arbeitsZeitVonBis = getZeitString(listPos);
                 arbeitszeit = listWochenBericht.get("SAMSTAG").getArbeitszeit();
-                tvAzSamstag.setText(arbeitsZeitVonBis + "\n" + arbeitszeit);
-                splited = arbeitszeit.split("\\s+");
-                stdGes = stdGes + Integer.parseInt(splited[0]);
-                minGes = minGes + Integer.parseInt(splited[2]);
+                if (arbeitszeit!=null){
+                    tvAzSamstag.setText(arbeitsZeitVonBis + "\n" + arbeitszeit);
+                    splited = arbeitszeit.split("\\s+");
+                    stdGes = stdGes + Integer.parseInt(splited[0]);
+                    minGes = minGes + Integer.parseInt(splited[2]);
+                }else{
+                    tvAzSamstag.setText("?");
+                    stdGes =0;
+                    minGes = 0;
+                }
+
             }else{
                 tvAzSamstag.setText("?");
             }

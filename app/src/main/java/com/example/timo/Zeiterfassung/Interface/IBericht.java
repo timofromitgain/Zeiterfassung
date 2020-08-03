@@ -8,4 +8,5 @@ import java.util.ArrayList;
 public interface IBericht {
     void onListPosFiltered(ArrayList<Position> listPosition);
     void onFragmetHeuteCreated (Heute contextFragmentHeute);
+    void onCalculateArbeitszeit (String str);
 }
