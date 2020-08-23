@@ -1,5 +1,7 @@
 package com.example.timo.Zeiterfassung.Fragment;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -167,7 +169,7 @@ public class Heute extends Fragment implements IBericht {
 
     @Override
     public void onCalculateArbeitszeit(String str) {
-tvArbeitszeit.setText(str);
+tvArbeitszeit.setText(str + " (abzgl. 45 Min Pausenzeit)");
 
     }
 
@@ -175,4 +177,14 @@ tvArbeitszeit.setText(str);
     public void onFragmetHeuteCreated(Heute contextFragmentHeute) {
 
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+            Activity a = getActivity();
+            if(a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+    }
+
 }

@@ -23,6 +23,7 @@
 
             <Button
                 android:id="@+id/btnNeuerKunde_MainActivity"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
@@ -119,6 +120,7 @@
 
             <Button
                 android:id="@+id/btnRegistrieren"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/darker_gray"
@@ -127,16 +129,10 @@
                 android:drawableTop="@drawable/ic_bericht"/>
         </TableRow>
 <TableRow>
-            <Button
-                android:id="@+id/btnLogin"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"
-                android:text="Login"
-                android:textSize="@dimen/text_normal"
-                android:drawableTop="@drawable/ic_bearbeiten"/>
+
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/btnLogout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -144,7 +140,8 @@
                 android:text="Logout"
                 android:textSize="@dimen/text_normal"
                 android:drawableTop="@drawable/ic_bezahlung_neutral"/>
-</TableRow>
+        </TableRow>
+
             <Button
                 android:visibility="gone"
                 android:id="@+id/btnDatenbankImport_MainActivity"

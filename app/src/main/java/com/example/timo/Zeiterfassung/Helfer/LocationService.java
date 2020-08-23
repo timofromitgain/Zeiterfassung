@@ -561,9 +561,9 @@ public class LocationService extends Service {
         //Kopie der Liste erstellen
         listPositionCopy.clear();
 
-        if (listPosition.size() == 0){
+/*        if (listPosition.size() == 0){
             return listPosition;
-        }
+        }*/
 
 
         for (int i = 0; i < listPosition.size(); i++) {
@@ -571,7 +571,7 @@ public class LocationService extends Service {
         }
 
         if (stopTracking) {
-            position.setEndTime(position.getAzeitAbgerundet( Calendar.getInstance()));
+            position.setEndTime(Calendar.getInstance());
             position.setArbeitszeitMinuten();
             position.setArbeitsZeitSekunden();
             position.setKundeAktuell(kundeAktuell);
@@ -582,18 +582,29 @@ public class LocationService extends Service {
         } else {
             Position posDump = new Position("");
 
-            posDump.setStartTime(position.getStartTime());
-            if (position.getNamePosition().equals("Kunde")) {
-                posDump.setKunde(position.getKunde());
-            } else {
-                posDump.setKundeVorher(position.getKundeVorher());
-            }
 
+if (position != null){
+    posDump.setStartTime(position.getStartTime());
+
+
+                if (position.getNamePosition().equals("Kunde")) {
+                    posDump.setKunde(position.getKunde());
+                } else {
+                    posDump.setKundeVorher(position.getKundeVorher());
+                }
+
+}else{
+    posDump.setStartTime(Calendar.getInstance());
+}
             posDump.setNamePosition("AKTUELL");
             posDump.setEndTime(Calendar.getInstance());
-            posDump.setArbeitszeitMinuten();
-            posDump.setArbeitsZeitSekunden();
 
+            if (position != null) {
+                posDump.setArbeitszeitMinuten();
+                posDump.setArbeitsZeitSekunden();
+            }else{
+                posDump.setArbeitszeitMinuten(0);
+            }
             if (listPositionCopy.size() == 0) {
                 //(position);
             }
@@ -645,9 +656,10 @@ public class LocationService extends Service {
 
         if (kunde != null) {
             Boolean aktuellBeimKunden = kunde.getMonteurBeimKunden();
-            Log.d("AktuellK", String.valueOf(aktuellBeimKunden));
+            Log.d("AktuellK", "aktuellBeimKunden " + String.valueOf(aktuellBeimKunden));
             //kreis true
             if (!aktuellBeimKunden) {
+                Log.d("AktuellK", "UID " + uid);
                 listKunde.get(uid).setMonteurBeimKunden(true);
                 try {
                     position.setEndTime(Calendar.getInstance());
@@ -664,14 +676,16 @@ public class LocationService extends Service {
                 }
 
                 position = new Position("Kunde", kunde.getFirma());
-                position.setStartTime( Calendar.getInstance());
+                position.setStartTime(Calendar.getInstance());
                 position.setKunde(kunde);
                 kundeVorher = listKunde.get(uid);
 
                 if (position.getKunde().getFirma().equals("Zuhause")) {
+                    Log.d("AktuellK", "2");
                     Log.d("changeevent", "Zuhause");
                     boolean istKundeInListe = position.istKundeInListe(listPosition);
                     if (istKundeInListe) {
+                        Log.d("AktuellK", "3");
                         Log.d("testev", "Stop Tracking");
                         //    if (listPosition == null) {
                         ArrayList<Position> listPostionGesamt = new ArrayList<Position>();
@@ -686,11 +700,24 @@ public class LocationService extends Service {
                         listPosition = posGesamt.getListPositonOhneDuplikate(listPosition);
                         listPosition = posGesamt.getListPositonOhneDuplikateSonstiges(listPosition);
                         listPosition = posGesamt.getGueltigePositionen(listPosition);
-
+                        //Arbeitszeit runden
+                        if (listPosition.size() != 0) {
+                            listPosition.set(0, posGesamt.getRoundStartzeit(listPosition.get(0)));
+                            listPosition.set(listPosition.size() - 1, posGesamt.getRoundEndzeit(listPosition.get(listPosition.size() - 1)));
+                        }
+                        String arbeitszeit;
+                        if (listPosition.size() != 0) {
+                            arbeitszeit = posGesamt.getArbeitszeitGesamt(listPosition, null, null, null, null);
+                        } else {
+                            arbeitszeit = "0";
+                        }
+                        //Time String setzen
+                        for (int i = 0; i < listPosition.size(); i++) {
+                            listPosition.get(i).setDauerString(listPosition.get(i).getDauerString());
+                        }
                         String taetigkeitsbericht = taetigkeitsberichtUtil.getTaetigkeitsbericht(listPosition);
                         Datum datum = new Datum();
                         String tagHeuteFormated = datum.getFormatedTagHeute();
-                        String arbeitszeit = posGesamt.getArbeitszeitGesamt(listPosition, null, null, null, null);
                         if (listPostionGesamt.size() != 0) {
                             firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/bericht", taetigkeitsbericht);
                             firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/abgeschlossen", false);
@@ -707,10 +734,20 @@ public class LocationService extends Service {
                 }
             }
         } else {
+            Log.d("AktuellK", "4");
             if (warBeiEinemKunden) {
+                Log.d("AktuellK", "5");
                 this.warBeiEinemKunden = false;
-                listKunde.get(uidLetzterKunde).setMonteurBeimKunden(false);
-                position.setEndTime( Calendar.getInstance());
+                try {
+                    Log.d("AktuellK", "7");
+                    Log.d("uidLetzte ", uidLetzterKunde);
+                    listKunde.get(uidLetzterKunde).setMonteurBeimKunden(false);
+                } catch (Exception e) {
+                    //Kunde exisitiert nemma
+                    e.printStackTrace();
+                }
+
+                position.setEndTime(Calendar.getInstance());
                 position.setArbeitszeitMinuten();
                 position.setArbeitsZeitSekunden();
                 if (listPosition.size() == 0) {
@@ -718,10 +755,11 @@ public class LocationService extends Service {
                 }
                 listPosition.add(position);
                 position = new Position("Sonstiges");
-                position.setStartTime( Calendar.getInstance());
+                position.setStartTime(Calendar.getInstance());
                 position.setKundeVorher(kundeVorher);
             }
             if (position == null) {
+                Log.d("AktuellK", "6");
                 position = new Position("Sonstiges");
                 position.setKundeVorher(kundeVorher);
             }
@@ -866,7 +904,7 @@ public class LocationService extends Service {
                     i++;
                     String uid = entry.getKey();
 
-                    if (i == listKunde.size() - 1) {
+                    if (i == listKunde.size()) {
                         letzterDurchlauf = true;
                     }
                     longitudeOfMarker = listKunde.get(uid).getLongitude();
@@ -885,13 +923,13 @@ public class LocationService extends Service {
                     //Falls Kunden einen Kundenradius als Erkennungsbereich besitzt
 
                     inKreis = geo.inKreis(dist, radius);
-                    Log.d("debugloc", String.valueOf(inKreis));
 
 
                     //Falls Kunde einen Polygon als Erkennungsberich besitzt
                     statusVorher = listKunde.get(uid).getStatus();
                     //Falls sich der aktuelle Standort im Kunden Erkennungsbereich befindet und der Kunde noch nicht beliefert wurde
                     if (inKreis) {
+
                         Log.d("listsize", String.valueOf(listKunde.get(uid).getBesucht()));
                         uidLetzterKunde = uid;
                         warBeiEinemKunden = true;
@@ -902,7 +940,9 @@ public class LocationService extends Service {
                         if (listKunde.get(uid).getListAuftrag() == null) {
                             listKunde.get(uid).setAuswahlTaetigkeit("-");
                         } else {
-                            listKunde.get(uid).setAuswahlTaetigkeit(listKunde.get(uid).getListAuftrag().get(0));
+
+                         //   listKunde.get(uid).setAuswahlTaetigkeit(listKunde.get(uid).getAuswahlTaetigkeit());
+                         //   listKunde.get(uid).setAuswahlTaetigkeit(listKunde.get(uid).getListAuftrag().get(0));
                         }
 
                         if (listKunde.get(uid).getListAuftrag() != null) {
@@ -922,6 +962,7 @@ public class LocationService extends Service {
                         }
 
                     } else {
+                        Log.d("kreischeck", "elsefall: " + uid);
                         if (!zeitGesetzt && letzterDurchlauf) {
                             checkAenderung(null, warBeiEinemKunden, uid);
                         }
@@ -933,14 +974,16 @@ public class LocationService extends Service {
                                 firebaseHandler.insert("kunde/" + uid + "/status", 2);
                             }
 
-                        } else {
+                        }
+                        /*
+                        else {
                             listKunde.get(uid).setStatus(1);
                             //      dbHelfer.update(listKunde.get(uid).getId(), "1", "Status");
                             if (!uid.equals("Zuhause")) {
                                 firebaseHandler.insert("kunde/" + uid + "/status", 1);
                             }
 
-                        }
+                        }*/
 
                     }
 

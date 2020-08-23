@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.timo.Zeiterfassung.Helfer.Geo;
+import com.example.timo.Zeiterfassung.Helfer.Kunde;
 import com.example.timo.Zeiterfassung.R;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -69,18 +70,26 @@ public class Registration extends AppCompatActivity {
 
                 if (!istMonteur) {
                     if (verifyCodeEingabe.equals(verifyCode)) {
-                        registriereUser(email, passwort, nachname, vorname,strasse,stadt, "Projektleiter");
+                        if (!email.equals("") && !nachname.equals("") && !nachname.equals("") && !passwort.equals("")){
+                            registriereUser(email, passwort, nachname, vorname,strasse,stadt, "Projektleiter");
+                        }else{
+                            Toast.makeText(Registration.this, "Eingabe fehlerhaft!", Toast.LENGTH_LONG).show();
+                        }
+
                         //   signin(email,passwort);
                         // firebaseHandler.insertDate("Status","Projektleiter");
                     } else {
                         Toast.makeText(Registration.this, "Code ungültig", Toast.LENGTH_LONG).show();
                     }
                 } else {
+                    if (!email.equals("") && !nachname.equals("") && !nachname.equals("") && !passwort.equals("")){
                     registriereUser(email, passwort, nachname, vorname,strasse,stadt, "Monteur");
                     //     signin(email,passwort);
                     Log.d("Firemire", "2");
                     //     firebaseHandler.insertDate("Status","Monteur");
-                }
+                }else{
+                        Toast.makeText(Registration.this, "Eingabe fehlerhaft!", Toast.LENGTH_LONG).show();
+                    }}
             }
         });
 
@@ -89,7 +98,41 @@ public class Registration extends AppCompatActivity {
             public void onClick(View view) {
                 email = editEmailLogin.getEditableText().toString();
                 passwort = editPasswortLogin.getEditableText().toString();
-                signin(email, passwort);
+           /*     Kunde kunde = new Kunde(getApplicationContext(),
+                        "1",
+                        "Firma",
+                        "Harbecke",
+                        "Hanseatenstraße 41",
+                        "Langenhagen",
+                        null,
+                        "",
+                        75,
+                        52.454922,
+                        9.733890,
+                        0);
+                FirebaseHandler firebaseHandler = new FirebaseHandler();
+                firebaseHandler.insert("kunde/firma",kunde);*/
+
+                           Kunde kunde = new Kunde(getApplicationContext(),
+                        "1",
+                        "Firma",
+                        "Buschermöhle GmbH",
+                        "Holthausstrasse 20",
+                        "Dinklage",
+                        null,
+                        "",
+                        85,
+                                   52.668590,
+                                   8.118370,
+                        0);
+                FirebaseHandler firebaseHandler = new FirebaseHandler();
+                firebaseHandler.insert("kunde/firma",kunde);
+                if (!email.equals("") && !passwort.equals("")){
+                    signin(email, passwort);
+                }else{
+                    Toast.makeText(Registration.this, "Eingabe fehlerhaft", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -120,47 +163,65 @@ public class Registration extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressDialog.dismiss();
+                LatLng latLng = null;
                 if (task.isSuccessful()) {
-                    Geo geo = new Geo(getApplicationContext());
-                    LatLng latLng = geo.setGeo(strasse,stadt);
-
-                    Toast.makeText(Registration.this, "User erfolgreich regisritert", Toast.LENGTH_LONG).show();
-                    FirebaseUser user = task.getResult().getUser();
-                    FirebaseHandler firebaseHandler = new FirebaseHandler();
-                    firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/status", status);
-                    firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/nachname", nachname);
-                    firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/vorname", vorname);
-                    firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/strasse", strasse);
-                    firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/stadt", stadt);
-                    firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/latitude", latLng.latitude);
-                    firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/longitude", latLng.longitude);
-
-
-                /*    Kunde kunde = new Kunde(getApplicationContext(),
-                            "1",
-                            "Firma",
-                            "Harbecke",
-                            "Hanseatenstraße 41",
-                            "Langenhagen",
-                            null,
-                            "",
-                            75,
-                            52.454922,
-                            9.733890,
-                            0);
-                    firebaseHandler.insert("kunde/firma",kunde);*/
+                    if (!strasse.equals("") && !stadt.equals("")){
+                        Geo geo = new Geo(getApplicationContext());
+                         latLng = geo.setGeo(strasse,stadt);
+                        if (latLng == null){
+                            Toast.makeText(Registration.this, "Bitte überprüfen Sie die Adresse", Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(Registration.this, "User erfolgreich regisritert", Toast.LENGTH_LONG).show();
+                            FirebaseUser user = task.getResult().getUser();
+                            FirebaseHandler firebaseHandler = new FirebaseHandler();
+                            firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/status", status);
+                            firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/nachname", nachname);
+                            firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/vorname", vorname);
+                            firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/strasse", strasse);
+                            firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/stadt", stadt);
+                            firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/latitude", latLng.latitude);
+                            firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/longitude", latLng.longitude);
 
 
+                            Log.d("Firemire", "reg: " + user);
+
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("changeUser", true);
+                            intent.putExtra("status", status);
+                            intent.putExtra("nachname", nachname);
+                            intent.putExtra("vorname", vorname);
+                            startActivity(intent);
+                        }
+                    }else{
+                        Toast.makeText(Registration.this, "User erfolgreich regisritert", Toast.LENGTH_LONG).show();
+                        FirebaseUser user = task.getResult().getUser();
+                        FirebaseHandler firebaseHandler = new FirebaseHandler();
+                        firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/status", status);
+                        firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/nachname", nachname);
+                        firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/vorname", vorname);
+                        firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/strasse", strasse);
+                        firebaseHandler.insert("user/" + firebaseHandler.getUserId() + "/stadt", stadt);
 
 
-                    Log.d("Firemire", "reg: " + user);
+                        Log.d("Firemire", "reg: " + user);
 
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("changeUser", true);
-                    intent.putExtra("status", status);
-                    intent.putExtra("nachname", nachname);
-                    intent.putExtra("vorname", vorname);
-                    startActivity(intent);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.putExtra("changeUser", true);
+                        intent.putExtra("status", status);
+                        intent.putExtra("nachname", nachname);
+                        intent.putExtra("vorname", vorname);
+                        startActivity(intent);
+                    }
+
+
+
+
+
+
+
+
+
+
                 } else {
                     Toast.makeText(Registration.this, "Fehlgeschlagen", Toast.LENGTH_LONG).show();
 

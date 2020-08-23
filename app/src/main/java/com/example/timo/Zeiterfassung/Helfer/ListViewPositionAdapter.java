@@ -90,7 +90,7 @@ public class ListViewPositionAdapter extends ArrayAdapter<Position> {
                 holder.tvAnsprechpartner.setText(listPosition.get(position).getKunde().getAnsprechpartner());
                 if (listPosition.get(position).getKunde().getAuswahlTaetigkeit() == null) {
 
-                    holder.tvTaetigkeit.setText(listPosition.get(position).getKunde().getListAuftrag().get(0));
+                   holder.tvTaetigkeit.setText(listPosition.get(position).getKunde().getListAuftrag().get(0));
                 } else {
                     holder.tvTaetigkeit.setText(listPosition.get(position).getKunde().getAuswahlTaetigkeit());
                 }

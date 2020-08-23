@@ -24,7 +24,6 @@ import com.example.timo.Zeiterfassung.Fragment.Heute;
 import com.example.timo.Zeiterfassung.Fragment.Woche;
 import com.example.timo.Zeiterfassung.Helfer.DatenbankHelfer;
 import com.example.timo.Zeiterfassung.Helfer.Datum;
-import com.example.timo.Zeiterfassung.Helfer.Dummy;
 import com.example.timo.Zeiterfassung.Helfer.FragmentAdapter;
 import com.example.timo.Zeiterfassung.Helfer.Kunde;
 import com.example.timo.Zeiterfassung.Helfer.ListViewPositionAdapter;
@@ -67,7 +66,7 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
     ArrayList<Position> listPositionOhneDuplikate;
     ArrayList<Position> listPos2;
     ArrayList<ArrayList<Position>> listSplit;
-    String arbeitszeit;
+    String arbeitszeit="";
     boolean isTaetigkeitsbericht;
     int posClickId;
     Date dPauseBeginn, dPauseEnde, dPauseBegin2, dPauseEnde2;
@@ -91,6 +90,7 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_taetigkeitsbericht);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         taetigkeitsbericht = this;
         viewPager = findViewById(R.id.pager);
         TabLayout tabLayout = findViewById(R.id.tabs);
@@ -141,23 +141,31 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
         listPos2 = new ArrayList<Position>();
         listSplit = new ArrayList<ArrayList<Position>>();
         //DUMMY
-        Dummy dummy = new Dummy();
-          // listPositionGesamt = dummy.getDummyList5();
+       // Dummy dummy = new Dummy();
+      //     listPositionGesamt = dummy.getDummyList5();
         listPositionGesamt = (ArrayList<Position>) extras.getSerializable("listPosition");
 
         //Tracking gestartet
         TaetigkeitsberichtUtil taetigkeitsberichtUtil = new TaetigkeitsberichtUtil();
-        if (listPositionGesamt != null && listPositionGesamt.size() > 0) {
+        if (listPositionGesamt != null && listPositionGesamt.size() > 0 ) {
+            if (!berichtHeute){
+
+
             listPositionGefiltert = posGesamt.getListPositionOhneAusreisser(listPositionGesamt);
             //    listPositionGefiltert = listPositionGesamt;
             listPositionOhneDuplikate = taetigkeitsberichtUtil.sortiereListe(listPositionGefiltert, listPositionGesamt);
-
             listPos2 = posGesamt.getListPositonOhneDuplikate(listPositionOhneDuplikate);
             listPos2 = posGesamt.getListPositonOhneDuplikateSonstiges(listPos2);
             listPos2 = posGesamt.getGueltigePositionen(listPos2);
+              //  listPositionOhneDuplikate = taetigkeitsberichtUtil.sortiereListe(listPos2, listPositionGesamt);
             //Arbeitszeit runden
-            listPos2.set(0,posGesamt.getRoundStartzeit(listPos2.get(0)));
-            listPos2.set(listPos2.size()-1,posGesamt.getRoundEndzeit(listPos2.get(listPos2.size()-1)));
+            if (listPos2.size() != 0){
+                listPos2.set(0,posGesamt.getRoundStartzeit(listPos2.get(0)));
+                listPos2.set(listPos2.size()-1,posGesamt.getRoundEndzeit(listPos2.get(listPos2.size()-1)));
+            }
+            }else{
+                listPos2.addAll(listPositionGesamt);
+            }
 
             listPosition.clear();
             listPosition.addAll(listPos2);
@@ -169,7 +177,13 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
                 listPositionAktuell.add(listPosition.get(i));
             }
             //ARBEITSZEIT
-            String arbeitszeit = posGesamt.getArbeitszeitGesamt(listPosition, dPauseBeginn, dPauseEnde, dPauseBegin2, dPauseEnde2);
+
+            if (listPos2.size() != 0){
+                 arbeitszeit = posGesamt.getArbeitszeitGesamt(listPosition, dPauseBeginn, dPauseEnde, dPauseBegin2, dPauseEnde2);
+            }else{
+                arbeitszeit = "0";
+            }
+
 
 
             if (arbeitszeit.equals("-999")) {
@@ -303,7 +317,7 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
             int minArbeitszeit = firma.getArbeitszeitMinuten();
             if (stdArbeitszeit > 0) {
                 return true;
-            } else if (minArbeitszeit >= 0) {
+            } else if (minArbeitszeit >= 2) {
                 return true;
             } else {
                 return false;
@@ -353,7 +367,7 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
                 (AdapterView.AdapterContextMenuInfo) menuInfo;
 
         adapterPosition = (int) info.id;
-        inflater.inflate(R.menu.loeschen_menu, menu);
+     //   inflater.inflate(R.menu.loeschen_menu, menu);
         //     }
     }
 
@@ -381,7 +395,7 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Toast.makeText(Taetigkeitsbericht.this, "Click", Toast.LENGTH_LONG).show();
+
         // Inflate the menu; this adds items to the action bar if it is present.
 
         getMenuInflater().inflate(R.menu.bottom_navigation, menu);
@@ -389,10 +403,8 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
 
         if (!berichtHeute) {
             MenuItem itemCheck = menu.findItem(R.id.it_check);
-            MenuItem itemInfo = menu.findItem(R.id.it_notiz);
             MenuItem itemRemove = menu.findItem(R.id.it_remove);
             itemCheck.setVisible(false);
-            itemInfo.setVisible(false);
             itemRemove.setVisible(false);
         }
 
@@ -409,11 +421,9 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
             case R.id.it_check:
                 DialogBerichtMessage dialogBerichtMessage = new DialogBerichtMessage();
                 dialogBerichtMessage.show(getSupportFragmentManager(), "dialog");
-
-
                 return true;
-            case R.id.it_notiz:
-                Toast.makeText(Taetigkeitsbericht.this, "notiz", Toast.LENGTH_LONG).show();
+            case android.R.id.home:
+                finish();
                 return true;
             case R.id.it_remove:
                 firebaseHandler.removePath("taetigkeitsbericht/" + firebaseHandler.userId() + "/" + datumHeute);
@@ -519,6 +529,9 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
     @Override
     public void onListPosFiltered(ArrayList<Position> listPosition) {
 
+
+
+
     }
 
     @Override
@@ -527,6 +540,9 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
         String ff = "";
         contextFragmentHeute.onListPosFiltered(listPosition);
         fragmentHeute = contextFragmentHeute;
+        if (!arbeitszeit.equals("")){
+               fragmentHeute.onCalculateArbeitszeit(arbeitszeit);
+        }
 
 
     }
@@ -548,4 +564,6 @@ public class Taetigkeitsbericht extends AppCompatActivity implements Serializabl
 
 
     }
+
+
 }

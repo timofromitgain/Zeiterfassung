@@ -8,11 +8,7 @@
         android:title="Kundeninfo" />
 -->
 
-    <item
-        android:id="@+id/it_notiz"
-        android:icon="@drawable/ic_notiz"
-        app:showAsAction="always"
-        android:title="Notiz hinzufügen/ändern" />
+
     <item
         android:id="@+id/it_check"
         android:icon="@drawable/ic_check"

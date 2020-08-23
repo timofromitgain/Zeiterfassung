@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center_horizontal"
-        android:text="08:00 Uhr - 16:45 Uhr\n8,00 Std, 45 Min">
+        android:text="?">
     </TextView>
     </LinearLayout>
 
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center_horizontal"
-        android:text="08:00 Uhr - 16:45 Uhr\n8,00 Std, 45 Min">
+        android:text="?">
     </TextView>
     </LinearLayout>
 
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center_horizontal"
-            android:text="08:00 Uhr - 16:45 Uhr\n8,00 Std, 45 Min">
+            android:text="?">
         </TextView>
     </LinearLayout>
 
@@ -111,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center_horizontal"
-            android:text="08:00 Uhr - 16:45 Uhr\n8,00 Std, 45 Min">
+            android:text="?">
         </TextView>
     </LinearLayout>
 
@@ -138,11 +138,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center_horizontal"
-            android:text="08:00 Uhr - 16:45 Uhr\n8,00 Std, 45 Min">
+            android:text="?">
         </TextView>
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/linearSamstag"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
@@ -165,12 +166,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center_horizontal"
-            android:text="08:00 Uhr - 16:45 Uhr\n8,00 Std, 45 Min">
+            android:text="?">
         </TextView>
     </LinearLayout>
 
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/linearSonntag"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
@@ -193,7 +195,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center_horizontal"
-            android:text="08:00 Uhr - 16:45 Uhr\n8,00 Std, 45 Min">
+            android:text="?">
         </TextView>
     </LinearLayout>
 
@@ -209,6 +211,7 @@
         <TextView
             android:id="@+id/azGesamt"
             android:textStyle="bold"
+            android:textColor="@color/rot"
             android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

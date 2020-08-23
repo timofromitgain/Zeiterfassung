@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.example.timo.Zeiterfassung.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -36,16 +38,37 @@ public class Auftragsliste extends AppCompatActivity {
     private Boolean initialisiert = false;
     private Context context;
     public int adapterPosition;
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_zugaenge);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      //  actionBar.setDisplayHomeAsUpEnabled(true);
+
             boolean firmaGefunden = false;
             int indexFirma = 0;
 
             Map<String,Kunde> listKunde = new HashMap<String,Kunde>();
+        Map<String,Kunde> listKundeCopy = new HashMap<String,Kunde>();
+
 
             listKunde = FirebaseHandler.listKunde;
+            listKundeCopy.putAll(listKunde);
 
 
 
@@ -67,7 +90,41 @@ public class Auftragsliste extends AppCompatActivity {
 
             listKunde.remove(indexFirma);*/
             //Adapter initialisieren
-            adapter = new ListViewKundenAdapter(getApplicationContext(), R.layout.item_kunde, hashToArray(listKunde),false);
+int size = listKunde.size();
+Boolean delete = false;
+int index = 0;
+Kunde kunde;
+
+//Firma löschen
+        Iterator it = listKundeCopy.entrySet().iterator();
+        while (it.hasNext() && !delete) {
+            Map.Entry pair = (Map.Entry)it.next();
+            Object ob = pair.getKey();
+            kunde = (Kunde) pair.getValue();
+            if (kunde.getFirma().equals("Firma") ){
+                listKundeCopy.remove(ob);
+                delete = true;
+            }
+        }
+delete = false;
+//Zuhause löschen
+         it = listKundeCopy.entrySet().iterator();
+        while (it.hasNext() && !delete) {
+            Map.Entry pair = (Map.Entry)it.next();
+            Object ob = pair.getKey();
+            kunde = (Kunde) pair.getValue();
+            if (kunde.getFirma().equals("Zuhause") ){
+                listKundeCopy.remove(ob);
+                delete = true;
+            }
+        }
+
+
+
+
+
+
+            adapter = new ListViewKundenAdapter(getApplicationContext(), R.layout.item_kunde, hashToArray(listKundeCopy),false);
             lv.setAdapter(adapter);
             registerForContextMenu(lv);
 
@@ -96,7 +153,10 @@ public class Auftragsliste extends AppCompatActivity {
         ArrayList<Kunde> list = dbHelfer.getListKunde();
         listKunde.clear();
         for (int i = 0; i < list.size(); i++) {
-            listKunde.add(list.get(i));
+            if (!listKunde.get(i).getFirma().equals("Zuhause")){
+                listKunde.add(list.get(i));
+            }
+
         }
         adapter.notifyDataSetChanged();
     }

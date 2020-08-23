@@ -1,6 +1,8 @@
 package com.example.timo.Zeiterfassung.Fragment;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.timo.Zeiterfassung.Activity.BerichtWoche;
 import com.example.timo.Zeiterfassung.Beans.Position;
@@ -22,6 +25,7 @@ import java.util.HashMap;
 
 public class Woche extends Fragment implements ITaetigkeitsbericht {
     View view;
+    String azGesamt;
     public static Woche woche;
     LinearLayout linearMontag,
             linearDienstag,
@@ -30,6 +34,14 @@ public class Woche extends Fragment implements ITaetigkeitsbericht {
             linearFreitag,
             linearSamstag,
             linearSonntag;
+
+
+    String startTime, endTime, arbeitsZeitVonBis;
+    TaetigkeitsberichtUtil taetigkeitsberichtUtil = new TaetigkeitsberichtUtil();
+    ArrayList<Position> listPos = new ArrayList<Position>();
+    String arbeitszeit;
+    int stdGes = 0, minGes = 0;
+    String[] splited;
 
     TextView tvAzMonatag,
             tvAzDienstag,
@@ -40,6 +52,47 @@ public class Woche extends Fragment implements ITaetigkeitsbericht {
             tvAzSonntag,
             tvAzGesamt;
     HashMap<String, TaetigkeitsberichtUtil> listWochenBericht = new HashMap<>();
+
+    private void clickBericht(String wochentag){
+        if ( listWochenBericht.get(wochentag) == null){
+            Toast.makeText(getContext(), "Keine Daten an dem Tag verfügbar!", Toast.LENGTH_SHORT).show();
+        }else{
+            Intent intent = new Intent(getActivity(), BerichtWoche.class);
+            intent.putExtra("listPosition", listWochenBericht.get(wochentag).
+                    getTaetigkeitsbericht2(listWochenBericht.get(wochentag).getBericht()));
+            azGesamt = listWochenBericht.get(wochentag).getArbeitszeit();
+            if (azGesamt == null){
+                azGesamt = "0 Std, 00 Minuten";
+            }
+            intent.putExtra("arbeitszeit", azGesamt);
+            startActivity(intent);
+        }
+    }
+
+    public void initialWochentag (TextView tv, String wochentag){
+        if (listWochenBericht.get(wochentag) != null && listPos != null) {
+            listPos = taetigkeitsberichtUtil.getTaetigkeitsbericht2(listWochenBericht.get(wochentag).getBericht());
+            if (listPos != null) {
+                arbeitsZeitVonBis = getZeitString(listPos);
+                arbeitszeit = listWochenBericht.get(wochentag).getArbeitszeit();
+                if (arbeitszeit != null) {
+                    tv.setText(arbeitsZeitVonBis + "\n" + arbeitszeit);
+                    splited = arbeitszeit.split("\\s+");
+                    stdGes = stdGes + Integer.parseInt(splited[0]);
+                    minGes = minGes + Integer.parseInt(splited[2]);
+                    String gg = "f";
+                } else {
+                    tv.setText("?");
+                }
+
+            } else {
+                tv.setText("?");
+            }
+
+        } else {
+            tv.setText("?");
+        }
+    }
 
     @Nullable
     @Override
@@ -54,92 +107,57 @@ public class Woche extends Fragment implements ITaetigkeitsbericht {
         linearSamstag = view.findViewById(R.id.linearSamstag);
         linearSonntag = view.findViewById(R.id.linearSonntag);
 
+
         linearMontag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), BerichtWoche.class);
-                intent.putExtra("listPosition",listWochenBericht.get("MONTAG").
-                        getTaetigkeitsbericht2(listWochenBericht.get("MONTAG").getBericht()));
-                intent.putExtra("arbeitszeit",listWochenBericht.get("MONTAG").getArbeitszeit());
-                startActivity(intent);
-            }
-        });
+                clickBericht("MONTAG");
+        }});
 
         linearDienstag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), BerichtWoche.class);
-                intent.putExtra("listPosition",listWochenBericht.get("DIENSTAG").
-                        getTaetigkeitsbericht2(listWochenBericht.get("DIENSTAG").getBericht()));
-                intent.putExtra("arbeitszeit",listWochenBericht.get("DIENSTAG").getArbeitszeit());
-                startActivity(intent);
-            }
-        });
+                clickBericht("DIENSTAG");
+            }});
 
         linearMittwoch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), BerichtWoche.class);
-                intent.putExtra("listPosition",listWochenBericht.get("MITTWOCH").
-                        getTaetigkeitsbericht2(listWochenBericht.get("MITTWOCH").getBericht()));
-                intent.putExtra("arbeitszeit",listWochenBericht.get("MITTWOCH").getArbeitszeit());
-                startActivity(intent);
-            }
-        });
+                clickBericht("MITTWOCH");
+            }});
 
         linearDonnerstag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), BerichtWoche.class);
-                intent.putExtra("listPosition",listWochenBericht.get("DONNERSTAG").
-                        getTaetigkeitsbericht2(listWochenBericht.get("DONNERSTAG").getBericht()));
-                intent.putExtra("arbeitszeit",listWochenBericht.get("DONNERSTAG").getArbeitszeit());
-                startActivity(intent);
-            }
-        });
+                clickBericht("DONNERSTAG");
+            }});
 
         linearFreitag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), BerichtWoche.class);
-                intent.putExtra("listPosition",listWochenBericht.get("FREITAG").
-                        getTaetigkeitsbericht2(listWochenBericht.get("FREITAG").getBericht()));
-                intent.putExtra("arbeitszeit",listWochenBericht.get("FREITAG").getArbeitszeit());
-                startActivity(intent);
-            }
-        });
+                clickBericht("FREITAG");
+            }});
 
         linearSamstag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), BerichtWoche.class);
-                intent.putExtra("listPosition",listWochenBericht.get("SAMSTAG").
-                        getTaetigkeitsbericht2(listWochenBericht.get("SAMSTAG").getBericht()));
-                intent.putExtra("arbeitszeit",listWochenBericht.get("SAMSTAG").getArbeitszeit());
-                startActivity(intent);
-            }
-        });
+                clickBericht("SAMSTAG");
+            }});
 
         linearSonntag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), BerichtWoche.class);
-                intent.putExtra("listPosition",listWochenBericht.get("SONNTAG").
-                        getTaetigkeitsbericht2(listWochenBericht.get("SONNTAG").getBericht()));
-                intent.putExtra("arbeitszeit",listWochenBericht.get("SONNTAG").getArbeitszeit());
-                startActivity(intent);
-            }
-        });
+                clickBericht("SONNTAG");
+            }});
 
         tvAzMonatag = view.findViewById(R.id.azMontag);
         tvAzDienstag = view.findViewById(R.id.azDienstag);
         tvAzMittwoch = view.findViewById(R.id.azMittwoch);
         tvAzDonnerstag = view.findViewById(R.id.azDonnerstag);
         tvAzFreitag = view.findViewById(R.id.azFreitag);
-        tvAzSamstag= view.findViewById(R.id.azSamstag);
+        tvAzSamstag = view.findViewById(R.id.azSamstag);
         tvAzSonntag = view.findViewById(R.id.azSonntag);
         tvAzGesamt = view.findViewById(R.id.azGesamt);
-
 
 
         woche = this;
@@ -171,145 +189,17 @@ public class Woche extends Fragment implements ITaetigkeitsbericht {
     @Override
     public void onGetWochenbericht(HashMap<String, TaetigkeitsberichtUtil> listWochenBericht) {
         this.listWochenBericht = listWochenBericht;
-        String startTime, endTime, arbeitsZeitVonBis;
-        TaetigkeitsberichtUtil taetigkeitsberichtUtil = new TaetigkeitsberichtUtil();
-        ArrayList<Position> listPos = new ArrayList<Position>();
-        String arbeitszeit;
-        int stdGes = 0, minGes = 0;
-        String[] splited;
         //Montag
+stdGes = 0;
+minGes = 0;
+        initialWochentag(tvAzMonatag,"MONTAG");
+        initialWochentag(tvAzDienstag,"DIENSTAG");
+        initialWochentag(tvAzMittwoch,"MITTWOCH");
+        initialWochentag(tvAzDonnerstag,"DONNERSTAG");
+        initialWochentag(tvAzFreitag,"FREITAG");
+        initialWochentag(tvAzSamstag,"SAMSTAG");
+        initialWochentag(tvAzSonntag,"SONNTAG");
 
-        if (listWochenBericht.get("MONTAG") != null && listPos != null) {
-            listPos= taetigkeitsberichtUtil.getTaetigkeitsbericht2(listWochenBericht.get("MONTAG").getBericht());
-            if (listPos != null){
-                arbeitsZeitVonBis = getZeitString(listPos);
-                arbeitszeit = listWochenBericht.get("MONTAG").getArbeitszeit();
-                tvAzMonatag.setText(arbeitsZeitVonBis + "\n" + arbeitszeit);
-                Position pos = new Position("");
-                splited = arbeitszeit.split("\\s+");
-                stdGes = Integer.parseInt(splited[0]);
-                minGes = Integer.parseInt(splited[2]);
-            }else{
-                tvAzMonatag.setText("?");
-            }
-
-        } else {
-            tvAzMonatag.setText("?");
-        }
-        //Dienstag
-
-        if (listWochenBericht.get("DIENSTAG") != null && listPos != null) {
-            listPos = taetigkeitsberichtUtil.getTaetigkeitsbericht2(listWochenBericht.get("DIENSTAG").getBericht());
-            if (listPos != null){
-
-
-            arbeitsZeitVonBis = getZeitString(listPos);
-            arbeitszeit = listWochenBericht.get("DIENSTAG").getArbeitszeit();
-            tvAzDienstag.setText(arbeitsZeitVonBis + "\n" + arbeitszeit);
-            splited = arbeitszeit.split("\\s+");
-            stdGes = stdGes + Integer.parseInt(splited[0]);
-            minGes = minGes + Integer.parseInt(splited[2]);
-            }else{
-                tvAzDienstag.setText("?");
-            }
-        } else {
-            tvAzDienstag.setText("?");
-        }
-        //Mittwoch
-
-        if (listWochenBericht.get("MITTWOCH") != null && listPos != null) {
-            listPos = taetigkeitsberichtUtil.getTaetigkeitsbericht2(listWochenBericht.get("MITTWOCH").getBericht());
-            if (listPos != null){
-                arbeitsZeitVonBis = getZeitString(listPos);
-                arbeitszeit = listWochenBericht.get("MITTWOCH").getArbeitszeit();
-                tvAzMittwoch.setText(arbeitsZeitVonBis + "\n" + arbeitszeit);
-                splited = arbeitszeit.split("\\s+");
-                stdGes = stdGes + Integer.parseInt(splited[0]);
-                minGes = minGes + Integer.parseInt(splited[2]);
-            }else{
-                tvAzMittwoch.setText("?");
-            }
-
-        } else {
-            tvAzMittwoch.setText("?");
-        }
-        //Donnerstag
-        if (listWochenBericht.get("DONNERSTAG") != null && listPos != null) {
-            listPos = taetigkeitsberichtUtil.getTaetigkeitsbericht2(listWochenBericht.get("DONNERSTAG").getBericht());
-            if (listPos != null){
-                arbeitsZeitVonBis = getZeitString(listPos);
-                arbeitszeit = listWochenBericht.get("DONNERSTAG").getArbeitszeit();
-                tvAzDonnerstag.setText(arbeitsZeitVonBis + "\n" + arbeitszeit);
-                splited = arbeitszeit.split("\\s+");
-                stdGes = stdGes + Integer.parseInt(splited[0]);
-                minGes = minGes + Integer.parseInt(splited[2]);
-            }else{
-                tvAzDonnerstag.setText("?");
-            }
-
-        } else {
-            tvAzDonnerstag.setText("?");
-        }
-        //Freitag
-        if (listWochenBericht.get("FREITAG") != null && listPos != null) {
-            listPos = taetigkeitsberichtUtil.getTaetigkeitsbericht2(listWochenBericht.get("FREITAG").getBericht());
-            if (listPos != null){
-                arbeitsZeitVonBis = getZeitString(listPos);
-                arbeitszeit = listWochenBericht.get("FREITAG").getArbeitszeit();
-                tvAzFreitag.setText(arbeitsZeitVonBis + "\n" + arbeitszeit);
-                splited = arbeitszeit.split("\\s+");
-                stdGes = stdGes + Integer.parseInt(splited[0]);
-                minGes = minGes + Integer.parseInt(splited[2]);
-            }else{
-                tvAzFreitag.setText("?");
-            }
-
-        } else {
-            tvAzFreitag.setText("?");
-        }
-
-        //Samstag
-        if (listWochenBericht.get("SAMSTAG") != null && listPos != null) {
-            listPos = taetigkeitsberichtUtil.getTaetigkeitsbericht2(listWochenBericht.get("SAMSTAG").getBericht());
-            if (listPos != null){
-                arbeitsZeitVonBis = getZeitString(listPos);
-                arbeitszeit = listWochenBericht.get("SAMSTAG").getArbeitszeit();
-                if (arbeitszeit!=null){
-                    tvAzSamstag.setText(arbeitsZeitVonBis + "\n" + arbeitszeit);
-                    splited = arbeitszeit.split("\\s+");
-                    stdGes = stdGes + Integer.parseInt(splited[0]);
-                    minGes = minGes + Integer.parseInt(splited[2]);
-                }else{
-                    tvAzSamstag.setText("?");
-                    stdGes =0;
-                    minGes = 0;
-                }
-
-            }else{
-                tvAzSamstag.setText("?");
-            }
-
-        } else {
-            tvAzSamstag.setText("?");
-        }
-
-        //Sonntag
-        if (listWochenBericht.get("SONNTAG") != null && listPos != null) {
-            listPos = taetigkeitsberichtUtil.getTaetigkeitsbericht2(listWochenBericht.get("SONNTAG").getBericht());
-            if (listPos != null){
-                arbeitsZeitVonBis = getZeitString(listPos);
-                arbeitszeit = listWochenBericht.get("SONNTAG").getArbeitszeit();
-                tvAzSonntag.setText(arbeitsZeitVonBis + "\n" + arbeitszeit);
-                splited = arbeitszeit.split("\\s+");
-                stdGes = stdGes + Integer.parseInt(splited[0]);
-                minGes = minGes + Integer.parseInt(splited[2]);
-            }else{
-                tvAzSonntag.setText("?");
-            }
-
-        } else {
-            tvAzSonntag.setText("?");
-        }
         stdGes = stdGes + (minGes / 60);
         minGes = minGes % 60;
 
@@ -317,6 +207,15 @@ public class Woche extends Fragment implements ITaetigkeitsbericht {
 
 
     }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+            Activity a = getActivity();
+            if(a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+    }
+
 
     public String getZeitString(ArrayList<Position> listPosition) {
         String stdAnf, minAnf, startTime, stdEnde, minEnde, endTime, arbeitsZeitVonBis;

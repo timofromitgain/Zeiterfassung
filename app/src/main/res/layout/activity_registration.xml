@@ -9,6 +9,7 @@
 
     <EditText
         android:id="@+id/loginUsername"
+        android:singleLine="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -16,10 +17,11 @@
 
     <EditText
         android:id="@+id/loginPasswort"
+        android:singleLine="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="Password"></EditText>
+        android:hint="Passwort"></EditText>
 
     <Button
         android:id="@+id/btnLogin"
@@ -27,6 +29,7 @@
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_border"
         android:text="Sign In">
 
     </Button>
@@ -34,29 +37,35 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"/>
     <TextView
-
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Noch kein Account ? \n\n Regestrieren Sie sich hier"></TextView>
+        android:text="Noch kein Account ? \n\nRegistrieren Sie sich hier"></TextView>
+
 
     <EditText
         android:layout_marginTop="15dp"
+        android:singleLine="true"
         android:id="@+id/regNachname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="6dp"
-        android:hint="Nachname">
+        android:hint="Nachname (*)">
     </EditText>
 
     <EditText
         android:id="@+id/regVorname"
+        android:singleLine="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="6dp"
-        android:hint="Vorname">
+        android:hint="Vorname (*)">
     </EditText>
     <EditText
         android:id="@+id/regStrasse"
+        android:singleLine="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="6dp"
@@ -64,6 +73,7 @@
     </EditText>
     <EditText
         android:id="@+id/regStadt"
+        android:singleLine="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="6dp"
@@ -73,28 +83,33 @@
 
     <EditText
         android:id="@+id/regEmail"
+        android:singleLine="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="6dp"
-        android:hint="E-Mail">
+        android:hint="E-Mail (*)">
     </EditText>
 
     <EditText
         android:id="@+id/regPassword"
+        android:singleLine="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="6dp"
-        android:hint="Passwort">
+        android:hint="Passwort (*)">
     </EditText>
 
     <RadioGroup
         android:id="@+id/rgStatus"
+
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"     >
 
         <RadioButton
             android:id="@+id/rbMonteur"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -104,12 +119,14 @@
 
         <RadioButton
             android:id="@+id/rbProjektleiter"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Projektleiter" />
     </RadioGroup>
     <EditText
+        android:visibility="gone"
         android:id="@+id/regVerifycode"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
@@ -119,9 +136,11 @@
     <Button
         android:id="@+id/btnReg"
         android:layout_width="wrap_content"
+        android:padding="20dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
+        android:background="@drawable/button_border"
         android:text="Registrieren"></Button>
 
 

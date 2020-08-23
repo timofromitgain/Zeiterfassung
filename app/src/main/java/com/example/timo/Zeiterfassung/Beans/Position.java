@@ -14,13 +14,13 @@ import java.util.Comparator;
 import java.util.Date;
 
 public class Position implements Serializable, Comparable<Position> {
-    static int pause = 0;
+    static int pause = 45;
     String namePosition, firma;
     Kunde kunde;
     Kunde kundeVorher, kundeAktuell;
     String arbeitsZeitBeginn, arbeitsZeitEnde;
     String arbeitsZeitBeginnStdGerundet, arbeitsZeitBeginnMinGerundet, arbeitsZeitEndeStdGerundet, arbeitsZeitEndeMinGerundet;
-
+    String posTimString;
 
     Integer pause1 = 0, pause2 = 0;
     int minGesamt1;
@@ -386,7 +386,12 @@ int a = newTime.get(Calendar.MINUTE);
         Double arbeitsZeitPos = 0.0;
         String arbeitsZeitStr;
         arbeitsZeitPos = ermittleArbeitsZeitPosition(getStartTime().getTime(), getEndTime().getTime());
-        arbeitsZeitStr = formatArbeitszeit(arbeitsZeitPos);
+        if (arbeitsZeitPos>0){
+            arbeitsZeitStr = formatArbeitszeit(arbeitsZeitPos);
+        }else{
+            arbeitsZeitStr = "0 Std, 00 Minuten";
+        }
+
         startStunde = String.valueOf(getStartTime().getTime().getHours());
         startMinute = String.valueOf(getStartTime().getTime().getMinutes());
         startSekunde = String.valueOf(getStartTime().getTime().getSeconds());
@@ -408,6 +413,8 @@ int a = newTime.get(Calendar.MINUTE);
         //  return "Start: " + start + " Uhr" + "\n" + "Ende: " + ende + " Uhr" + "\n" + arbeitsZeitStr;
 
     }
+
+
 
     private String formatArbeitszeit(Double arbeitszeit) {
         NumberFormat formatter = new DecimalFormat("#0.00");
@@ -437,7 +444,12 @@ int a = newTime.get(Calendar.MINUTE);
         Double arbeitsZeitPos = 0.0;
         String arbeitsZeitStr;
         arbeitsZeitPos = ermittleArbeitsZeitPosition(getStartTime().getTime(), getEndTime().getTime());
-        arbeitsZeitStr = formatArbeitszeit(arbeitsZeitPos);
+        if (arbeitsZeitPos>0){
+            arbeitsZeitStr = formatArbeitszeit(arbeitsZeitPos);
+        }else{
+            arbeitsZeitStr = "0 Std, 00 Minuten";
+        }
+
         startStunde = String.valueOf(getStartTime().getTime().getHours());
         startMinute = String.valueOf(getStartTime().getTime().getMinutes());
         startSekunde = String.valueOf(getStartTime().getTime().getSeconds());
@@ -459,7 +471,7 @@ int a = newTime.get(Calendar.MINUTE);
     }
 
     public void setDauerString(String dauerString) {
-
+        this.posTimString = dauerString;
     }
 
     public int getArbeitszeitMinuten() {
@@ -467,7 +479,10 @@ int a = newTime.get(Calendar.MINUTE);
     }
 
     public void setArbeitszeitMinuten() {
+
         this.arbeitszeitMinuten = endTime.getTime().getMinutes() - startTime.getTime().getMinutes();
+
+
     }
 
     public void setArbeitszeitMinuten(
@@ -507,10 +522,11 @@ int a = newTime.get(Calendar.MINUTE);
         int abzug = 0;
 
         //Pause kalkurieren
+        /*
         if (dPauseStart!= null){
             setPostionPause1(listPosition, dPauseStart, dPauseEnde, true);
             setPostionPause1(listPosition, dPauseStart2, dPauseEnde2, false);
-        }
+        }*/
 
 
 

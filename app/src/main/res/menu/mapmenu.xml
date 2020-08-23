@@ -17,6 +17,7 @@
         />
     <item android:id="@+id/itNaigation"
         android:icon="@drawable/ic_nav_rechts"
+        android:visible="false"
         android:title="Kunden" />
 
     <item android:id="@+id/itVerlauf"

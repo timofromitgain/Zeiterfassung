@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import com.example.timo.Zeiterfassung.Helfer.LocationService;
 import com.example.timo.Zeiterfassung.Helfer.TaetigkeitsberichtUtil;
 import com.example.timo.Zeiterfassung.Interface.IFirebase;
 import com.example.timo.Zeiterfassung.Interface.ITaetigkeitsbericht;
+import com.example.timo.Zeiterfassung.Interface.IdataLoaded;
 import com.example.timo.Zeiterfassung.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,7 +48,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 
-public class MainActivity extends AppCompatActivity implements Serializable, IFirebase, ITaetigkeitsbericht {
+public class MainActivity extends AppCompatActivity implements Serializable, IFirebase, ITaetigkeitsbericht, IdataLoaded {
     private static final int CODE = 1;
     public static MainActivity mainActivity;
     ArrayList<Position> listPosition;
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements Serializable, IFi
     Bundle bundle;
     FirebaseHandler firebaseHandler;
     FirebaseUser user;
+    boolean nurInitial = true;
+   static Boolean  kundenDataLoaded=false,aufragDataLoaded=false,userDataLoaded=false;
     private static ArrayList<Position> listPositionHeute = new ArrayList<Position>();
     private DatabaseReference refAuftrag, refUser, refFirma;
     private String
@@ -74,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements Serializable, IFi
             btnDatenbankSpeichern,
             btnDatenbankImport,
             btnReg,
-            btnLog,
             btnLogout;
     private FileChannel quelle = null, ziel = null;
     private File dbZiel, dbQuelle;
@@ -117,9 +120,18 @@ public class MainActivity extends AppCompatActivity implements Serializable, IFi
 
 
         user = firebaseAuth.getCurrentUser();
-        Log.i("userid ", user.getEmail());
-        Toast.makeText(getApplicationContext(), "Hallo " + user.getEmail(), Toast.LENGTH_LONG).show();
 
+        if (firebaseDataLoaded) {
+            if (istAbgeschlossen == false){
+                startTaetigkeitsbericht();
+            }
+
+        } else {
+            //  String tagHeute = "23-05-2020";
+            Datum datum = new Datum();
+            String tagHeute = datum.getFormatedTagHeute();
+            firebaseHandler.getSingleData("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeute);
+        }
 
         //TESTSZENARIO
 
@@ -500,7 +512,7 @@ String g  ="d";
                                                 public void onClick(View v) {
                                                     trackingStartenPresses = true;
                                                     if (firebaseDataLoaded) {
-                                                        startTracking();
+                                                            startTracking();
                                                     } else {
                                                         //    String tagHeute = "23-05-2020";
                                                         Datum datum = new Datum();
@@ -535,6 +547,10 @@ String g  ="d";
                                                            //    if (listPosition == null) {
 
                                                            listPosition = LocationService.getInstance().getListPosition(true);
+
+
+
+
                                                            Log.d("listSize", String.valueOf("size: " + listPosition.size()));
                                                            //    }
                                                            //      starteIntent(Taetigkeitsbericht.class, listPosition,false);
@@ -542,18 +558,28 @@ String g  ="d";
                                                            listPostionGesamt.addAll(listPosition);
                                                            Position posGesamt = new Position("");
                                                            listPosition = posGesamt.getListPositionOhneAusreisser(listPosition);
-                                                           Log.d("listSize", String.valueOf("size2: " + listPosition.size()));
                                                            listPosition = taetigkeitsberichtUtil.sortiereListe(listPosition, listPostionGesamt);
-                                                           Log.d("listSize", String.valueOf("size3: " + listPosition.size()));
                                                            listPosition = posGesamt.getListPositonOhneDuplikate(listPosition);
-                                                           Log.d("listSize", String.valueOf("size4: " + listPosition.size()));
                                                            listPosition = posGesamt.getListPositonOhneDuplikateSonstiges(listPosition);
-                                                           Log.d("listSize", String.valueOf("size5: " + listPosition.size()));
                                                            listPosition = posGesamt.getGueltigePositionen(listPosition);
-                                                           Log.d("listSize", String.valueOf("size6: " + listPosition.size()));
+                                                           //Arbeitszeit runden
+                                                           if (listPosition.size() != 0){
+                                                               listPosition.set(0,posGesamt.getRoundStartzeit(listPosition.get(0)));
+                                                               listPosition.set(listPosition.size()-1,posGesamt.getRoundEndzeit(listPosition.get(listPosition.size()-1)));
+                                                           }
+                                                            String arbeitszeit;
+                                                           if (listPosition.size() != 0){
+                                                               arbeitszeit = posGesamt.getArbeitszeitGesamt(listPosition, null, null, null, null);
+                                                           }else{
+                                                               arbeitszeit = "0";
+                                                           }
+                                                           //Time String setzen
+                                                           for (int i = 0;i<listPosition.size();i++){
+                                                               listPosition.get(i).setDauerString(listPosition.get(i).getDauerString());
+                                                           }
                                                            String taetigkeitsbericht = taetigkeitsberichtUtil.getTaetigkeitsbericht(listPosition);
                                                            taetigkeitsbericht = taetigkeitsberichtUtil.getTaetigkeitsbericht(listPosition);
-                                                           String arbeitszeit = posGesamt.getArbeitszeitGesamt(listPosition, null, null, null, null);
+
                                                            // tagHeuteFormated = "14-07-2020";
                                                            if (listPosition.size() != 0) {
                                                                firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/bericht", taetigkeitsbericht, mainActivity, false);
@@ -569,19 +595,25 @@ String g  ="d";
                                                            stopService(new Intent(MainActivity.this, LocationService.class));
 
                                                        } else {
-                                                           Position position = new Position("");
-                                                           String a = position.getDauerString();
                                                            Toast.makeText(MainActivity.this, "Es findet zurzeit kein Tracking statt", Toast.LENGTH_SHORT).show();
                                                        }
                                                    } catch (Exception e) {
                                                        Toast.makeText(MainActivity.this, "Ein Fehler ist aufgetreten", Toast.LENGTH_LONG).show();
                                                        e.printStackTrace();
+                                                       String arbeitszeit;
+                                                       Position posGesamt = new Position("");
+                                                       if (listPosition.size() != 0){
+                                                           arbeitszeit = posGesamt.getArbeitszeitGesamt(listPosition, null, null, null, null);
+                                                       }else{
+                                                           arbeitszeit = "0";
+                                                       }
                                                        //   starteIntent(Taetigkeitsbericht.class, listPosition, false);
                                                        if (listPosition.size() != 0) {
                                                            taetigkeitsbericht = taetigkeitsberichtUtil.getTaetigkeitsbericht(listPosition);
                                                            //    tagHeuteFormated = "23-05-2020";
                                                            firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/bericht", taetigkeitsbericht, mainActivity, false);
                                                            firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/abgeschlossen", false, mainActivity, true);
+                                                           firebaseHandler.insert("taetigkeitsbericht/" + firebaseHandler.getUserId() + "/" + tagHeuteFormated + "/arbeitszeit", arbeitszeit, mainActivity, true);
                                                        } else {
                                                            Toast.makeText(MainActivity.this, "Es wurde keine Arbeitszeit erfasst", Toast.LENGTH_LONG).show();
                                                        }
@@ -722,12 +754,7 @@ String g  ="d";
             }
         });
 
-        btnLog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -742,6 +769,10 @@ String g  ="d";
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+
+
     }
 
 
@@ -780,13 +811,10 @@ String g  ="d";
         btnDatenbankSpeichern = findViewById(R.id.btnDatenbankSpeichern_MainActivity);
         btnDatenbankImport = findViewById(R.id.btnDatenbankImport_MainActivity);
         btnLieferstatusZuruecksetzen = findViewById(R.id.btnLieferstatusZuruecksetzen_MainActivity);
-        btnLieferstatusZuruecksetzen.setVisibility(View.VISIBLE);
+
         btnTaetigkeitsbericht = findViewById(R.id.btnTaetigkeitsbericht);
         btnReg = findViewById(R.id.btnRegistrieren);
-        btnLog = findViewById(R.id.btnLogin);
         btnLogout = findViewById(R.id.btnLogout);
-        btnDatenbankImport.setVisibility(View.VISIBLE);
-        btnDatenbankSpeichern.setVisibility(View.VISIBLE);
 
 
         try {
@@ -901,6 +929,24 @@ String g  ="d";
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case com.example.timo.Zeiterfassung.R.id.nav_logout:
+                if (LocationService.serviceAktiviert){
+                    Toast.makeText(MainActivity.this, "Nicht möglich während des Trackings", Toast.LENGTH_SHORT).show();
+                }else{
+                    firebaseAuth.signOut();
+                    finish();
+                    starteIntent(Registration.class);
+                }
+
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void neuerKunde(HashMap<String, Kunde> listKunde) {
         Log.i("555nase", "message from firebase");
     }
@@ -929,21 +975,29 @@ String g  ="d";
 
         }
 
+        if (nurInitial){
+            nurInitial = false;
+            if (istAbgeschlossen == false){
+                startTaetigkeitsbericht();
+            }
+        }else{
         if (trackingStartenPresses) {
             startTracking();
         } else {
             startTaetigkeitsbericht();
-        }
+        }   }
     }
 
     @Override
     public void onSendTaetigkeitsbericht() {
+        listPosition = null;
         istAbgeschlossen = true;
         firebaseDataLoaded = false;
     }
 
     @Override
     public void onRemoveTaetigkeitsbericht() {
+        listPosition = null;
         istAbgeschlossen = false;
         firebaseDataLoaded = false;
 
@@ -963,15 +1017,18 @@ String g  ="d";
         if (listPositionHeute == null) {
 
             if (!LocationService.getInstance().getAktiviert()) {
-                istAbgeschlossen = false;
-                listPosition = null;
-                statusZuruecksetzen();
-                String meldungTrackingGestartet = getString(R.string.meldungTrackingGestartet);
-                Toast.makeText(MainActivity.this, meldungTrackingGestartet, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, LocationService.class);
-                ContextCompat.startForegroundService(MainActivity.this, intent);
-                LocationService.getInstance().setAktiviert(true);
-
+                   if (!kundenDataLoaded || !aufragDataLoaded || !userDataLoaded){
+                       Toast.makeText(MainActivity.this, "Keine Auftragsdaten vorhanden", Toast.LENGTH_LONG).show();
+                   }else {
+                       istAbgeschlossen = false;
+                       listPosition = null;
+                       statusZuruecksetzen();
+                       String meldungTrackingGestartet = getString(R.string.meldungTrackingGestartet);
+                       Toast.makeText(MainActivity.this, meldungTrackingGestartet, Toast.LENGTH_SHORT).show();
+                       Intent intent = new Intent(MainActivity.this, LocationService.class);
+                       ContextCompat.startForegroundService(MainActivity.this, intent);
+                       LocationService.getInstance().setAktiviert(true);
+                   }
             } else {
                 Toast.makeText(MainActivity.this, "Tracking läuft bereits", Toast.LENGTH_SHORT).show();
             }
@@ -1021,6 +1078,21 @@ String g  ="d";
             starteIntent(Taetigkeitsbericht.class, listPositionHeute, true);
         }
 
+    }
+
+    @Override
+    public void kundeFinishes() {
+        this.kundenDataLoaded = true;
+    }
+
+    @Override
+    public void auftragFinished() {
+        this.aufragDataLoaded = true;
+    }
+
+    @Override
+    public void userDataFinished() {
+    this.userDataLoaded = true;
     }
 }
 

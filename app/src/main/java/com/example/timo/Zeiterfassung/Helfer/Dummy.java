@@ -21,7 +21,7 @@ public class Dummy {
         pos1.setKunde(dump);
         Position pos2 = new Position("Sonstiges");
         Position pos3 = new Position("Kunde");
-        Position pos4 = new Position("Firma");
+        Position pos4 = new Position("AKTUELL");
         Date d1 = new Date();
 
         d1.setHours(8);
@@ -80,10 +80,10 @@ public class Dummy {
         pos4.setEndTime(c8);
 
         listPosition.clear();
-        listPosition.add(pos1);
-        listPosition.add(pos2);
+    //    listPosition.add(pos1);
+     //   listPosition.add(pos2);
         listPosition.add(pos3);
-    //    listPosition.add(pos4);
+        listPosition.add(pos4);
 
         Position[] listPos = new Position[listPosition.size()];
         //Zeitliche sortierung
@@ -594,7 +594,7 @@ public class Dummy {
         ArrayList<Position> listPosition = new ArrayList<Position>();
 
         Position pos1 = new Position("Kunde");
-        Position pos2 = new Position("Kunde");
+        Position pos2 = new Position("AKTUELL");
         Position pos3 = new Position("Sonstiges");
         Position pos4 = new Position("Sonstiges");
         Position pos5 = new Position("Sonstiges");
@@ -814,7 +814,7 @@ public class Dummy {
 
         listPosition.clear();
         listPosition.add(pos1);
-        listPosition.add(pos3);
+      //  listPosition.add(pos3);
         listPosition.add(pos2);
         //   listPosition.add(pos4);
 
@@ -842,6 +842,7 @@ public class Dummy {
         Position pos4 = new Position("Sonstiges");
         Position pos5 = new Position("Sonstiges");
         Position pos6 = new Position("Kunde");
+        pos6.setFirma("Firma");
         Position pos7 = new Position("Kunde");
         Position pos8 = new Position("Sonstiges");
         Position pos9 = new Position("Sonstiges");
@@ -865,7 +866,7 @@ public class Dummy {
         k1.setStadt("Langenhagen");
         k2.setAuswahlTaetigkeit("Boden");
 
-        k6.setFirma("c");
+        k6.setFirma("Firma");
         k6.setStrasse("c");
 
         k7.setFirma("d");
@@ -907,10 +908,10 @@ public class Dummy {
         d2Ende.setMinutes(10);
 
         Date d3 = new Date();
-        d3.setHours(9);
+        d3.setHours(16);
         d3.setMinutes(30);
         Date d3Ende = new Date();
-        d3Ende.setHours(9);
+        d3Ende.setHours(17);
         d3Ende.setMinutes(45);
 
         Date d4 = new Date();
@@ -931,8 +932,8 @@ public class Dummy {
         d6.setHours(14);
         d6.setMinutes(30);
         Date d6Ende = new Date();
-        d6Ende.setHours(15);
-        d6Ende.setMinutes(00);
+        d6Ende.setHours(14);
+        d6Ende.setMinutes(32);
 
         Date d7 = new Date();
         d7.setHours(15);
@@ -1057,8 +1058,9 @@ public class Dummy {
 
         listPosition.clear();
         listPosition.add(pos1);
-        listPosition.add(pos3);
         listPosition.add(pos2);
+        listPosition.add(pos6);
+        listPosition.add(pos3);
         //   listPosition.add(pos4);
 
         //    listPosition.add(pos4);

@@ -195,17 +195,18 @@ Boolean abgeschlossen;
         if (firma.getKunde().getFirma().equals("Firma")) {
             int stdArbeitszeit = firma.getArbeitsZeitStunden();
             int minArbeitszeit = firma.getArbeitszeitMinuten();
-            if (stdArbeitszeit > 0) {
+            double az = firma.ermittleArbeitsZeitPosition(firma.getStartTime().getTime(), firma.getEndTime().getTime());
+            if (az >= 0.2) {
                 return true;
-            } else if (minArbeitszeit >= 0) {
-                return true;
-            } else {
+            }else{
                 return false;
             }
         } else {
             return true;
         }
+
     }
+
 
     private ArrayList<Position> listToArraylist(Position[] listPos) {
         ArrayList<Position> listPosition = new ArrayList<Position>();

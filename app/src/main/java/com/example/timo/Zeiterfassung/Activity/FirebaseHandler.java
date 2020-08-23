@@ -2,6 +2,7 @@ package com.example.timo.Zeiterfassung.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.example.timo.Zeiterfassung.Helfer.Datum;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FirebaseHandler {
+public class FirebaseHandler extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     Binder binder = new Binder();
     MainActivity mainActivity = new MainActivity();
@@ -69,7 +70,7 @@ public class FirebaseHandler {
     }
 
     public void insert(String ref, Object object) {
-        Log.d("Firemire", String.valueOf(user.getUid()));
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(ref);
         //   DatabaseReference ref = refUser.child(child);
         // ref.push().setValue(object);
@@ -87,7 +88,7 @@ public class FirebaseHandler {
             try{
                 mainActivity.stopService(myService);
             }catch (Exception e){
-
+e.printStackTrace();
             }
 
         }
@@ -113,7 +114,7 @@ public class FirebaseHandler {
 
             KarteActivity karteActivity = KarteActivity.karteActivity;
             //  karteActivity.getInstance().neuerKunde(kundeid,kunde);
-
+            mainActivity.kundeFinishes();
             try {
                 karteActivity.neuerKunde(kundeid, kunde);
             } catch (Exception e) {
@@ -139,8 +140,10 @@ public class FirebaseHandler {
                 mainActivity.neuerKunde(kundeid, kunde);
                 KarteActivity karteActivity = KarteActivity.karteActivity;
                 //  karteActivity.getInstance().neuerKunde(kundeid,kunde);
+                if (karteActivity != null){
+                    karteActivity.neuerKunde(kundeid, kunde);
+                }
 
-                karteActivity.neuerKunde(kundeid, kunde);
             }
 
 
@@ -190,8 +193,10 @@ public class FirebaseHandler {
             mainActivity.loescheKunde(kundeid);
             KarteActivity karteActivity = KarteActivity.karteActivity;
             //  karteActivity.getInstance().neuerKunde(kundeid,kunde);
+            if (karteActivity != null){
+                karteActivity.loescheKunde(kundeid);
+            }
 
-            karteActivity.loescheKunde(kundeid);
         }
 
         @Override
@@ -220,16 +225,20 @@ public class FirebaseHandler {
                     ArrayList<String> listAuftragAlt = listKunde.get(kundeid).getListAuftrag();
                     listKunde.get(kundeid).getListAuftrag().add(tateigkeit);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     ArrayList<String> listAuftrag = new ArrayList<String>();
                     listAuftrag.add(tateigkeit);
 
-//                    listKunde.get(kundeid).setListAuftrag(listAuftrag);
+                    listKunde.get(kundeid).setListAuftrag(listAuftrag);
 
 
                 }
                 String g = "f";
+                listKunde.get(kundeid).setAuswahlTaetigkeit(listKunde.get(kundeid).getListAuftrag().get(0));
+                mainActivity.auftragFinished();
 
             }
+
 
 
             //    String t = object.taetigkeit;
@@ -257,6 +266,7 @@ public class FirebaseHandler {
                     ArrayList<String> listAuftragAlt = listKunde.get(kundeid).getListAuftrag();
                     listKunde.get(kundeid).getListAuftrag().add(tateigkeit);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     ArrayList<String> listAuftrag = new ArrayList<String>();
                     listAuftrag.add(tateigkeit);
                     if (!kundeid.equals("firma")) {
@@ -269,8 +279,12 @@ public class FirebaseHandler {
 
             KarteActivity karteActivity = KarteActivity.karteActivity;
             //  karteActivity.getInstance().neuerKunde(kundeid,kunde);
+            try{
+                karteActivity.neuerKunde(kundeid, listKunde.get(kundeid));
+            }catch (Exception e){
 
-            karteActivity.neuerKunde(kundeid, listKunde.get(kundeid));
+            }
+
         }
 
         @Override
@@ -289,10 +303,16 @@ public class FirebaseHandler {
                     ArrayList<String> listAuftragAlt = listKunde.get(kundeid).getListAuftrag();
                     listKunde.get(kundeid).getListAuftrag().add(tateigkeit);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     ArrayList<String> listAuftrag = new ArrayList<String>();
                     listAuftrag.add(tateigkeit);
                     if (!kundeid.equals("firma")) {
-                        listKunde.get(kundeid).setListAuftrag(listAuftrag);
+                        try{
+                            listKunde.get(kundeid).setListAuftrag(listAuftrag);
+                        }catch (Exception f){
+
+                        }
+
                     }
 
                 }
@@ -301,8 +321,12 @@ public class FirebaseHandler {
 
             KarteActivity karteActivity = KarteActivity.karteActivity;
             //  karteActivity.getInstance().neuerKunde(kundeid,kunde);
+try{
+    karteActivity.neuerKunde(kundeid, listKunde.get(kundeid));
+}catch (Exception e){
 
-            karteActivity.neuerKunde(kundeid, listKunde.get(kundeid));
+            }
+
 
 
         }
@@ -331,17 +355,20 @@ public class FirebaseHandler {
                 ;
                 User user = dataSnapshot.getValue(User.class);
                 Kunde kundeZuhause = new Kunde();
-                kundeZuhause.setFirma("Zuhause");
-                kundeZuhause.setStrasse(user.getStrasse());
-                kundeZuhause.setStadt(user.getStadt());
-                kundeZuhause.setMonteurBeimKunden(false);
-                kundeZuhause.setRadius(75);
-                kundeZuhause.setLatitude(user.getLatitude());
-                kundeZuhause.setLongitude(user.getLongitude());
-                ArrayList<String> listTaetigkeit = new ArrayList<String>();
-                listTaetigkeit.add("Aufenthalt Zuhause");
-                kundeZuhause.setListAuftrag(listTaetigkeit);
-                listKunde.put("Zuhause", kundeZuhause);
+                if (user.getStrasse() != null && user.getStadt() != null && !user.getStrasse().isEmpty() && !user.getStadt().isEmpty()){
+                    kundeZuhause.setFirma("Zuhause");
+                    kundeZuhause.setStrasse(user.getStrasse());
+                    kundeZuhause.setStadt(user.getStadt());
+                    kundeZuhause.setMonteurBeimKunden(false);
+                    kundeZuhause.setRadius(75);
+                    kundeZuhause.setLatitude(user.getLatitude());
+                    kundeZuhause.setLongitude(user.getLongitude());
+                    ArrayList<String> listTaetigkeit = new ArrayList<String>();
+                    listTaetigkeit.add("Aufenthalt Zuhause");
+                    kundeZuhause.setListAuftrag(listTaetigkeit);
+                    listKunde.put("Zuhause", kundeZuhause);
+                }
+                    mainActivity.userDataFinished();
 
             }
 
@@ -385,7 +412,7 @@ public class FirebaseHandler {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                String iofdof = "dd";
+
             }
         });
 

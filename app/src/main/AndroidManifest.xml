@@ -34,7 +34,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.BerichtWoche"></activity>
+        <activity android:name=".Activity.BerichtWoche"
+            android:screenOrientation="landscape"></activity>
         <activity android:name=".Activity.Bericht" />
         <activity android:name=".Activity.BerichtAdapter" />
         <activity android:name=".Activity.Testactivity" />
@@ -51,11 +52,12 @@
         <activity android:name=".Activity.TaetigkeitsberichtUeberarbeiten" />
         <activity
             android:name=".Activity.Taetigkeitsbericht"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="landscape" />
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCzAop0bRZWX6z-NExVdkGM1DrZWj_ETeQ" />
+            android:value="AIzaSyBtsZdJ92-HJbnKT7Ca48txn1JapW95r90" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

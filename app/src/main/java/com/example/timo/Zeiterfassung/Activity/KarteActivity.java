@@ -33,7 +33,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.timo.Zeiterfassung.Beans.Position;
-import com.example.timo.Zeiterfassung.Dialog.DialogLocation;
 import com.example.timo.Zeiterfassung.Dialog.DialogOptimierung;
 import com.example.timo.Zeiterfassung.Helfer.DatenbankHelfer;
 import com.example.timo.Zeiterfassung.Helfer.Geo;
@@ -73,21 +72,22 @@ public class KarteActivity extends AppCompatActivity implements OnMapReadyCallba
 
         SearchView.OnQueryTextListener,
         TextWatcher {
-    public static KarteActivity karteActivity;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final int REQUEST_PERMISSION_ACCESS_FINE_LOCATION = 123;
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = android.Manifest.permission.ACCESS_COARSE_LOCATION;
+    public static KarteActivity karteActivity;
     public static Position position;
 
-    public static HashMap<String,Integer> locIntervalls = new HashMap<>();
-    public static HashMap<String,Integer> locIntervallsNewApi = new HashMap<>();
-ArrayList<LatLng> listGeo2 = new ArrayList<>();
+    public static HashMap<String, Integer> locIntervalls = new HashMap<>();
+    public static HashMap<String, Integer> locIntervallsNewApi = new HashMap<>();
+    ArrayList<LatLng> listGeo2 = new ArrayList<>();
     Polyline polyline = null;
     Polyline polyline2 = null;
     ListView lvKunden;
     FirebaseHandler firebaseHandler;
     ListViewKundenAdapter listViewKundenAdapter;
+    View frMap;
     private GoogleMap googleMap;
     private DatenbankHelfer dbHelfer;
     private Binder binder;
@@ -113,9 +113,7 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
             tr5,
             tr6;
     private SeekBar seekBar;
-
     private ListViewKundenAdapter adapterKunden;
-
     private ListView
             lvNummern,
             lvSuchvorschlaege;
@@ -136,8 +134,6 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
             zeichnePolygon = false,
             optimierungsProzess = false,
             activityBeenden = false;
-
-    View frMap;
     private TextView tvRadiusGrösse;
     private PolygonOptions polygonOption = new PolygonOptions();
     private ArrayList<LatLng> listGeo = new ArrayList<LatLng>();
@@ -146,11 +142,11 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
     private ArrayList<Polyline> listPoly2 = new ArrayList<Polyline>();
     private ArrayList<Kunde> kundeListOhneAbgaenge = new ArrayList<Kunde>();
     private ArrayList<Kunde> listKundeSuche = new ArrayList<Kunde>();
-    private Map<String,Kunde> listKunde = new HashMap<>();
+    private Map<String, Kunde> listKunde = new HashMap<>();
     private ArrayList<LatLng> latLngPolyline = new ArrayList<LatLng>();
     private ArrayList<Circle> listKreis = new ArrayList<Circle>();
-   // private ArrayList<Marker> listMarker = new ArrayList<Marker>();
-    private Map<String,Marker> listMarker = new HashMap<>();
+    // private ArrayList<Marker> listMarker = new ArrayList<Marker>();
+    private Map<String, Marker> listMarker = new HashMap<>();
     private ArrayList<Polyline> listPolyline = new ArrayList<Polyline>();
     private HashMap<Integer, PolygonOptions> hashPolygonOptions = new HashMap<Integer, PolygonOptions>();
     private HashMap<Integer, Polygon> hashPolygon = new HashMap<Integer, Polygon>();
@@ -161,7 +157,7 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
         public void onReceive(Context context, Intent intent) {
 
             try {
-             //   Integer nachricht = intent.getIntExtra("markernr", 0);
+                //   Integer nachricht = intent.getIntExtra("markernr", 0);
                 String uid = intent.getStringExtra("markernr");
                 Boolean kundeHatKreis = intent.getBooleanExtra("kreis", true);
                 Integer status = intent.getIntExtra("status", -1);
@@ -197,13 +193,23 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
     private ArrayList<Polygon> PolygonListLoeschenTest = new ArrayList<Polygon>();
     private List<Kunde> listKundeFilter = new ArrayList<>();
 
+    public static KarteActivity getInstance() {
+        if (karteActivity == null) {
+            karteActivity = new KarteActivity();
+        }
+        return karteActivity;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.example.timo.Zeiterfassung.R.layout.activity_map);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getLocationBerechtigung();
         initialisiereKarte();
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -217,7 +223,6 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
         return super.onCreateOptionsMenu(menu);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -229,11 +234,12 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
                 DialogOptimierung dialogOptimierung = new DialogOptimierung();
                 dialogOptimierung.show(getSupportFragmentManager(), "dialog");
                 return true;
-
+            case android.R.id.home:
+                finish();
+                return true;
 
             case R.id.itVerlauf:
                 serviceAktiviert = LocationService.getInstance().getAktiviert();
-                String intervalls = "Jau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\nJau\nfff\n";
 
                 if (serviceAktiviert) {
                     LocationService locationService = new LocationService();
@@ -244,19 +250,18 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
                     locIntervalls = locationService.getListIntervalls();
                     locIntervallsNewApi = LocationUpdatesService.locIntervalls;
 
-
+/*
                     DialogLocation dialogLocation = new DialogLocation();
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("oldApi",locIntervalls);
-                    bundle.putSerializable("newApi",locIntervallsNewApi);
+                    bundle.putSerializable("oldApi", locIntervalls);
+                    bundle.putSerializable("newApi", locIntervallsNewApi);
                     dialogLocation.setArguments(bundle);
                     dialogLocation.show(getSupportFragmentManager(), "dialog");
-          //          Toast.makeText(KarteActivity.this, intervalls, Toast.LENGTH_SHORT).show();
+                    //          Toast.makeText(KarteActivity.this, intervalls, Toast.LENGTH_SHORT).show();*/
 
 
-
-                    zeigeStreckenverlauf(listGeo,getResources().getColor(R.color.gelb));
-                    zeigeStreckenverlauf2(listGeo2,getResources().getColor(R.color.rot));
+                    zeigeStreckenverlauf(listGeo, getResources().getColor(R.color.gelb));
+                   // zeigeStreckenverlauf2(listGeo2, getResources().getColor(R.color.rot));
 
                 }
 
@@ -281,7 +286,6 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
         return super.onKeyDown(keyCode, event);
     }
 
-
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         int anzahlKunden;
@@ -296,13 +300,13 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
 
         karteActivity = this;
         geo = new Geo(this);
-       // anzahlKunden = (int) dbHelfer.ermittleAnzahlKunden(true);
+        // anzahlKunden = (int) dbHelfer.ermittleAnzahlKunden(true);
         initialisiereXML();
         initialisiere();
         latLngPolyline.clear();
 
         //HIER
-       // listViewKundenAdapter = new ListViewKundenAdapter(getApplicationContext(), R.layout.item_kunde, listKunde,true);
+        // listViewKundenAdapter = new ListViewKundenAdapter(getApplicationContext(), R.layout.item_kunde, listKunde,true);
         lvKunden.setAdapter(listViewKundenAdapter);
         registerForContextMenu(lvKunden);
 
@@ -316,11 +320,6 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver,
                 new IntentFilter("kundeBeliefert"));
-
-
-
-
-
 
 
 
@@ -355,7 +354,7 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
             @Override
             public void onMapClick(LatLng position) {
                 // TODO Auto-generated method stub
-            lvKunden.setVisibility(View.GONE);
+                lvKunden.setVisibility(View.GONE);
 
                 LatLng x;
                 LatLng y;
@@ -365,16 +364,12 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
                     Marker markerKunde = listMarker.get(markerID);
                     markerKunde.setDraggable(false);
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
                 setZeilenUnsichtbar();
 
             }
         });
-
-
-
-
 
 
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -443,45 +438,46 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
         for (Map.Entry<String, Kunde> entry : listKunde.entrySet()) {
             String key = entry.getKey();
             Kunde kunde = entry.getValue();
-            if (!key.equals("Zuhause") && !key.equals("firma")){
-                addMarkerMitErkennungsbereich(key,kunde);
-            }else{
+            if (!key.equals("Zuhause") && !key.equals("firma")) {
+                addMarkerMitErkennungsbereich(key, kunde);
+            } else {
                 addMarkerMitErkennungsbereichCustom(kunde);
             }
 
         }
-     //   User user = FirebaseHandler.monteur;
-       // addMarkerMitErkennungsbereichZuhause(user);
+        //   User user = FirebaseHandler.monteur;
+        // addMarkerMitErkennungsbereichZuhause(user);
 
     }
 
-    public void addMarkerMitErkennungsbereichCustom(Kunde kunde){
+    public void addMarkerMitErkennungsbereichCustom(Kunde kunde) {
 
         int height = 150;
         int width = 150;
         String title;
         BitmapDrawable bitmapdraw;
-        if (kunde.getFirma().equals("Firma")){
-             bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.firma);
-             title = "Firma";
-        }else{
-             bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.zuhause);
-             title = "Zuhause";
+        if (kunde.getFirma().equals("Firma")) {
+            bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.firma);
+            title = "Firma";
+        } else {
+            bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.zuhause);
+            title = "Zuhause";
         }
 
         Bitmap b = bitmapdraw.getBitmap();
         Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
 
-       MarkerOptions markerOption = new MarkerOptions()
+        MarkerOptions markerOption = new MarkerOptions()
                 .position(new LatLng(kunde.getLatitude(), kunde.getLongitude()))
                 .title(title).draggable(false)
-              //  .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-               .icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
-      Marker marker = googleMap.addMarker(markerOption);
+                //  .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+        Marker marker = googleMap.addMarker(markerOption);
 
-       Circle kreis = googleMap.addCircle(new CircleOptions()
+        Circle kreis = googleMap.addCircle(new CircleOptions()
                 .center(new LatLng(kunde.getLatitude(), kunde.getLongitude()))
                 .radius(75)
+                .visible(false)
                 .strokeColor((int) BitmapDescriptorFactory.HUE_ORANGE));
 
 
@@ -489,8 +485,6 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
         kreis.setStrokeWidth(10);
 
     }
-
-
 
     //Kundenmarker + Erkennungsbereich hinzufügen
     public void addMarkerMitErkennungsbereich(String key, Kunde kunde) {
@@ -506,7 +500,7 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
         longitude_Kunde = kunde.getLongitude();
         radiusUmfang = kunde.getRadius();
         if (kundeStatus == 2) {
-            color =Color.GREEN;
+            color = Color.GREEN;
             markerOption = new MarkerOptions()
                     .position(new LatLng(latitude_Kunde, longitude_Kunde))
                     .title(markerTitel).draggable(false)
@@ -527,48 +521,49 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
 
         //Marker hinzufügen
         marker = googleMap.addMarker(markerOption);
-      //  listKunde.remove(key);
+        //  listKunde.remove(key);
 
-        try{
+        try {
             Marker m = listMarker.get(key);
             m.remove();
-        }catch (Exception e){
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        listMarker.put(key,marker);
+        listMarker.put(key, marker);
 
 
-     //   listMarker.add(marker);
+        //   listMarker.add(marker);
 
         //Falls Kunden einen Erkennungskreis besitzt
+if (!kunde.getFirma().equals("Firma") && !kunde.getFirma().equals("Zuhause")){
+    //Erkennungskreis erstellen
+    kreis = googleMap.addCircle(new CircleOptions()
+            .center(new LatLng(latitude_Kunde, longitude_Kunde))
+            .radius(radiusUmfang)
+            .strokeColor((int) BitmapDescriptorFactory.HUE_ORANGE));
 
-        //Erkennungskreis erstellen
-        kreis = googleMap.addCircle(new CircleOptions()
-                .center(new LatLng(latitude_Kunde, longitude_Kunde))
-                .radius(radiusUmfang)
-                .strokeColor((int) BitmapDescriptorFactory.HUE_ORANGE));
 
+    kreis.setStrokeColor(color);
+    kreis.setStrokeWidth(10);
 
-        kreis.setStrokeColor(color);
-        kreis.setStrokeWidth(10);
+    //Erkennungskreis der Liste hinzufügen
+    //  listKreis.add(kreis);
+    //      hashKreis.remove(key);
+    try {
+        Circle c = hashKreis.get(key);
+        c.remove();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    hashKreis.put(key, kreis);
+}
 
-        //Erkennungskreis der Liste hinzufügen
-      //  listKreis.add(kreis);
-  //      hashKreis.remove(key);
-        try{
-            Circle c = hashKreis.get(key);
-            c.remove();
-        }catch (Exception e){
-
-        }
-        hashKreis.put(key, kreis);
 
         //Falls Kunden einen Polygon Erkennungsbereich besitzt
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude_Kunde,
                 longitude_Kunde), 14.0f));
     }
-
 
     //Referenz zu den XML-Komponenten
     public void initialisiereXML() {
@@ -584,7 +579,6 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
 
     }
 
-
     @Override
     public boolean onQueryTextSubmit(String query) {
 
@@ -597,7 +591,7 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
 
 
             if (!adapterSucherIstInitialisert) {
-                adapterKunden = new ListViewKundenAdapter(this, com.example.timo.Zeiterfassung.R.layout.item_kunde, listKundeSuche,false);
+                adapterKunden = new ListViewKundenAdapter(this, com.example.timo.Zeiterfassung.R.layout.item_kunde, listKundeSuche, false);
                 lvSuchvorschlaege.setAdapter(adapterKunden);
                 registerForContextMenu(lvSuchvorschlaege);
                 adapterSucherIstInitialisert = true;
@@ -712,14 +706,13 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
         mapFragment.getMapAsync(this);
     }
 
-
     private void zeigeStreckenverlauf(ArrayList<LatLng> listGeo, Integer farbe) {
 
         if (polyline == null) {
             PolylineOptions polylineOptions = new PolylineOptions()
                     .width(8)
                     .color(farbe);
-               //     .color(getResources().getColor(R.color.gelb));
+            //     .color(getResources().getColor(R.color.gelb));
             polylineOptions.addAll(listGeo);
             listPoly.add(polyline = googleMap.addPolyline(polylineOptions));
 
@@ -754,13 +747,6 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
 
     }
 
-    public static KarteActivity getInstance() {
-        if (karteActivity == null) {
-            karteActivity = new KarteActivity();
-        }
-        return karteActivity;
-    }
-
     @Override
     public void neuerKunde(HashMap<String, Kunde> listKunde) {
 
@@ -768,8 +754,8 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
 
     @Override
     public void neuerKunde(String key, Kunde kunde) {
-        listKunde.put(key,kunde);
-        addMarkerMitErkennungsbereich(key,kunde);
+        listKunde.put(key, kunde);
+        addMarkerMitErkennungsbereich(key, kunde);
 
 
     }
@@ -793,6 +779,7 @@ ArrayList<LatLng> listGeo2 = new ArrayList<>();
             return KarteActivity.this;
         }
     }
+
 }
 
 
